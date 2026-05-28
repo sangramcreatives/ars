@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sangram Creatives</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f0f23; color: #e0e0e0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { text-align: center; padding: 60px 20px 30px; }
+        h1 { font-size: 2.5rem; color: #00d4ff; margin-bottom: 10px; }
+        .tagline { color: #888; font-size: 1.1rem; max-width: 500px; }
+        .cards { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; padding: 20px; max-width: 800px; }
+        .card { background: #1a1a3a; border-radius: 12px; padding: 24px 28px; width: 260px; text-decoration: none; color: inherit; transition: transform 0.2s, background 0.2s; border: 1px solid #2a2a55; }
+        .card:hover { transform: translateY(-4px); background: #22224a; }
+        .card h3 { color: #00d4ff; margin-bottom: 8px; font-size: 1.1rem; }
+        .card p { color: #aaa; font-size: 0.9rem; line-height: 1.5; }
+        footer { margin-top: auto; padding: 30px; color: #555; font-size: 0.85rem; }
+        @media (max-width: 600px) { .card { width: 100%; max-width: 320px; } }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sangram Creatives</h1>
+        <p class="tagline">Web Development | 3D Printing & Mold Manufacturing | Food Business</p>
+    </header>
+    <div class="cards">
+        <a class="card" href="https://github.com/sangramcreatives" target="_blank">
+            <h3>GitHub Profile</h3>
+            <p>Explore my projects and code repositories.</p>
+        </a>
+        <a class="card" href="mailto:sangram@example.com">
+            <h3>Contact Me</h3>
+            <p>Get in touch for web development and business inquiries.</p>
+        </a>
+        <a class="card" href="#" target="_blank">
+            <h3>Fin to Fork</h3>
+            <p>Seafood & Mocktails | Food Court Stall</p>
+        </a>
+        <a class="card" href="#" target="_blank">
+            <h3>MoldFusion</h3>
+            <p>3D Printing & Silicon Mold Manufacturing</p>
+        </a>
+    </div>
+    <footer>
+        <p>&copy; 2026 Sangram Creatives. Built in Bhubaneswar, Odisha.</p>
+    </footer>
+</body>
+</html>
