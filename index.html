@@ -2,48 +2,616 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sangram Creatives</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ARS Gourmet Junction</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f0f23; color: #e0e0e0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
-        header { text-align: center; padding: 60px 20px 30px; }
-        h1 { font-size: 2.5rem; color: #00d4ff; margin-bottom: 10px; }
-        .tagline { color: #888; font-size: 1.1rem; max-width: 500px; }
-        .cards { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; padding: 20px; max-width: 800px; }
-        .card { background: #1a1a3a; border-radius: 12px; padding: 24px 28px; width: 260px; text-decoration: none; color: inherit; transition: transform 0.2s, background 0.2s; border: 1px solid #2a2a55; }
-        .card:hover { transform: translateY(-4px); background: #22224a; }
-        .card h3 { color: #00d4ff; margin-bottom: 8px; font-size: 1.1rem; }
-        .card p { color: #aaa; font-size: 0.9rem; line-height: 1.5; }
-        footer { margin-top: auto; padding: 30px; color: #555; font-size: 0.85rem; }
-        @media (max-width: 600px) { .card { width: 100%; max-width: 320px; } }
+        * { font-family: 'Montserrat', sans-serif; }
+        body { background: #fafafa; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .symbol-box { width: 13px; height: 13px; border: 1.5px solid currentColor; padding: 2px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 2px; }
+        .symbol-circle { width: 4px; height: 4px; border-radius: 50%; background-color: currentColor; }
+        .menu-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 1rem; transition: box-shadow 0.2s, transform 0.2s; }
+        .menu-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-1px); }
+        .badge-veg { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+        .badge-nonveg { background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; }
+        .badge-egg { background: #fefce8; color: #ca8a04; border: 1px solid #fef08a; }
+        .badge-drinks { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+        .btn-add { background: #111827; color: #fff; border-radius: 8px; font-size: 11px; font-weight: 700; padding: 5px 12px; transition: background 0.15s; letter-spacing: 0.03em; }
+        .btn-add:hover { background: #374151; }
+        .btn-qty { display: flex; align-items: center; background: #111827; color: #fff; border-radius: 8px; font-size: 11px; font-weight: 700; overflow: hidden; }
+        .btn-qty button { padding: 5px 10px; transition: background 0.15s; }
+        .btn-qty button:hover { background: #374151; }
+        .btn-qty span { padding: 0 8px; min-width: 20px; text-align: center; }
+        .category-pill { background: #f3f4f6; color: #374151; border-radius: 100px; font-size: 11px; font-weight: 600; padding: 6px 14px; white-space: nowrap; transition: background 0.15s, color 0.15s; }
+        .category-pill.active, .category-pill:hover { background: #111827; color: #fff; }
+        .filter-btn { border-radius: 10px; font-size: 11px; font-weight: 700; padding: 8px 14px; transition: all 0.15s; border: 1.5px solid #e5e7eb; background: #fff; color: #374151; }
+        .filter-btn.active { background: #111827; color: #fff; border-color: #111827; }
+        .cart-panel { background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; }
+        .price-tag { color: #dc2626; font-weight: 800; }
+        .section-divider { border: none; border-top: 1px solid #f3f4f6; margin: 0; }
+        .wa-btn { background: #25D366; color: #fff; border-radius: 12px; font-size: 12px; font-weight: 700; padding: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.15s; letter-spacing: 0.03em; }
+        .wa-btn:hover { background: #128C7E; }
+        .toast-el { position: fixed; bottom: 24px; right: 24px; background: #111827; color: #fff; font-size: 11px; font-weight: 700; padding: 10px 16px; border-radius: 10px; opacity: 0; transform: translateY(20px); transition: all 0.3s; z-index: 9999; pointer-events: none; letter-spacing: 0.04em; }
+        input, textarea, select { font-family: 'Montserrat', sans-serif !important; }
+        .momo-select { font-size: 10px; font-weight: 600; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 4px 8px; color: #111827; outline: none; cursor: pointer; }
+        .momo-select:focus { border-color: #111827; }
     </style>
 </head>
-<body>
-    <header>
-        <h1>Sangram Creatives</h1>
-        <p class="tagline">Web Development | 3D Printing & Mold Manufacturing | Food Business</p>
+<body class="text-gray-900 min-h-screen pb-24">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-gray-900 text-white w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span class="text-sm font-black tracking-tight">ARS</span>
+                </div>
+                <div>
+                    <h1 class="text-sm font-bold text-gray-900 tracking-tight">Gourmet Junction</h1>
+                    <p class="text-[10px] text-gray-400 font-500">Fresh & made to order</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="shareMenu()" class="hidden sm:flex items-center gap-1.5 text-xs font-600 text-gray-600 border border-gray-200 bg-white hover:bg-gray-50 px-3 py-2 rounded-xl transition">
+                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                    Share
+                </button>
+                <button onclick="toggleMobileCartModal()" class="lg:hidden relative bg-gray-900 text-white p-2.5 rounded-xl transition active:scale-95">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                    <span id="cart-badge-mobile" class="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] font-black w-4 h-4 flex items-center justify-center rounded-full hidden">0</span>
+                </button>
+            </div>
+        </div>
     </header>
-    <div class="cards">
-        <a class="card" href="https://github.com/sangramcreatives" target="_blank">
-            <h3>GitHub Profile</h3>
-            <p>Explore my projects and code repositories.</p>
-        </a>
-        <a class="card" href="mailto:sangram@example.com">
-            <h3>Contact Me</h3>
-            <p>Get in touch for web development and business inquiries.</p>
-        </a>
-        <a class="card" href="#" target="_blank">
-            <h3>Fin to Fork</h3>
-            <p>Seafood & Mocktails | Food Court Stall</p>
-        </a>
-        <a class="card" href="#" target="_blank">
-            <h3>MoldFusion</h3>
-            <p>3D Printing & Silicon Mold Manufacturing</p>
-        </a>
+
+    <div class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- Sidebar Filters (Desktop) -->
+        <aside class="lg:col-span-3 sticky top-20 hidden lg:flex flex-col gap-4">
+            <div class="bg-white border border-gray-100 rounded-2xl p-4">
+                <label class="text-[10px] font-700 text-gray-400 uppercase tracking-widest block mb-2">Search</label>
+                <input type="text" id="search-desktop" oninput="syncSearch(this.value)" placeholder="Search dishes..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-gray-800 outline-none focus:border-gray-400 transition">
+            </div>
+            <div class="bg-white border border-gray-100 rounded-2xl p-4 flex flex-col gap-2">
+                <label class="text-[10px] font-700 text-gray-400 uppercase tracking-widest block mb-1">Diet</label>
+                <button onclick="setDietFilter('all')" id="desktop-diet-all" class="filter-btn active text-left flex items-center gap-2">✨ All Items</button>
+                <button onclick="setDietFilter('veg')" id="desktop-diet-veg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-green-500"><span class="symbol-circle"></span></span> Veg Only</button>
+                <button onclick="setDietFilter('nonveg')" id="desktop-diet-nonveg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-orange-500"><span class="symbol-circle"></span></span> Non-Veg</button>
+            </div>
+            <nav class="bg-white border border-gray-100 rounded-2xl p-4">
+                <label class="text-[10px] font-700 text-gray-400 uppercase tracking-widest block mb-3">Categories</label>
+                <ul class="space-y-0.5 text-xs font-600 text-gray-500">
+                    <li><button onclick="scrollToCategory('drinks')" class="w-full text-left py-2 px-2 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">🍹 Mojitos & Frappes</button></li>
+                    <li><button onclick="scrollToCategory('fried-veg')" class="w-full text-left py-2 px-2 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">🥦 Veg Fried Delights</button></li>
+                    <li><button onclick="scrollToCategory('fried-nonveg')" class="w-full text-left py-2 px-2 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">🍗 Chicken & Seafood</button></li>
+                    <li><button onclick="scrollToCategory('sandwiches')" class="w-full text-left py-2 px-2 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">🥪 Grilled Sandwiches</button></li>
+                    <li><button onclick="scrollToCategory('grill')" class="w-full text-left py-2 px-2 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">🔥 Charcoal Grills</button></li>
+                    <li><button onclick="scrollToCategory('momos')" class="w-full text-left py-2 px-2 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">🥟 Signature Momos</button></li>
+                    <li><button onclick="scrollToCategory('patra')" class="w-full text-left py-2 px-2 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">🍃 Patra Poda</button></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Feed -->
+        <main class="lg:col-span-6 space-y-6">
+            <!-- Mobile Filters -->
+            <div class="lg:hidden space-y-3">
+                <input type="text" id="search-mobile" oninput="syncSearch(this.value)" placeholder="Search dishes..." class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs outline-none focus:border-gray-400 transition">
+                <div class="flex gap-2">
+                    <button onclick="setDietFilter('all')" id="mobile-diet-all" class="flex-1 filter-btn active flex items-center justify-center gap-1">✨ All</button>
+                    <button onclick="setDietFilter('veg')" id="mobile-diet-veg" class="flex-1 filter-btn flex items-center justify-center gap-1"><span class="symbol-box text-green-500"><span class="symbol-circle"></span></span> Veg</button>
+                    <button onclick="setDietFilter('nonveg')" id="mobile-diet-nonveg" class="flex-1 filter-btn flex items-center justify-center gap-1"><span class="symbol-box text-orange-500"><span class="symbol-circle"></span></span> Non-Veg</button>
+                </div>
+            </div>
+            <!-- Mobile Category Bar -->
+            <div class="lg:hidden sticky top-[68px] bg-white/95 backdrop-blur py-2.5 -mx-4 px-4 z-30 border-b border-gray-100 overflow-x-auto no-scrollbar flex gap-2">
+                <button onclick="scrollToCategory('drinks')" class="category-pill">🍹 Drinks</button>
+                <button onclick="scrollToCategory('fried-veg')" class="category-pill">🥦 Veg Fry</button>
+                <button onclick="scrollToCategory('fried-nonveg')" class="category-pill">🍗 Non-Veg</button>
+                <button onclick="scrollToCategory('sandwiches')" class="category-pill">🥪 Sandwiches</button>
+                <button onclick="scrollToCategory('grill')" class="category-pill">🔥 Grills</button>
+                <button onclick="scrollToCategory('momos')" class="category-pill">🥟 Momos</button>
+                <button onclick="scrollToCategory('patra')" class="category-pill">🍃 Patra</button>
+            </div>
+            <div id="products-feed" class="space-y-8"></div>
+        </main>
+
+        <!-- Cart Sidebar (Desktop) -->
+        <aside id="desktop-sidebar-cart" class="lg:col-span-3 sticky top-20 hidden lg:flex flex-col cart-panel p-5 max-h-[85vh] overflow-y-auto gap-4">
+            <div>
+                <h3 class="font-800 text-sm text-gray-900">Your Order</h3>
+                <p class="text-[10px] text-gray-400 font-500 mt-0.5">Review items before sending</p>
+            </div>
+            <hr class="section-divider">
+            <div id="desktop-cart-items" class="space-y-3 flex-1 overflow-y-auto min-h-[120px]"></div>
+            <hr class="section-divider">
+            <div class="space-y-3">
+                <div>
+                    <label class="text-[10px] font-700 text-gray-400 uppercase tracking-wider block mb-1.5">Your Name</label>
+                    <input type="text" id="cart-name-desktop" oninput="syncFields('name', this.value)" placeholder="Enter your name" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-gray-900 outline-none focus:border-gray-400 transition">
+                </div>
+                <div>
+                    <label class="text-[10px] font-700 text-gray-400 uppercase tracking-wider block mb-1.5">Special Notes</label>
+                    <textarea id="cart-notes-desktop" rows="2" oninput="syncFields('notes', this.value)" placeholder="e.g. extra spicy, less oil..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-gray-900 outline-none focus:border-gray-400 transition resize-none"></textarea>
+                </div>
+                <div id="desktop-total-row" class="hidden justify-between items-center py-2">
+                    <span class="text-xs font-600 text-gray-500">Total</span>
+                    <span id="desktop-total-price" class="text-lg font-800 price-tag">₹0</span>
+                </div>
+                <button onclick="sendOrderToWhatsApp()" id="desktop-checkout-btn" disabled class="w-full bg-gray-100 text-gray-400 font-700 py-3.5 rounded-xl text-xs cursor-not-allowed transition">Add items to continue</button>
+            </div>
+        </aside>
     </div>
-    <footer>
-        <p>&copy; 2026 Sangram Creatives. Built in Bhubaneswar, Odisha.</p>
-    </footer>
+
+    <!-- Mobile Floating Cart Bar -->
+    <div id="mobile-floating-cart-bar" class="fixed bottom-0 inset-x-0 bg-white border-t border-gray-100 py-3 px-4 shadow-xl z-40 transform translate-y-full transition-transform duration-300 lg:hidden flex justify-between items-center">
+        <div>
+            <p class="text-[10px] text-gray-400 font-600">Your order</p>
+            <p class="text-sm font-700 text-gray-900"><span id="mobile-floating-count" class="text-red-500 font-800">0</span> items added</p>
+        </div>
+        <button onclick="toggleMobileCartModal()" class="bg-gray-900 text-white px-5 py-2.5 rounded-xl text-xs font-700 flex items-center gap-1.5 transition active:scale-95">
+            View Order
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+    </div>
+
+    <!-- Mobile Cart Modal -->
+    <div id="mobile-cart-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-end justify-center opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden">
+        <div class="bg-white w-full rounded-t-3xl shadow-2xl flex flex-col max-h-[85vh] transform translate-y-full transition-transform duration-300">
+            <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto my-3 flex-shrink-0"></div>
+            <div class="px-5 pb-3 border-b border-gray-100 flex justify-between items-center">
+                <div>
+                    <h3 class="text-sm font-800 text-gray-900">Your Order</h3>
+                    <p class="text-[10px] text-gray-400 font-500">Review before sending</p>
+                </div>
+                <button onclick="toggleMobileCartModal()" class="text-gray-500 p-1.5 bg-gray-50 border border-gray-200 rounded-xl">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div id="mobile-cart-items" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
+            <div class="p-5 border-t border-gray-100 space-y-3">
+                <div>
+                    <label class="text-[10px] font-700 text-gray-400 uppercase tracking-wider block mb-1.5">Your Name</label>
+                    <input type="text" id="cart-name-mobile" oninput="syncFields('name', this.value)" placeholder="Enter your name" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-xs outline-none focus:border-gray-400 transition">
+                </div>
+                <div>
+                    <label class="text-[10px] font-700 text-gray-400 uppercase tracking-wider block mb-1.5">Special Notes</label>
+                    <textarea id="cart-notes-mobile" rows="2" oninput="syncFields('notes', this.value)" placeholder="Spice level, preferences..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-xs outline-none focus:border-gray-400 transition resize-none"></textarea>
+                </div>
+                <div class="flex justify-between items-center py-1">
+                    <span class="text-sm font-600 text-gray-500">Total</span>
+                    <span id="mobile-total-price" class="text-xl font-800 price-tag">₹0</span>
+                </div>
+                <button onclick="sendOrderToWhatsApp()" class="wa-btn w-full gap-2">
+                    <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.588 1.977 14.113.953 11.5.953c-5.439 0-9.859 4.374-9.863 9.8.001 1.838.503 3.633 1.451 5.234l-.989 3.614 3.71-.973zm11.21-6.195c-.3-.15-1.771-.875-2.046-.975-.276-.1-.477-.15-.677.15-.2.3-.777.975-.951 1.174-.176.2-.351.224-.651.074-2.072-1.037-3.4-1.851-4.757-4.18-.356-.61-.07-.94.23-1.24.27-.27.6-.7.9-1.05.3-.35.4-.6.6-.9.2-.3.1-.55-.05-.7-.15-.3-.677-1.628-.926-2.228-.243-.585-.488-.507-.677-.517-.174-.008-.375-.01-.576-.01-.2 0-.527.075-.803.375-.276.3-1.053 1.025-1.053 2.5 0 1.475 1.078 2.899 1.229 3.1 1.152 1.529 2.588 2.378 4.025 2.899.42.152.812.16 1.116.115.34-.051 1.053-.43 1.203-.846.15-.417.15-.775.105-.85-.045-.075-.176-.125-.476-.275z"/></svg>
+                    Order via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast-el"></div>
+
+    <script>
+        const MENU_DATA = [
+            { id: "DM-01", name: "Mint Mojito", category: "drinks", type: "veg", emoji: "🌿", desc: "Refreshing mint sprigs and sharp lime oil with fizz", price: 100 },
+            { id: "DM-02", name: "Strawberry Mojito", category: "drinks", type: "veg", emoji: "🍓", desc: "Juicy strawberry pulp mashed with mint leaves and club soda", price: 110 },
+            { id: "DM-03", name: "Green Apple Mojito", category: "drinks", type: "veg", emoji: "🍏", desc: "Crisp green apple tonic with real citrus lime background", price: 110 },
+            { id: "DM-04", name: "Passion Fruit Mojito", category: "drinks", type: "veg", emoji: "🥭", desc: "Exotic passion fruit reduction layered over sweet ice base", price: 120 },
+            { id: "DM-05", name: "Blue Mojito", category: "drinks", type: "veg", emoji: "🌀", desc: "Electric blue curacao orange extract with sharp lime spray", price: 110 },
+            { id: "DM-06", name: "Pineapple Mojito", category: "drinks", type: "veg", emoji: "🍍", desc: "Diced pineapple chunks mashed directly into mint sugar base", price: 110 },
+            { id: "DM-07", name: "Mango Lemon", category: "drinks", type: "veg", emoji: "🥭🍋", desc: "Sweet pulpy mango cream contrasted with wild sour lemon", price: 120 },
+            { id: "DM-08", name: "Watermelon Mojito", category: "drinks", type: "veg", emoji: "🍉", desc: "Vibrant freshly extracted watermelon juice with aromatic mint", price: 100 },
+            { id: "DF-01", name: "Mocha Coffee Frappe", category: "drinks", type: "veg", emoji: "☕", desc: "Double shot dark roast espresso whipped with dark cocoa and milk", price: 130 },
+            { id: "DF-02", name: "Hazelnut Frappe", category: "drinks", type: "veg", emoji: "🌰", desc: "Nutty roasted hazelnut whip combined with chilled cream milk", price: 130 },
+            { id: "DF-03", name: "Caramel Frappe", category: "drinks", type: "veg", emoji: "🍯", desc: "Creamy butter caramel drizzle mixed into blended sweet coffee", price: 130 },
+            { id: "DF-04", name: "Mango Frappe", category: "drinks", type: "veg", emoji: "🥭🥤", desc: "Thick velvet mango ice cream base blended with light cardamom", price: 120 },
+            { id: "DF-05", name: "Chocolate Frappe", category: "drinks", type: "veg", emoji: "🍫", desc: "Melted dark chocolate fudge compound whipped with sweet milk", price: 120 },
+            { id: "DF-06", name: "Butterscotch Frappe", category: "drinks", type: "veg", emoji: "🍨", desc: "Crunchy butterscotch crystals whipped in custom vanilla cream", price: 120 },
+            { id: "DF-07", name: "Rose Frappe", category: "drinks", type: "veg", emoji: "🌹", desc: "Aromatic gulkand rose petal essence blended sweet and cold", price: 110 },
+            { id: "FV-01", name: "Onion Flower Pakoda", category: "fried-veg", type: "veg", emoji: "🧅", desc: "Whole sweet onion carved like a blossom, seasoned and fried", price: 85 },
+            { id: "FV-02", name: "Baby Corn Fry", category: "fried-veg", type: "veg", emoji: "🌽", desc: "Sticks of tender baby corn dusted with red chili garlic seasoning", price: 100 },
+            { id: "FV-03", name: "Cheese Balls", category: "fried-veg", type: "veg", emoji: "🧀", desc: "Liquid golden cheese core breaded and crisped to a bubble", price: 120 },
+            { id: "FV-04", name: "Corn Balls", category: "fried-veg", type: "veg", emoji: "🟡", desc: "Mashed sweet corn kernels loaded with fresh coriander, crisp-fried", price: 100 },
+            { id: "FV-05", name: "Paneer Pakoda", category: "fried-veg", type: "veg", emoji: "🧀🔥", desc: "Heavy slices of soft cottage cheese dipped in green-herb flour", price: 130 },
+            { id: "FV-06", name: "American Corn", category: "fried-veg", type: "veg", emoji: "🇺🇸", desc: "Crispy fried sweet corn tossed with freshly cracked black pepper", price: 110 },
+            { id: "FC-01", name: "Chicken Pakoda", category: "fried-nonveg", type: "nonveg", emoji: "🍗", desc: "Bone-free local street styled crispy fried chicken chunks", price: 140 },
+            { id: "FC-02", name: "Chicken Lollipop", category: "fried-nonveg", type: "nonveg", emoji: "🍭", desc: "Juicy wings reshaped, dipped in high-garlic szechuan batter (5 Pcs)", price: 180 },
+            { id: "FC-03", name: "Chicken Popcorn", category: "fried-nonveg", type: "nonveg", emoji: "🍿", desc: "Mini crisp bites of seasoned breast meat prepared golden", price: 120 },
+            { id: "FC-04", name: "Chicken Wings", category: "fried-nonveg", type: "nonveg", emoji: "💸", desc: "Pepper seared local chicken wings fried till extra crunchy", price: 160 },
+            { id: "FC-05", name: "Chicken Nuggets", category: "fried-nonveg", type: "nonveg", emoji: "🧆", desc: "Minced white chicken fillets seasoned, structured, and gold fried", price: 130 },
+            { id: "FC-06", name: "Chicken Cutlet", category: "fried-nonveg", type: "nonveg", emoji: "🍘", desc: "Aromatic minced patties with ginger-onion mash, pan-cooked", price: 100 },
+            { id: "FC-07", name: "Chicken Legs", category: "fried-nonveg", type: "nonveg", emoji: "🍗🍗", desc: "Whole double drumsticks tenderized and double-crust fried", price: 180 },
+            { id: "FS-01", name: "Fish Fry", category: "fried-nonveg", type: "nonveg", emoji: "🐟", desc: "River-fresh fish fillet cutlet crusted in dry breadcrumbs", price: 155 },
+            { id: "FS-02", name: "Prawn Pakoda", category: "fried-nonveg", type: "nonveg", emoji: "🦐", desc: "Sweet prawns dipped in highly seasoned gram flour mix", price: 180 },
+            { id: "FS-03", name: "Prawn Cutlet", category: "fried-nonveg", type: "nonveg", emoji: "🦐🧆", desc: "Spiced shrimp mince pressed flat and breadcrumb toasted", price: 160 },
+            { id: "FS-04", name: "Fish Finger", category: "fried-nonveg", type: "nonveg", emoji: "🥢", desc: "Crisp seasoned fish sticks with mustard-lemon background note", price: 150 },
+            { id: "FS-05", name: "Egg Chop", category: "fried-nonveg", type: "egg", emoji: "🥚", desc: "Boiled egg halves layered in highly spiced potato batter, crisped", price: 50 },
+            { id: "SW-01", name: "Veg Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🥦", desc: "Thin cucumber, green pepper, sweet tomato on buttered white slices", price: 80 },
+            { id: "SW-02", name: "Veg Mayo Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🥛", desc: "Grated garden veggies bound inside thick eggless mayo paste", price: 90 },
+            { id: "SW-03", name: "Grilled Veg Mayo Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🔥", desc: "Toasted pressed white bread with thick hot mayo-veg compound", price: 100 },
+            { id: "SW-04", name: "Paneer Cheese Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🧀", desc: "Fresh cottage cheese crumb layered with melted cheddar grids", price: 120 },
+            { id: "SW-05", name: "Corn Cheese Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🌽", desc: "Sweet golden corn layered with strings of thick mozzarella", price: 110 },
+            { id: "SW-06", name: "Schezwan Veg Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🌶️", desc: "Shredded cabbage and carrots in hot spicy chili-garlic paste", price: 100 },
+            { id: "SW-07", name: "Chocolate Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🍫", desc: "Rich sweet chocolate fudge spread pressed warm and toasted", price: 100 },
+            { id: "SW-08", name: "Chicken Mayo Sandwich", category: "sandwiches", type: "nonveg", emoji: "🥪🍗", desc: "Shredded chicken pieces folded into fresh garlic mayo paste", price: 120 },
+            { id: "SW-09", name: "Chicken Cheese Sandwich", category: "sandwiches", type: "nonveg", emoji: "🥪🧀🍗", desc: "Hot pulled chicken seasoned with black pepper and molten cheese", price: 140 },
+            { id: "SW-10", name: "Schezwan Chicken Sandwich", category: "sandwiches", type: "nonveg", emoji: "🥪🌶️🍗", desc: "Fiery pulled chicken tossed in sharp ginger-garlic schezwan paste", price: 130 },
+            { id: "SW-11", name: "Egg Sandwich", category: "sandwiches", type: "egg", emoji: "🥪🥚", desc: "Fluffy pepper scramble folded between butter-cooked toast", price: 90 },
+            { id: "GM-01", name: "Grilled Chicken Wings", category: "grill", type: "nonveg", emoji: "🔥🍗", desc: "Skewered chicken wings seared smoky on iron hotplate", price: 170 },
+            { id: "GM-02", name: "Grilled Fish Fillet", category: "grill", type: "nonveg", emoji: "🔥🐟", desc: "Soft white fish slice roasted in black pepper, garlic and butter", price: 190 },
+            { id: "GM-03", name: "Grilled Pomfret", category: "grill", type: "nonveg", emoji: "🔥🐠", desc: "Whole premium Pomfret smeared with ginger paste and flame-grilled", price: 280 },
+            { id: "GM-04", name: "Boneless Fish Grill", category: "grill", type: "nonveg", emoji: "🐟🥩", desc: "Cubes of hand-cut boneless fish seared to a smoky finish", price: 210 },
+            { id: "GM-05", name: "Grilled Prawns", category: "grill", type: "nonveg", emoji: "🔥🦐", desc: "Giant prawns seared over charcoal with dry red chili rub", price: 220 },
+            { id: "GM-06", name: "Paneer Grill", category: "grill", type: "veg", emoji: "🔥🧀", desc: "Thick slabs of rich paneer grilled with onions and sweet peppers", price: 160 },
+            { id: "MO-01", name: "Classic Veg Momo", category: "momos", type: "veg", emoji: "🥟", desc: "Finely shredded clean cabbage-onion dumplings in soft skin", price: 80, isMomo: true },
+            { id: "MO-02", name: "Classic Chicken Momo", category: "momos", type: "nonveg", emoji: "🥟🍗", desc: "Fresh hand-minced chicken breast with herbs inside clean pleats", price: 100, isMomo: true },
+            { id: "MO-03", name: "Green Momo", category: "momos", type: "veg", emoji: "🥟🟢", desc: "Spinach-dyed dough holding clean fresh aromatic veggies", price: 90, isMomo: true },
+            { id: "MO-04", name: "Velvet Paneer Momo", category: "momos", type: "veg", emoji: "🥟🧀", desc: "Rich grated paneer seasoned lightly with green cardamoms", price: 110, isMomo: true },
+            { id: "MO-05", name: "Cheese Corn Momo", category: "momos", type: "veg", emoji: "🥟🌽", desc: "Sweet corn combined with thick stringy molten cheese base", price: 125, isMomo: true },
+            { id: "MO-06", name: "Golden Chicken Momo", category: "momos", type: "nonveg", emoji: "🥟✨", desc: "Turmeric tinted skin with high-spiced minced chicken juice", price: 120, isMomo: true },
+            { id: "MO-07", name: "Chicken Cheese Momo", category: "momos", type: "nonveg", emoji: "🥟🧀🍗", desc: "Hand minced hot chicken mixed inside liquid rich cheddar", price: 130, isMomo: true },
+            { id: "MO-08", name: "Chocolate Momo", category: "momos", type: "veg", emoji: "🥟🍫", desc: "Gooey sweet warm cocoa lava wrapped in thin cooked sheets", price: 120, isMomo: true },
+            { id: "PP-01", name: "Chicken Patra Poda", category: "patra", type: "nonveg", emoji: "🍃🍗", desc: "Banana leaf wrapped marinated chicken slow baked over charcoal", price: 180 },
+            { id: "PP-02", name: "Fish Patra Poda", category: "patra", type: "nonveg", emoji: "🍃🐟", desc: "River-fresh fish smeared with raw mustard paste, baked in banana leaf", price: 170 },
+            { id: "PP-03", name: "Pomfret Patra Poda", category: "patra", type: "nonveg", emoji: "🍃🐠", desc: "Entire local Pomfret packed with mustard chili sauce and leaf baked", price: 290 },
+            { id: "PP-04", name: "Prawn Patra Poda", category: "patra", type: "nonveg", emoji: "🍃🦐", desc: "Juicy prawns layered with mustard garlic paste, wrapped and roasted", price: 200 },
+            { id: "PP-05", name: "Paneer Patra Poda", category: "patra", type: "veg", emoji: "🍃🧀", desc: "Heavy paneer blocks slow-cooked inside banana leaf wrapper", price: 150 }
+        ];
+
+        const CATEGORY_KEYS = {
+            "drinks": "🍹 Mojitos & Frappes",
+            "fried-veg": "🥦 Veg Fried Delights",
+            "fried-nonveg": "🍗 Chicken & Seafood",
+            "sandwiches": "🥪 Grilled Sandwiches",
+            "grill": "🔥 Charcoal Grilled Mains",
+            "momos": "🥟 Signature Momos",
+            "patra": "🍃 Traditional Patra Poda"
+        };
+
+        const WHATSAPP_NUMBER = "7008963923";
+        let cart = {};
+        let currentDiet = "all";
+        let searchQuery = "";
+        let customerMeta = { name: "", notes: "" };
+
+        window.addEventListener("DOMContentLoaded", () => { renderFeed(); refreshCartData(); });
+
+        function syncSearch(val) {
+            searchQuery = val;
+            document.getElementById("search-desktop").value = val;
+            document.getElementById("search-mobile").value = val;
+            renderFeed();
+        }
+
+        function syncFields(field, val) {
+            customerMeta[field] = val;
+            if (field === "name") {
+                document.getElementById("cart-name-desktop").value = val;
+                document.getElementById("cart-name-mobile").value = val;
+            } else {
+                document.getElementById("cart-notes-desktop").value = val;
+                document.getElementById("cart-notes-mobile").value = val;
+            }
+        }
+
+        function setDietFilter(diet) {
+            currentDiet = diet;
+            ["all","veg","nonveg"].forEach(f => {
+                const mob = document.getElementById(`mobile-diet-${f}`);
+                const dsk = document.getElementById(`desktop-diet-${f}`);
+                const cls = f === diet ? "filter-btn active flex items-center justify-center gap-1" : "filter-btn flex items-center justify-center gap-1";
+                const dCls = f === diet ? "filter-btn active text-left flex items-center gap-2" : "filter-btn text-left flex items-center gap-2";
+                if (mob) mob.className = cls;
+                if (dsk) dsk.className = dCls;
+            });
+            renderFeed();
+        }
+
+        function scrollToCategory(catId) {
+            const el = document.getElementById(`section-cat-${catId}`);
+            if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        function renderFeed() {
+            const feed = document.getElementById("products-feed");
+            feed.innerHTML = "";
+            Object.keys(CATEGORY_KEYS).forEach(catKey => {
+                let items = MENU_DATA.filter(i => i.category === catKey);
+                if (searchQuery.trim()) items = items.filter(i => i.name.toLowerCase().includes(searchQuery.toLowerCase()) || i.desc.toLowerCase().includes(searchQuery.toLowerCase()));
+                if (currentDiet === "veg") items = items.filter(i => i.type === "veg");
+                else if (currentDiet === "nonveg") items = items.filter(i => i.type === "nonveg" || i.type === "egg");
+                if (!items.length) return;
+
+                const sec = document.createElement("section");
+                sec.id = `section-cat-${catKey}`;
+                sec.className = "scroll-mt-32 lg:scroll-mt-24";
+                sec.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-sm font-800 text-gray-900">${CATEGORY_KEYS[catKey]}</h2>
+                        <span class="text-[10px] font-600 text-gray-400">${items.length} items</span>
+                    </div>
+                `;
+                const grid = document.createElement("div");
+                grid.className = "grid grid-cols-1 md:grid-cols-2 gap-3";
+                items.forEach(item => grid.appendChild(createCardElement(item)));
+                sec.appendChild(grid);
+                feed.appendChild(sec);
+            });
+
+            if (!feed.children.length) {
+                feed.innerHTML = `<div class="text-center py-16 bg-white rounded-2xl border border-gray-100 p-6">
+                    <span class="text-3xl">🔍</span>
+                    <h3 class="font-700 text-gray-700 mt-3 text-sm">No items found</h3>
+                    <p class="text-gray-400 text-xs mt-1">Try adjusting your filters</p>
+                    <button onclick="resetFilters()" class="mt-4 bg-gray-900 text-white font-700 px-5 py-2 rounded-xl text-xs transition">Reset</button>
+                </div>`;
+            }
+        }
+
+        function resetFilters() { syncSearch(""); setDietFilter("all"); }
+
+        function createCardElement(item) {
+            const card = document.createElement("div");
+            card.className = "menu-card";
+            const qty = cart[item.id] ? cart[item.id].qty : 0;
+            const currentStyle = cart[item.id] ? cart[item.id].momoStyle : "Steamed";
+
+            let badgeClass = "badge-drinks";
+            let typeLabel = "Drinks";
+            if (item.type === "veg") { badgeClass = "badge-veg"; typeLabel = "Veg"; }
+            else if (item.type === "nonveg") { badgeClass = "badge-nonveg"; typeLabel = "Non-Veg"; }
+            else if (item.type === "egg") { badgeClass = "badge-egg"; typeLabel = "Egg"; }
+
+            const momoHTML = item.isMomo ? `
+                <div class="mt-2 flex items-center gap-2">
+                    <span class="text-[10px] text-gray-400 font-600">Style:</span>
+                    <select class="momo-select" onchange="updateMomoStyle('${item.id}', this.value)">
+                        <option value="Steamed" ${currentStyle==="Steamed"?"selected":""}>💨 Steamed</option>
+                        <option value="Fried" ${currentStyle==="Fried"?"selected":""}>🍳 Fried</option>
+                        <option value="Garlic" ${currentStyle==="Garlic"?"selected":""}>🧄 Garlic</option>
+                        <option value="Schezwan" ${currentStyle==="Schezwan"?"selected":""}>🌶️ Schezwan</option>
+                        <option value="Chili" ${currentStyle==="Chili"?"selected":""}>🔥 Chili</option>
+                        <option value="Korean" ${currentStyle==="Korean"?"selected":""}>🇰🇷 Korean</option>
+                    </select>
+                </div>` : "";
+
+            const actionHTML = qty === 0
+                ? `<button onclick="addToCart('${item.id}')" class="btn-add flex items-center gap-1">Add <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/></svg></button>`
+                : `<div class="btn-qty"><button onclick="modifyQty('${item.id}', -1)">−</button><span>${qty}</span><button onclick="modifyQty('${item.id}', 1)">+</button></div>`;
+
+            card.innerHTML = `
+                <div class="flex gap-3 items-start">
+                    <span class="text-2xl flex-shrink-0">${item.emoji}</span>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-1.5 flex-wrap">
+                                    <h4 class="text-xs font-700 text-gray-900 leading-tight">${item.name}</h4>
+                                    <span class="text-[9px] font-600 px-1.5 py-0.5 rounded-full ${badgeClass}">${typeLabel}</span>
+                                </div>
+                                <p class="text-[10px] text-gray-400 mt-0.5 leading-relaxed line-clamp-2">${item.desc}</p>
+                                ${momoHTML}
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mt-2.5">
+                            <span class="text-sm font-800 price-tag">₹${item.price}</span>
+                            <div id="action-node-${item.id}">${actionHTML}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function addToCart(itemId) {
+            const item = MENU_DATA.find(i => i.id === itemId);
+            if (!item) return;
+            cart[itemId] = { item, qty: 1, momoStyle: item.isMomo ? "Steamed" : null };
+            triggerToast(`${item.emoji} Added to order`);
+            refreshCartData();
+            syncCardVisualState(itemId);
+        }
+
+        function modifyQty(itemId, delta) {
+            if (!cart[itemId]) return;
+            cart[itemId].qty += delta;
+            if (cart[itemId].qty <= 0) {
+                triggerToast(`Removed ${cart[itemId].item.name}`);
+                delete cart[itemId];
+            }
+            refreshCartData();
+            syncCardVisualState(itemId);
+        }
+
+        function updateMomoStyle(itemId, style) {
+            const item = MENU_DATA.find(i => i.id === itemId);
+            if (!cart[itemId]) cart[itemId] = { item, qty: 1, momoStyle: style };
+            else cart[itemId].momoStyle = style;
+            refreshCartData();
+            syncCardVisualState(itemId);
+        }
+
+        function syncCardVisualState(itemId) {
+            const item = MENU_DATA.find(i => i.id === itemId);
+            if (!item) return;
+            const node = document.getElementById(`action-node-${itemId}`);
+            if (!node) return;
+            const qty = cart[itemId] ? cart[itemId].qty : 0;
+            node.innerHTML = qty === 0
+                ? `<button onclick="addToCart('${itemId}')" class="btn-add flex items-center gap-1">Add <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/></svg></button>`
+                : `<div class="btn-qty"><button onclick="modifyQty('${itemId}', -1)">−</button><span>${qty}</span><button onclick="modifyQty('${itemId}', 1)">+</button></div>`;
+        }
+
+        function refreshCartData() {
+            const keys = Object.keys(cart);
+            let totalQty = 0, totalBill = 0;
+            keys.forEach(k => { totalQty += cart[k].qty; totalBill += cart[k].qty * cart[k].item.price; });
+
+            const badgeMob = document.getElementById("cart-badge-mobile");
+            if (totalQty > 0) { badgeMob.textContent = totalQty; badgeMob.classList.remove("hidden"); }
+            else badgeMob.classList.add("hidden");
+
+            const footerBar = document.getElementById("mobile-floating-cart-bar");
+            if (totalQty > 0) { document.getElementById("mobile-floating-count").textContent = totalQty; footerBar.classList.remove("translate-y-full"); }
+            else footerBar.classList.add("translate-y-full");
+
+            renderDesktopCartPanel(totalBill);
+            renderMobileSheetItems(totalBill);
+        }
+
+        function renderDesktopCartPanel(totalBill) {
+            const wrapper = document.getElementById("desktop-cart-items");
+            const checkoutBtn = document.getElementById("desktop-checkout-btn");
+            const totalRow = document.getElementById("desktop-total-row");
+            const totalVal = document.getElementById("desktop-total-price");
+            const keys = Object.keys(cart);
+
+            if (!keys.length) {
+                wrapper.innerHTML = `<div class="text-center py-10 border border-dashed border-gray-200 rounded-xl"><span class="text-2xl">🛒</span><p class="text-xs text-gray-400 font-600 mt-2">No items yet</p></div>`;
+                checkoutBtn.disabled = true;
+                checkoutBtn.className = "w-full bg-gray-100 text-gray-400 font-700 py-3.5 rounded-xl text-xs cursor-not-allowed transition";
+                checkoutBtn.textContent = "Add items to continue";
+                totalRow.classList.replace("flex","hidden");
+                return;
+            }
+
+            totalVal.textContent = `₹${totalBill}`;
+            totalRow.classList.replace("hidden","flex");
+            checkoutBtn.disabled = false;
+            checkoutBtn.className = "wa-btn w-full gap-2 cursor-pointer";
+            checkoutBtn.textContent = "Order via WhatsApp";
+
+            wrapper.innerHTML = keys.map(key => {
+                const { item, qty, momoStyle } = cart[key];
+                const cost = item.price * qty;
+                const style = momoStyle ? `<span class="text-[9px] bg-yellow-50 text-yellow-700 border border-yellow-200 px-1.5 py-0.5 rounded-full font-600">${momoStyle}</span>` : "";
+                return `<div class="bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    <div class="flex justify-between items-start gap-2">
+                        <div class="min-w-0 flex-1">
+                            <p class="text-xs font-700 text-gray-900 truncate">${item.emoji} ${item.name}</p>
+                            ${style ? `<div class="mt-1">${style}</div>` : ""}
+                        </div>
+                        <span class="text-xs font-800 price-tag flex-shrink-0">₹${cost}</span>
+                    </div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-[10px] text-gray-400 font-600">₹${item.price} each</span>
+                        <div class="btn-qty text-[10px]">
+                            <button onclick="modifyQty('${item.id}', -1)">−</button>
+                            <span>${qty}</span>
+                            <button onclick="modifyQty('${item.id}', 1)">+</button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join("");
+        }
+
+        function renderMobileSheetItems(totalBill) {
+            const wrapper = document.getElementById("mobile-cart-items");
+            const mobTotal = document.getElementById("mobile-total-price");
+            const keys = Object.keys(cart);
+
+            if (!keys.length) {
+                wrapper.innerHTML = `<div class="text-center py-10"><span class="text-3xl">🛒</span><p class="text-xs text-gray-400 font-600 mt-2">Your cart is empty</p></div>`;
+                mobTotal.textContent = "₹0";
+                return;
+            }
+
+            mobTotal.textContent = `₹${totalBill}`;
+            wrapper.innerHTML = keys.map(key => {
+                const { item, qty, momoStyle } = cart[key];
+                const cost = item.price * qty;
+                const style = momoStyle ? `<span class="text-[9px] bg-yellow-50 text-yellow-700 border border-yellow-200 px-1.5 py-0.5 rounded-full font-600">${momoStyle}</span>` : "";
+                return `<div class="bg-gray-50 p-3 rounded-xl border border-gray-100 flex items-center justify-between gap-3">
+                    <div class="min-w-0 flex-1">
+                        <p class="text-xs font-700 text-gray-900 truncate">${item.emoji} ${item.name}</p>
+                        <div class="flex items-center gap-2 mt-0.5">
+                            <span class="text-[10px] text-gray-400">₹${item.price}</span>
+                            ${style}
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 flex-shrink-0">
+                        <div class="btn-qty text-[10px]">
+                            <button onclick="modifyQty('${item.id}', -1)">−</button>
+                            <span>${qty}</span>
+                            <button onclick="modifyQty('${item.id}', 1)">+</button>
+                        </div>
+                        <span class="text-xs font-800 price-tag">₹${cost}</span>
+                    </div>
+                </div>`;
+            }).join("");
+        }
+
+        function toggleMobileCartModal() {
+            const modal = document.getElementById("mobile-cart-modal");
+            const drawer = modal.querySelector(".transform");
+            if (modal.classList.contains("pointer-events-none")) {
+                modal.classList.remove("pointer-events-none","opacity-0");
+                modal.classList.add("opacity-100");
+                drawer.classList.remove("translate-y-full");
+                drawer.classList.add("translate-y-0");
+            } else {
+                modal.classList.add("pointer-events-none","opacity-0");
+                modal.classList.remove("opacity-100");
+                drawer.classList.add("translate-y-full");
+                drawer.classList.remove("translate-y-0");
+            }
+        }
+
+        function triggerToast(text) {
+            const t = document.getElementById("toast");
+            t.textContent = text;
+            t.style.opacity = "1";
+            t.style.transform = "translateY(0)";
+            setTimeout(() => { t.style.opacity = "0"; t.style.transform = "translateY(20px)"; }, 1800);
+        }
+
+        function shareMenu() {
+            if (navigator.share) {
+                navigator.share({ title: "ARS Gourmet Junction", text: "Check out our menu!", url: window.location.href });
+            } else {
+                const h = document.createElement("input");
+                document.body.appendChild(h);
+                h.value = window.location.href;
+                h.select();
+                document.execCommand("copy");
+                document.body.removeChild(h);
+                triggerToast("Link copied!");
+            }
+        }
+
+        function sendOrderToWhatsApp() {
+            const keys = Object.keys(cart);
+            if (!keys.length) return;
+            const name = customerMeta.name.trim();
+            const notes = customerMeta.notes.trim();
+            let totalBill = 0;
+            let text = `*🍽️ Order — ARS Gourmet Junction*\n`;
+            text += `——————————————\n`;
+            if (name) text += `👤 *Name:* ${name}\n`;
+            text += `📅 *Date:* ${new Date().toLocaleDateString()}\n`;
+            text += `——————————————\n\n`;
+            keys.forEach((key, i) => {
+                const { item, qty, momoStyle } = cart[key];
+                const cost = item.price * qty;
+                totalBill += cost;
+                const styleNote = momoStyle ? ` (${momoStyle})` : "";
+                text += `${i+1}. ${item.emoji} *${item.name}*${styleNote}\n`;
+                text += `   ${qty} × ₹${item.price} = *₹${cost}*\n\n`;
+            });
+            text += `——————————————\n`;
+            if (notes) text += `📝 *Notes:* ${notes}\n`;
+            text += `💰 *Total: ₹${totalBill}*\n`;
+            text += `——————————————\n`;
+            text += `Please confirm and let me know the estimated time!`;
+            window.open(`https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, "_blank");
+        }
+    </script>
 </body>
 </html>
