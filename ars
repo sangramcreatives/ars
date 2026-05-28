@@ -6,44 +6,45 @@
     <title>ARS Authentic Recipe Station</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
-        * { font-family: 'Poppins', sans-serif; }
-        h1, h2, h3, h4, .brand-font { font-family: 'Poppins', sans-serif; }
-        body { background: #fdfdfd; color: #282c3f; }
+        * { font-family: 'Quicksand', sans-serif; font-weight: 600; }
+        h1, h2, h3, h4, .brand-font { font-family: 'Quicksand', sans-serif; font-weight: 800; }
+        body { background: #fcfcfc; color: #1c1c1c; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .symbol-box { width: 14px; height: 14px; border: 1.5px solid currentColor; padding: 2px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 3px; background: transparent; }
         .symbol-circle { width: 6px; height: 6px; border-radius: 50%; background-color: currentColor; }
         .symbol-triangle { width: 0; height: 0; border-left: 3.5px solid transparent; border-right: 3.5px solid transparent; border-bottom: 7px solid currentColor; }
-        .menu-card { background: #fff; border: 1px solid #f0f0f0; border-radius: 16px; padding: 1.25rem; transition: box-shadow 0.25s, transform 0.25s; }
-        .menu-card:hover { box-shadow: 0 12px 28px rgba(40,44,63,0.06); transform: translateY(-2px); }
-        .badge-veg { background: #f2fcf9; color: #0f8a65; border: 1px solid #d0f2e8; }
-        .badge-nonveg { background: #fff5f5; color: #e44444; border: 1px solid #ffd8da; }
-        .badge-egg { background: #fffcf0; color: #e29c0b; border: 1px solid #fbeebf; }
+        .menu-card { background: #fff; border: 1px solid #f2f2f2; border-radius: 16px; padding: 1.25rem; transition: box-shadow 0.25s, transform 0.25s; }
+        .menu-card:hover { box-shadow: 0 12px 36px rgba(28,28,28,0.06); transform: translateY(-2px); }
+        .badge-veg { background: #f4fcf7; color: #24963f; border: 1px solid #d4f0dd; }
+        .badge-nonveg { background: #fff5f5; color: #e23744; border: 1px solid #ffd1d4; }
+        .badge-egg { background: #fffbf2; color: #ca8a04; border: 1px solid #fce8bd; }
         .badge-drinks { background: #f0f7ff; color: #1e70e0; border: 1px solid #cce2ff; }
-        .btn-add { background: #fff; color: #fc8019; border: 1px solid #fc8019; border-radius: 8px; font-size: 12px; font-weight: 800; padding: 6px 18px; transition: all 0.2s; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); display: flex; align-items: center; gap: 4px; text-transform: uppercase; cursor: pointer; }
-        .btn-add:hover { background: #fffbf7; box-shadow: 0 4px 10px rgba(252, 128, 25, 0.12); transform: translateY(-0.5px); }
-        .btn-qty { display: flex; align-items: center; background: #fc8019; color: #fff; border-radius: 8px; font-size: 12px; font-weight: 800; overflow: hidden; box-shadow: 0 3px 8px rgba(252, 128, 25, 0.2); }
+        .btn-add { background: #fff; color: #e23744; border: 1px solid #e23744; border-radius: 8px; font-size: 12px; font-weight: 800; padding: 6px 18px; transition: all 0.2s; box-shadow: 0 2px 4px rgba(226, 55, 68, 0.08); display: flex; align-items: center; gap: 4px; text-transform: uppercase; cursor: pointer; }
+        .btn-add:hover { background: #fff5f5; box-shadow: 0 4px 8px rgba(226, 55, 68, 0.15); transform: translateY(-0.5px); }
+        .btn-qty { display: flex; align-items: center; background: #e23744; color: #fff; border-radius: 8px; font-size: 12px; font-weight: 800; overflow: hidden; box-shadow: 0 3px 8px rgba(226, 55, 68, 0.2); }
         .btn-qty button { padding: 6px 12px; transition: background 0.15s; font-size: 13px; font-weight: 900; cursor: pointer; }
-        .btn-qty button:hover { background: #e17014; }
+        .btn-qty button:hover { background: #c8202d; }
         .btn-qty span { padding: 0 8px; min-width: 20px; text-align: center; font-weight: 800; }
-        .category-pill { background: #fff; color: #282c3f; border: 1px solid #e8e8e8; border-radius: 100px; font-size: 12px; font-weight: 600; padding: 8px 16px; white-space: nowrap; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-        .category-pill.active, .category-pill:hover { background: #fc8019; color: #fff; border-color: #fc8019; box-shadow: 0 4px 12px rgba(252, 128, 25, 0.2); }
-        .filter-btn { border-radius: 100px; font-size: 12px; font-weight: 700; padding: 10px 18px; transition: all 0.2s; border: 1px solid #e8e8e8; background: #fff; color: #282c3f; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); cursor: pointer; }
-        .filter-btn.active { background: #fffcf8; color: #fc8019; border-color: #fce2cc; box-shadow: 0 2px 8px rgba(252, 128, 25, 0.05); }
-        .cart-panel { background: #fff; border: 1px solid #f0f0f0; border-radius: 20px; box-shadow: 0 8px 24px rgba(40,44,63,0.04); }
-        .price-tag { color: #282c3f; font-weight: 700; }
+        .category-pill { background: #fff; color: #1c1c1c; border: 1px solid #e8e8e8; border-radius: 100px; font-size: 12px; font-weight: 700; padding: 8px 16px; white-space: nowrap; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .category-pill.active, .category-pill:hover { background: #e23744; color: #fff; border-color: #e23744; box-shadow: 0 4px 12px rgba(226, 55, 68, 0.2); }
+        .filter-btn { border-radius: 100px; font-size: 12px; font-weight: 700; padding: 10px 18px; transition: all 0.2s; border: 1px solid #e8e8e8; background: #fff; color: #1c1c1c; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); cursor: pointer; }
+        .filter-btn.active { background: #fff3f3; color: #e23744; border-color: #f2cfd2; box-shadow: 0 2px 8px rgba(226, 55, 68, 0.05); }
+        .cart-panel { background: #fff; border: 1px solid #f2f2f2; border-radius: 20px; box-shadow: 0 8px 24px rgba(28,28,28,0.04); }
+        .price-tag { color: #1c1c1c; font-weight: 700; }
         .section-divider { border: none; border-top: 1px solid #f3f4f6; margin: 0; }
-        .wa-btn { background: #fc8019; color: #fff; border-radius: 12px; font-size: 13px; font-weight: 800; padding: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; letter-spacing: 0.02em; box-shadow: 0 4px 12px rgba(252, 128, 25, 0.2); cursor: pointer; }
-        .wa-btn:hover { background: #e17014; box-shadow: 0 6px 16px rgba(252, 128, 25, 0.3); }
-        .btn-disabled { background: #f4f4f5; color: #a1a1aa; cursor: not-allowed; border: 1px solid #e4e4e7; }
-        .toast-el { position: fixed; top: 24px; left: 50%; transform: translate(-50%, -20px); background: #282c3f; color: #fff; font-size: 12px; font-weight: 700; padding: 12px 24px; border-radius: 100px; opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9999; pointer-events: none; box-shadow: 0 10px 30px rgba(40,44,63,0.15); border-left: 4px solid #fc8019; white-space: nowrap; }
-        input, textarea, select { font-family: 'Poppins', sans-serif !important; }
-        .momo-select { font-size: 11px; font-weight: 600; background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; padding: 6px 10px; color: #282c3f; outline: none; cursor: pointer; transition: all 0.15s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
-        .momo-select:focus { border-color: #fc8019; box-shadow: 0 0 0 2px rgba(252, 128, 25, 0.1); }
+        .wa-btn { background: #e23744; color: #fff; border-radius: 12px; font-size: 13px; font-weight: 800; padding: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; letter-spacing: 0.02em; box-shadow: 0 4px 12px rgba(226, 55, 68, 0.2); cursor: pointer; }
+        .wa-btn:hover { background: #c8202d; box-shadow: 0 6px 16px rgba(226, 55, 68, 0.3); }
+        .btn-disabled { background: #f3f3f3; color: #9c9c9c; cursor: not-allowed; border: 1px solid #e8e8e8; }
+        .toast-el { position: fixed; top: 24px; left: 50%; transform: translate(-50%, -20px); background: #1c1c1c; color: #fff; font-size: 12px; font-weight: 700; padding: 12px 24px; border-radius: 100px; opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9999; pointer-events: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-left: 4px solid #e23744; white-space: nowrap; }
+        input, textarea, select { font-family: 'Quicksand', sans-serif !important; font-weight: 600; }
+        .momo-select { font-size: 11px; font-weight: 700; background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; padding: 6px 10px; color: #1c1c1c; outline: none; cursor: pointer; transition: all 0.15s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
+        .momo-select:focus { border-color: #e23744; box-shadow: 0 0 0 2px rgba(226, 55, 68, 0.1); }
+    </style>
     </style>
 </head>
 <body class="text-gray-900 min-h-screen pb-24">
@@ -52,13 +53,13 @@
     <header class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="bg-[#fc8019] text-white w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md shadow-orange-500/10">
+                <div class="bg-[#e23744] text-white w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md shadow-red-500/10">
                     <span class="text-xs font-black tracking-wider uppercase">ARS</span>
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
-                        <h1 class="text-sm sm:text-base font-extrabold text-[#282c3f] tracking-tight">Authentic Recipe Station</h1>
-                        <span class="bg-[#fff2e6] text-[#fc8019] text-[9px] font-extrabold px-1.5 py-0.5 rounded border border-[#fcd5b3] uppercase tracking-wide hidden sm:inline-block">Official</span>
+                        <h1 class="text-sm sm:text-base font-extrabold text-[#1c1c1c] tracking-tight">Authentic Recipe Station</h1>
+                        <span class="bg-[#fff0f0] text-[#e23744] text-[9px] font-extrabold px-1.5 py-0.5 rounded border border-[#fbd4d6] uppercase tracking-wide hidden sm:inline-block">Official</span>
                     </div>
                     <p class="text-[10px] text-gray-400 font-medium">Fresh, authentic & made to order</p>
                 </div>
@@ -68,9 +69,9 @@
                     <svg class="h-3.5 w-3.5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                     Share
                 </button>
-                <button onclick="toggleMobileCartModal()" class="lg:hidden relative bg-[#fc8019] text-white p-2.5 rounded-xl transition active:scale-95 shadow-md shadow-orange-500/10 hover:bg-[#e17014]">
+                <button onclick="toggleMobileCartModal()" class="lg:hidden relative bg-[#e23744] text-white p-2.5 rounded-xl transition active:scale-95 shadow-md shadow-red-500/10 hover:bg-[#c8202d]">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                    <span id="cart-badge-mobile" class="absolute -top-1 -right-1 bg-white text-[#fc8019] border border-[#fc8019] text-[8px] font-black w-4 h-4 flex items-center justify-center rounded-full hidden">0</span>
+                    <span id="cart-badge-mobile" class="absolute -top-1 -right-1 bg-white text-[#e23744] border border-[#e23744] text-[8px] font-black w-4 h-4 flex items-center justify-center rounded-full hidden">0</span>
                 </button>
             </div>
         </div>
@@ -82,26 +83,26 @@
         <aside class="lg:col-span-3 sticky top-20 hidden lg:flex flex-col gap-4">
             <div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">Search</label>
-                <input type="text" id="search-desktop" oninput="syncSearch(this.value)" placeholder="🔍 Search for recipes..." class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#282c3f] outline-none focus:border-[#fc8019] focus:ring-1 focus:ring-[#fc8019] transition-all shadow-sm">
+                <input type="text" id="search-desktop" oninput="syncSearch(this.value)" placeholder="🔍 Search for recipes..." class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all shadow-sm">
             </div>
             <div class="bg-white border border-gray-100 rounded-2xl p-4 flex flex-col gap-2 shadow-sm">
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Diet / Categories</label>
                 <button onclick="setDietFilter('all')" id="desktop-diet-all" class="filter-btn active text-left flex items-center gap-2">✨ All Items</button>
-                <button onclick="setDietFilter('veg')" id="desktop-diet-veg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#0f8a65]"><span class="symbol-circle"></span></span> Veg Only</button>
-                <button onclick="setDietFilter('nonveg')" id="desktop-diet-nonveg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#e44444]"><span class="symbol-triangle"></span></span> Non-Veg</button>
-                <button onclick="setDietFilter('egg')" id="desktop-diet-egg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#e29c0b]"><span class="symbol-circle"></span></span> Egg Only</button>
+                <button onclick="setDietFilter('veg')" id="desktop-diet-veg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#24963f]"><span class="symbol-circle"></span></span> Veg Only</button>
+                <button onclick="setDietFilter('nonveg')" id="desktop-diet-nonveg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#e23744]"><span class="symbol-triangle"></span></span> Non-Veg</button>
+                <button onclick="setDietFilter('egg')" id="desktop-diet-egg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#ca8a04]"><span class="symbol-circle"></span></span> Egg Only</button>
                 <button onclick="setDietFilter('drinks')" id="desktop-diet-drinks" class="filter-btn text-left flex items-center gap-2">🍹 Drinks Only</button>
             </div>
             <nav class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-3">Categories</label>
                 <ul class="space-y-0.5 text-xs font-semibold text-gray-500">
-                    <li><button onclick="scrollToCategory('drinks')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff2e6] hover:text-[#fc8019] transition">🍹 Mojitos & Frappes</button></li>
-                    <li><button onclick="scrollToCategory('fried-veg')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff2e6] hover:text-[#fc8019] transition">🥦 Veg Fried Delights</button></li>
-                    <li><button onclick="scrollToCategory('fried-nonveg')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff2e6] hover:text-[#fc8019] transition">🍗 Chicken & Seafood</button></li>
-                    <li><button onclick="scrollToCategory('sandwiches')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff2e6] hover:text-[#fc8019] transition">🥪 Grilled Sandwiches</button></li>
-                    <li><button onclick="scrollToCategory('grill')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff2e6] hover:text-[#fc8019] transition">🔥 Grilled Section</button></li>
-                    <li><button onclick="scrollToCategory('momos')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff2e6] hover:text-[#fc8019] transition">🥟 Signature Momos</button></li>
-                    <li><button onclick="scrollToCategory('patra')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff2e6] hover:text-[#fc8019] transition">🍃 Patra Poda</button></li>
+                    <li><button onclick="scrollToCategory('drinks')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🍹 Mojitos & Frappes</button></li>
+                    <li><button onclick="scrollToCategory('fried-veg')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🥦 Veg Fried Delights</button></li>
+                    <li><button onclick="scrollToCategory('fried-nonveg')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🍗 Chicken & Seafood</button></li>
+                    <li><button onclick="scrollToCategory('sandwiches')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🥪 Grilled Sandwiches</button></li>
+                    <li><button onclick="scrollToCategory('grill')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🔥 Grilled Section</button></li>
+                    <li><button onclick="scrollToCategory('momos')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🥟 Signature Momos</button></li>
+                    <li><button onclick="scrollToCategory('patra')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🍃 Patra Poda</button></li>
                 </ul>
             </nav>
         </aside>
@@ -110,12 +111,12 @@
         <main class="lg:col-span-6 space-y-6">
             <!-- Mobile Filters -->
             <div class="lg:hidden space-y-3">
-                <input type="text" id="search-mobile" oninput="syncSearch(this.value)" placeholder="🔍 Search for recipes..." class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs text-[#282c3f] outline-none focus:border-[#fc8019] focus:ring-1 focus:ring-[#fc8019] transition-all shadow-sm">
+                <input type="text" id="search-mobile" oninput="syncSearch(this.value)" placeholder="🔍 Search for recipes..." class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all shadow-sm">
                 <div class="overflow-x-auto no-scrollbar -mx-4 px-4 py-1 flex gap-2">
                     <button onclick="setDietFilter('all')" id="mobile-diet-all" class="filter-btn active flex items-center justify-center gap-1 flex-shrink-0">✨ All</button>
-                    <button onclick="setDietFilter('veg')" id="mobile-diet-veg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#0f8a65]"><span class="symbol-circle"></span></span> Veg</button>
-                    <button onclick="setDietFilter('nonveg')" id="mobile-diet-nonveg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#e44444]"><span class="symbol-triangle"></span></span> Non-Veg</button>
-                    <button onclick="setDietFilter('egg')" id="mobile-diet-egg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#e29c0b]"><span class="symbol-circle"></span></span> Egg</button>
+                    <button onclick="setDietFilter('veg')" id="mobile-diet-veg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#24963f]"><span class="symbol-circle"></span></span> Veg</button>
+                    <button onclick="setDietFilter('nonveg')" id="mobile-diet-nonveg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#e23744]"><span class="symbol-triangle"></span></span> Non-Veg</button>
+                    <button onclick="setDietFilter('egg')" id="mobile-diet-egg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#ca8a04]"><span class="symbol-circle"></span></span> Egg</button>
                     <button onclick="setDietFilter('drinks')" id="mobile-diet-drinks" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0">🍹 Drinks</button>
                 </div>
             </div>
@@ -135,7 +136,7 @@
         <!-- Cart Sidebar (Desktop) -->
         <aside id="desktop-sidebar-cart" class="lg:col-span-3 sticky top-20 hidden lg:flex flex-col cart-panel p-5 max-h-[85vh] overflow-y-auto gap-4">
             <div>
-                <h3 class="font-extrabold text-sm text-[#282c3f]">Your Order</h3>
+                <h3 class="font-extrabold text-sm text-[#1c1c1c]">Your Order</h3>
                 <p class="text-[10px] text-gray-400 font-medium mt-0.5">Review items before sending</p>
             </div>
             <hr class="section-divider">
@@ -144,15 +145,15 @@
             <div class="space-y-3">
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5">Your Name</label>
-                    <input type="text" id="cart-name-desktop" oninput="syncFields('name', this.value)" placeholder="Enter your name" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#282c3f] outline-none focus:border-[#fc8019] focus:ring-1 focus:ring-[#fc8019] transition-all shadow-sm">
+                    <input type="text" id="cart-name-desktop" oninput="syncFields('name', this.value)" placeholder="Enter your name" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all shadow-sm">
                 </div>
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5">Special Notes</label>
-                    <textarea id="cart-notes-desktop" rows="2" oninput="syncFields('notes', this.value)" placeholder="e.g. extra spicy, less oil..." class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#282c3f] outline-none focus:border-[#fc8019] focus:ring-1 focus:ring-[#fc8019] transition-all resize-none shadow-sm"></textarea>
+                    <textarea id="cart-notes-desktop" rows="2" oninput="syncFields('notes', this.value)" placeholder="e.g. extra spicy, less oil..." class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all resize-none shadow-sm"></textarea>
                 </div>
                 <div id="desktop-total-row" class="hidden justify-between items-center py-2">
                     <span class="text-xs font-semibold text-gray-500">Total</span>
-                    <span id="desktop-total-price" class="text-lg font-extrabold price-tag text-[#282c3f]">₹0</span>
+                    <span id="desktop-total-price" class="text-lg font-extrabold price-tag text-[#1c1c1c]">₹0</span>
                 </div>
                 <button onclick="sendOrderToWhatsApp()" id="desktop-checkout-btn" disabled class="w-full btn-disabled font-bold py-3.5 rounded-xl text-xs transition">Add items to continue</button>
             </div>
@@ -163,9 +164,9 @@
     <div id="mobile-floating-cart-bar" class="fixed bottom-0 inset-x-0 bg-white border-t border-gray-100 py-3 px-4 shadow-xl z-40 transform translate-y-full transition-transform duration-300 lg:hidden flex justify-between items-center">
         <div>
             <p class="text-[10px] text-gray-400 font-semibold">Your order</p>
-            <p class="text-sm font-bold text-gray-900"><span id="mobile-floating-count" class="text-[#fc8019] font-extrabold">0</span> items added</p>
+            <p class="text-sm font-bold text-gray-900"><span id="mobile-floating-count" class="text-[#e23744] font-extrabold">0</span> items added</p>
         </div>
-        <button onclick="toggleMobileCartModal()" class="bg-[#fc8019] text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition active:scale-95 hover:bg-[#e17014] shadow-md shadow-orange-500/10">
+        <button onclick="toggleMobileCartModal()" class="bg-[#e23744] text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition active:scale-95 hover:bg-[#c8202d] shadow-md shadow-red-500/10">
             View Order
             <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
@@ -177,7 +178,7 @@
             <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto my-3 flex-shrink-0"></div>
             <div class="px-5 pb-3 border-b border-gray-100 flex justify-between items-center">
                 <div>
-                    <h3 class="text-sm font-extrabold text-[#282c3f]">Your Order</h3>
+                    <h3 class="text-sm font-extrabold text-[#1c1c1c]">Your Order</h3>
                     <p class="text-[10px] text-gray-400 font-medium">Review before sending</p>
                 </div>
                 <button onclick="toggleMobileCartModal()" class="text-gray-500 p-1.5 bg-gray-50 border border-gray-200 rounded-xl">
@@ -188,15 +189,15 @@
             <div class="p-5 border-t border-gray-100 space-y-3">
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5">Your Name</label>
-                    <input type="text" id="cart-name-mobile" oninput="syncFields('name', this.value)" placeholder="Enter your name" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#282c3f] outline-none focus:border-[#fc8019] focus:ring-1 focus:ring-[#fc8019] transition-all shadow-sm">
+                    <input type="text" id="cart-name-mobile" oninput="syncFields('name', this.value)" placeholder="Enter your name" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all shadow-sm">
                 </div>
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5">Special Notes</label>
-                    <textarea id="cart-notes-mobile" rows="2" oninput="syncFields('notes', this.value)" placeholder="Spice level, preferences..." class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#282c3f] outline-none focus:border-[#fc8019] focus:ring-1 focus:ring-[#fc8019] transition-all resize-none shadow-sm"></textarea>
+                    <textarea id="cart-notes-mobile" rows="2" oninput="syncFields('notes', this.value)" placeholder="Spice level, preferences..." class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all resize-none shadow-sm"></textarea>
                 </div>
                 <div class="flex justify-between items-center py-1">
                     <span class="text-sm font-semibold text-gray-500">Total</span>
-                    <span id="mobile-total-price" class="text-xl font-extrabold price-tag text-[#282c3f]">₹0</span>
+                    <span id="mobile-total-price" class="text-xl font-extrabold price-tag text-[#1c1c1c]">₹0</span>
                 </div>
                 <button onclick="sendOrderToWhatsApp()" class="wa-btn w-full gap-2">
                     <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.588 1.977 14.113.953 11.5.953c-5.439 0-9.859 4.374-9.863 9.8.001 1.838.503 3.633 1.451 5.234l-.989 3.614 3.71-.973zm11.21-6.195c-.3-.15-1.771-.875-2.046-.975-.276-.1-.477-.15-.677.15-.2.3-.777.975-.951 1.174-.176.2-.351.224-.651.074-2.072-1.037-3.4-1.851-4.757-4.18-.356-.61-.07-.94.23-1.24.27-.27.6-.7.9-1.05.3-.35.4-.6.6-.9.2-.3.1-.55-.05-.7-.15-.3-.677-1.628-.926-2.228-.243-.585-.488-.507-.677-.517-.174-.008-.375-.01-.576-.01-.2 0-.527.075-.803.375-.276.3-1.053 1.025-1.053 2.5 0 1.475 1.078 2.899 1.229 3.1 1.152 1.529 2.588 2.378 4.025 2.899.42.152.812.16 1.116.115.34-.051 1.053-.43 1.203-.846.15-.417.15-.775.105-.85-.045-.075-.176-.125-.476-.275z"/></svg>
@@ -363,7 +364,7 @@
                     <span class="text-3xl select-none">🔍</span>
                     <h3 class="font-bold text-gray-700 mt-3 text-sm">No items found</h3>
                     <p class="text-gray-400 text-xs mt-1">Try adjusting your filters</p>
-                    <button onclick="resetFilters()" class="mt-4 bg-[#fc8019] hover:bg-[#e17014] text-white font-bold px-5 py-2.5 rounded-xl text-xs transition shadow-md shadow-orange-500/10">Reset Filters</button>
+                    <button onclick="resetFilters()" class="mt-4 bg-[#e23744] hover:bg-[#c8202d] text-white font-bold px-5 py-2.5 rounded-xl text-xs transition shadow-md shadow-red-500/10">Reset Filters</button>
                 </div>`;
             }
         }
@@ -382,15 +383,15 @@
             if (item.type === "veg") { 
                 badgeClass = "badge-veg"; 
                 typeLabel = "Veg"; 
-                symbolHTML = `<span class="symbol-box text-[#0f8a65] mr-1.5"><span class="symbol-circle"></span></span>`;
+                symbolHTML = `<span class="symbol-box text-[#24963f] mr-1.5"><span class="symbol-circle"></span></span>`;
             } else if (item.type === "nonveg") { 
                 badgeClass = "badge-nonveg"; 
                 typeLabel = "Non-Veg"; 
-                symbolHTML = `<span class="symbol-box text-[#e44444] mr-1.5"><span class="symbol-triangle"></span></span>`;
+                symbolHTML = `<span class="symbol-box text-[#e23744] mr-1.5"><span class="symbol-triangle"></span></span>`;
             } else if (item.type === "egg") { 
                 badgeClass = "badge-egg"; 
                 typeLabel = "Egg"; 
-                symbolHTML = `<span class="symbol-box text-[#e29c0b] mr-1.5"><span class="symbol-circle"></span></span>`;
+                symbolHTML = `<span class="symbol-box text-[#ca8a04] mr-1.5"><span class="symbol-circle"></span></span>`;
             } else {
                 symbolHTML = `<span class="symbol-box text-[#1e70e0] mr-1.5"><span class="symbol-circle"></span></span>`;
             }
@@ -409,7 +410,7 @@
                 </div>` : "";
 
             const actionHTML = qty === 0
-                ? `<button onclick="addToCart('${item.id}', event)" class="btn-add">ADD <span class="text-[10px] font-semibold text-[#fc8019] ml-0.5">+</span></button>`
+                ? `<button onclick="addToCart('${item.id}', event)" class="btn-add">ADD <span class="text-[10px] font-semibold text-[#e23744] ml-0.5">+</span></button>`
                 : `<div class="btn-qty"><button onclick="modifyQty('${item.id}', -1, event)">−</button><span>${qty}</span><button onclick="modifyQty('${item.id}', 1, event)">+</button></div>`;
 
             card.innerHTML = `
@@ -420,7 +421,7 @@
                             <div class="min-w-0">
                                 <div class="flex items-center gap-1.5 flex-wrap">
                                     ${symbolHTML}
-                                    <h4 class="text-xs sm:text-sm font-bold text-[#282c3f] leading-tight truncate">${item.name}</h4>
+                                    <h4 class="text-xs sm:text-sm font-bold text-[#1c1c1c] leading-tight truncate">${item.name}</h4>
                                     <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full ${badgeClass} uppercase tracking-wide">${typeLabel}</span>
                                 </div>
                                 <p class="text-[10px] text-gray-400 mt-1.5 leading-relaxed line-clamp-2">${item.desc}</p>
@@ -428,7 +429,7 @@
                             </div>
                         </div>
                         <div class="flex items-center justify-between mt-3">
-                            <span class="text-sm font-extrabold price-tag text-[#282c3f]">₹${item.price}</span>
+                            <span class="text-sm font-extrabold price-tag text-[#1c1c1c]">₹${item.price}</span>
                             <div id="action-node-${item.id}">${actionHTML}</div>
                         </div>
                     </div>
@@ -458,7 +459,7 @@
                 spread: 120,
                 startVelocity: 30,
                 origin: { x, y },
-                colors: ["#fc8019", "#282c3f", "#0f8a65", "#ffaa66", "#00ffff", "#ff00ff"]
+                colors: ["#e23744", "#1c1c1c", "#24963f", "#fbd4d6", "#ffffff", "#e2e2e2"]
             });
         }
 
@@ -505,7 +506,7 @@
             if (!node) return;
             const qty = cart[itemId] ? cart[itemId].qty : 0;
             node.innerHTML = qty === 0
-                ? `<button onclick="addToCart('${itemId}', event)" class="btn-add">ADD <span class="text-[10px] font-semibold text-[#fc8019] ml-0.5">+</span></button>`
+                ? `<button onclick="addToCart('${itemId}', event)" class="btn-add">ADD <span class="text-[10px] font-semibold text-[#e23744] ml-0.5">+</span></button>`
                 : `<div class="btn-qty"><button onclick="modifyQty('${itemId}', -1, event)">−</button><span>${qty}</span><button onclick="modifyQty('${itemId}', 1, event)">+</button></div>`;
         }
 
@@ -551,14 +552,14 @@
             wrapper.innerHTML = keys.map(key => {
                 const { item, qty, momoStyle } = cart[key];
                 const cost = item.price * qty;
-                const style = momoStyle ? `<span class="text-[9px] bg-[#fffcf0] text-[#e29c0b] border border-[#fbeebf] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">${momoStyle}</span>` : "";
+                const style = momoStyle ? `<span class="text-[9px] bg-[#fffbf2] text-[#ca8a04] border border-[#fce8bd] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">${momoStyle}</span>` : "";
                 return `<div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100">
                     <div class="flex justify-between items-start gap-2">
                         <div class="min-w-0 flex-1">
-                            <p class="text-xs font-bold text-[#282c3f] truncate">${item.emoji} ${item.name}</p>
+                            <p class="text-xs font-bold text-[#1c1c1c] truncate">${item.emoji} ${item.name}</p>
                             ${style ? `<div class="mt-1">${style}</div>` : ""}
                         </div>
-                        <span class="text-xs font-extrabold price-tag text-[#282c3f] flex-shrink-0">₹${cost}</span>
+                        <span class="text-xs font-extrabold price-tag text-[#1c1c1c] flex-shrink-0">₹${cost}</span>
                     </div>
                     <div class="flex justify-between items-center mt-2.5">
                         <span class="text-[10px] text-gray-400 font-semibold">₹${item.price} each</span>
@@ -587,10 +588,10 @@
             wrapper.innerHTML = keys.map(key => {
                 const { item, qty, momoStyle } = cart[key];
                 const cost = item.price * qty;
-                const style = momoStyle ? `<span class="text-[9px] bg-[#fffcf0] text-[#e29c0b] border border-[#fbeebf] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">${momoStyle}</span>` : "";
+                const style = momoStyle ? `<span class="text-[9px] bg-[#fffbf2] text-[#ca8a04] border border-[#fce8bd] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">${momoStyle}</span>` : "";
                 return `<div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex items-center justify-between gap-3">
                     <div class="min-w-0 flex-1">
-                        <p class="text-xs font-bold text-[#282c3f] truncate">${item.emoji} ${item.name}</p>
+                        <p class="text-xs font-bold text-[#1c1c1c] truncate">${item.emoji} ${item.name}</p>
                         <div class="flex items-center gap-2 mt-1">
                             <span class="text-[10px] text-gray-400 font-semibold">₹${item.price}</span>
                             ${style}
@@ -602,7 +603,7 @@
                             <span>${qty}</span>
                             <button onclick="modifyQty('${item.id}', 1, event)">+</button>
                         </div>
-                        <span class="text-xs font-extrabold price-tag text-[#282c3f]">₹${cost}</span>
+                        <span class="text-xs font-extrabold price-tag text-[#1c1c1c]">₹${cost}</span>
                     </div>
                 </div>`;
             }).join("");
