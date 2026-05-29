@@ -204,21 +204,22 @@
 
         /* Glowing Liquid Metallic Shimmer */
         .glowing-shimmer {
-            text-align: center;
-            background: linear-gradient(to right, #FFF 20%, #FF0 40%, #FF0 60%, #FFF 80%);
-            background-size: 200% auto;
-            color: #000;
-            background-clip: text;
-            text-fill-color: transparent;
+            position: relative;
+            background: linear-gradient(90deg, #000, #fff, #000);
+            background-repeat: no-repeat;
+            background-size: 80%;
+            animation: animate 3s linear infinite;
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 1.5s linear infinite;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0);
             display: inline-block;
         }
 
-        @keyframes shine {
-            to {
-                background-position: 200% center;
+        @keyframes animate {
+            0% {
+                background-position: -500%;
+            }
+            100% {
+                background-position: 500%;
             }
         }
     </style>
@@ -343,7 +344,7 @@
             <div id="desktop-progress-section" class="mt-1 hidden bg-[#fffcfc] border border-[#ffebeb] rounded-xl p-3.5 shadow-sm">
                 <div class="flex justify-between items-center text-[10px] font-bold">
                     <span class="text-gray-500 uppercase tracking-wider">Free Mojito Progress 😍</span>
-                    <span class="bg-[#1c1c1c] uppercase tracking-wider font-extrabold inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-neutral-800 shadow-[0_2px_4px_rgba(0,0,0,0.1)]" style="perspective: 300px;"><span id="desktop-progress-earned" class="inline-block glowing-shimmer">Zero Mojito</span>✌️</span>
+                    <span class="bg-[#1c1c1c] uppercase tracking-wider font-extrabold inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-neutral-800 shadow-[0_2px_4px_rgba(0,0,0,0.1)]" style="perspective: 300px;"><span id="desktop-progress-earned" class="inline-block glowing-shimmer">Mojito Awaits</span>✌️</span>
                 </div>
                 <div class="w-full h-2 bg-gray-100 rounded-full relative mt-2.5 mb-3.5 shadow-inner border border-gray-50 overflow-visible">
                     <div id="desktop-progress-fill" class="h-full bg-gradient-to-r from-[#e23744] via-[#ffc107] to-[#28CC2D] rounded-full shadow-[0_0_8px_rgba(40,204,45,0.35)] transition-all duration-500 w-0"></div>
@@ -379,7 +380,7 @@
         <div id="mobile-progress-section" class="w-full hidden bg-[#fffcfc] border border-[#ffebeb] rounded-xl p-3.5 shadow-sm">
             <div class="flex justify-between items-center text-[10px] font-bold">
                 <span class="text-gray-500 uppercase tracking-wider">Free Mojito Progress 😍</span>
-                <span class="bg-[#1c1c1c] uppercase tracking-wider font-extrabold inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-neutral-800 shadow-[0_2px_4px_rgba(0,0,0,0.1)]" style="perspective: 300px;"><span id="mobile-progress-earned" class="inline-block glowing-shimmer">Zero Mojito</span>✌️</span>
+                <span class="bg-[#1c1c1c] uppercase tracking-wider font-extrabold inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-neutral-800 shadow-[0_2px_4px_rgba(0,0,0,0.1)]" style="perspective: 300px;"><span id="mobile-progress-earned" class="inline-block glowing-shimmer">Mojito Awaits</span>✌️</span>
             </div>
             <div class="w-full h-2 bg-gray-100 rounded-full relative mt-2 mb-3 shadow-inner border border-gray-50 overflow-visible">
                 <div id="mobile-progress-fill" class="h-full bg-gradient-to-r from-[#e23744] via-[#ffc107] to-[#28CC2D] rounded-full shadow-[0_0_8px_rgba(40,204,45,0.35)] transition-all duration-500 w-0"></div>
@@ -932,7 +933,7 @@
                 });
             }, {
                 root: null,
-                rootMargin: "0px 0px 400px 0px" // Load images 400px before they enter the screen for a flawless look
+                rootMargin: "0px 0px 800px 0px" // Load images 800px before they enter the screen for a flawless look
             });
 
             document.querySelectorAll('.lazy-food-img[data-src]').forEach(img => imageObserver.observe(img));
@@ -1204,7 +1205,7 @@
                 
                 // Convert earned count to words (e.g. One, Two, Three)
                 const word = numberToWord(earned);
-                const newText = `${word} Mojito`;
+                const newText = earned === 0 ? "Mojito Awaits" : `${word} Mojito`;
                 
                 // Update text elements with 3D flip animation if the text changes!
                 const earnedTextDesk = document.getElementById("desktop-progress-earned");
