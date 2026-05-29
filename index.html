@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800;900&family=Josefin+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -93,20 +94,23 @@
             max-width: 600px;
         }
 
+        .title, .title *, .ch {
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 700 !important;
+        }
+
         .title {
-            font-family: 'Brandon Grotesque', 'Brandon', 'Josefin Sans', sans-serif !important;
-            font-size: clamp(1.8rem, 5vw, 3.2rem);
-            font-weight: 900;
-            letter-spacing: 0.02em;
+            font-size: clamp(3.6rem, 10vw, 6.4rem);
+            letter-spacing: -0.03em;
             line-height: 1.2;
             margin: 0;
             position: relative;
             display: inline-block;
             color: #ffffff;
-            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
 
-        #splash-sub {
+        #splash-sub, #splash-sub * {
             font-family: 'Brandon Grotesque', 'Brandon', 'Josefin Sans', sans-serif !important;
         }
 
@@ -467,7 +471,16 @@
         function initSplashScreen() {
             const wordContainer = document.getElementById('word');
             const subText = document.getElementById('splash-sub');
-            const brandName = "ARS.";
+            const brandName = "ARS";
+            
+            // Force Poppins and Josefin/Brandon using inline !important styles in JS to override all mobile browser stylesheet cache priorities
+            if (subText) {
+                subText.style.setProperty('font-family', "'Josefin Sans', 'Brandon Grotesque', 'Brandon', sans-serif", 'important');
+            }
+            if (wordContainer) {
+                wordContainer.style.setProperty('font-family', "'Poppins', sans-serif", 'important');
+                wordContainer.style.setProperty('font-weight', '700', 'important');
+            }
             
             // Create characters for typography entry animation
             wordContainer.innerHTML = '';
@@ -475,6 +488,9 @@
                 const span = document.createElement('span');
                 span.className = 'ch';
                 span.innerText = char;
+                // Explicitly set high-priority inline font definitions for every single character
+                span.style.setProperty('font-family', "'Poppins', sans-serif", 'important');
+                span.style.setProperty('font-weight', '700', 'important');
                 // Stagger delay based on position
                 span.style.animationDelay = `${index * 120}ms`;
                 wordContainer.appendChild(span);
@@ -567,7 +583,7 @@
                     particleCount: 50,
                     spread: 60,
                     origin: { y: 0.8 },
-                    colors: ['#e23744', '#fcd4d6', '#1c1c1c']
+                    colors: ["#3581D8", "#63CAD8", "#D82E3F", "#FFE135", "#FFF44F", "#28CC2D"]
                 });
 
                 setTimeout(() => {
@@ -581,51 +597,48 @@
         function getFoodImage(item) {
             const images = {
                 // Drinks category images
-                "drinks_mojito": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=300&q=80",
-                "drinks_frappe": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=300&q=80",
-                "drinks_default": "https://images.unsplash.com/photo-1497534446932-c925b458314e?auto=format&fit=crop&w=300&q=80",
+                "drinks_mojito": "https://mocktail.net/wp-content/uploads/2021/10/Blue-Mocktail-Recipe_ig.jpg",
+                "drinks_frappe": "https://www.thehungrybites.com/wp-content/uploads/2023/06/coffee-ice-cream-frappe-frappuccino-feat.jpg",
+                "drinks_default": "https://www.thehungrybites.com/wp-content/uploads/2023/06/coffee-ice-cream-frappe-frappuccino-feat.jpg",
                 
-                // Fried Veg
-                "friedVeg_cheese": "https://images.unsplash.com/photo-1548340748-6d2b7d7db280?auto=format&fit=crop&w=300&q=80",
-                "friedVeg_onion": "https://images.unsplash.com/photo-1583345209971-ce4a66a7b8ad?auto=format&fit=crop&w=300&q=80",
-                "friedVeg_default": "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=300&q=80",
+                // Fried Veg (Veg fry)
+                "friedVeg_default": "https://www.funfoodfrolic.com/wp-content/uploads/2020/05/Cheese-Balls-Thumbnail.jpg",
                 
                 // Fried Non-Veg
                 "friedNonveg_lollipop": "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?auto=format&fit=crop&w=300&q=80",
                 "friedNonveg_wings": "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=300&q=80",
                 "friedNonveg_nuggets": "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=300&q=80",
-                "friedNonveg_fish": "https://images.unsplash.com/photo-1579631542720-3a87824ff8cc?auto=format&fit=crop&w=300&q=80",
+                "friedNonveg_fish": "https://thumbs.dreamstime.com/b/fried-red-fish-steak-spices-close-up-shot-sea-food-concept-square-format-posting-social-media-soft-focus-fried-218409933.jpg",
                 
                 // Sandwiches
-                "sandwiches_default": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=300&q=80",
+                "sandwiches_default": "https://img.magnific.com/free-photo/toasted-sandwich-with-lettuce-cheese_1220-338.jpg?semt=ais_hybrid&w=740&q=80",
                 
                 // Momos
-                "momos_default": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=300&q=80",
+                "momos_default": "https://wearegurgaon.com/wp-content/uploads/2022/04/the-momo-king-gurgaon.jpg",
                 
                 // Grill
                 "grill_default": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=300&q=80",
+                "grill_fish": "https://thumbs.dreamstime.com/b/fried-red-fish-steak-spices-close-up-shot-sea-food-concept-square-format-posting-social-media-soft-focus-fried-218409933.jpg",
                 
-                // Patra
-                "patra_default": "https://images.unsplash.com/photo-1616091093714-c64882e9ab55?auto=format&fit=crop&w=300&q=80"
+                // Patra (Exclusive Banana Leaf wraps)
+                "patra_default": "https://pbs.twimg.com/media/D90KoRqUwAAShdD.jpg"
             };
             
             const key = item.category;
             const nameLower = item.name.toLowerCase();
             
             if (key === 'drinks') {
-                if (nameLower.includes('mojito') || nameLower.includes('lemon')) return images.drinks_mojito;
+                if (nameLower.includes('mojito') || nameLower.includes('lemon') || nameLower.includes('watermelon')) return images.drinks_mojito;
                 if (nameLower.includes('frappe') || nameLower.includes('coffee')) return images.drinks_frappe;
                 return images.drinks_default;
             }
             if (key === 'fried-veg') {
-                if (nameLower.includes('cheese')) return images.friedVeg_cheese;
-                if (nameLower.includes('onion')) return images.friedVeg_onion;
                 return images.friedVeg_default;
             }
             if (key === 'fried-nonveg') {
+                if (nameLower.includes('fish') || nameLower.includes('finger') || nameLower.includes('prawn')) return images.friedNonveg_fish;
                 if (nameLower.includes('lollipop') || nameLower.includes('legs')) return images.friedNonveg_lollipop;
                 if (nameLower.includes('wings')) return images.friedNonveg_wings;
-                if (nameLower.includes('fish') || nameLower.includes('prawn') || nameLower.includes('finger')) return images.friedNonveg_fish;
                 return images.friedNonveg_nuggets;
             }
             if (key === 'sandwiches') {
@@ -635,6 +648,7 @@
                 return images.momos_default;
             }
             if (key === 'grill') {
+                if (nameLower.includes('fish') || nameLower.includes('pomfret') || nameLower.includes('prawn')) return images.grill_fish;
                 return images.grill_default;
             }
             if (key === 'patra') {
@@ -843,7 +857,7 @@
                 });
             }, {
                 root: null,
-                rootMargin: "0px 0px 200px 0px" // Load images 200px before they enter the screen for a flawless look
+                rootMargin: "0px 0px 400px 0px" // Load images 400px before they enter the screen for a flawless look
             });
 
             document.querySelectorAll('.lazy-food-img[data-src]').forEach(img => imageObserver.observe(img));
@@ -929,7 +943,7 @@
                 spread: 120,
                 startVelocity: 30,
                 origin: { x, y },
-                colors: ["#e23744", "#1c1c1c", "#24963f", "#fbd4d6", "#ffffff", "#e2e2e2"]
+                colors: ["#3581D8", "#63CAD8", "#D82E3F", "#FFE135", "#FFF44F", "#28CC2D"]
             });
         }
 
@@ -950,7 +964,7 @@
             // Play animations
             triggerCartConfetti(event);
 
-            showToast(`Added ${baseItem.name} to order`);
+            showToast(`Added ${baseItem.name} to order 🔥 😍`);
             updateCartUI();
             updateActionWrapper(itemId);
         }
