@@ -6,50 +6,211 @@
     <title>ARS Authentic Recipe Station</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800;900&family=Josefin+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Quicksand', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
-        * { font-family: 'Quicksand', sans-serif; font-weight: 600; }
-        h1, h2, h3, h4, .brand-font { font-family: 'Quicksand', sans-serif; font-weight: 800; }
-        body { background: #fcfcfc; color: #1c1c1c; }
+        * { font-family: 'Quicksand', sans-serif !important; }
+        body { background: #fcfcfc; color: #1c1c1c; font-weight: 600; }
+        h1, h2, h3, h4, .brand-font { font-weight: 800 !important; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Diet Symbols */
         .symbol-box { width: 14px; height: 14px; border: 1.5px solid currentColor; padding: 2px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 3px; background: transparent; }
         .symbol-circle { width: 6px; height: 6px; border-radius: 50%; background-color: currentColor; }
         .symbol-triangle { width: 0; height: 0; border-left: 3.5px solid transparent; border-right: 3.5px solid transparent; border-bottom: 7px solid currentColor; }
+        
+        /* Menu Cards */
         .menu-card { background: #fff; border: 1px solid #f2f2f2; border-radius: 16px; padding: 1.25rem; transition: box-shadow 0.25s, transform 0.25s; }
         .menu-card:hover { box-shadow: 0 12px 36px rgba(28,28,28,0.06); transform: translateY(-2px); }
         .badge-veg { background: #f4fcf7; color: #24963f; border: 1px solid #d4f0dd; }
         .badge-nonveg { background: #fff5f5; color: #e23744; border: 1px solid #ffd1d4; }
         .badge-egg { background: #fffbf2; color: #ca8a04; border: 1px solid #fce8bd; }
         .badge-drinks { background: #f0f7ff; color: #1e70e0; border: 1px solid #cce2ff; }
+        
+        /* Buttons & Badges */
         .btn-add { background: #fff; color: #e23744; border: 1px solid #e23744; border-radius: 8px; font-size: 12px; font-weight: 800; padding: 6px 18px; transition: all 0.2s; box-shadow: 0 2px 4px rgba(226, 55, 68, 0.08); display: flex; align-items: center; gap: 4px; text-transform: uppercase; cursor: pointer; }
         .btn-add:hover { background: #fff5f5; box-shadow: 0 4px 8px rgba(226, 55, 68, 0.15); transform: translateY(-0.5px); }
         .btn-qty { display: flex; align-items: center; background: #e23744; color: #fff; border-radius: 8px; font-size: 12px; font-weight: 800; overflow: hidden; box-shadow: 0 3px 8px rgba(226, 55, 68, 0.2); }
         .btn-qty button { padding: 6px 12px; transition: background 0.15s; font-size: 13px; font-weight: 900; cursor: pointer; }
         .btn-qty button:hover { background: #c8202d; }
         .btn-qty span { padding: 0 8px; min-width: 20px; text-align: center; font-weight: 800; }
+        
+        /* Filter Pills */
         .category-pill { background: #fff; color: #1c1c1c; border: 1px solid #e8e8e8; border-radius: 100px; font-size: 12px; font-weight: 700; padding: 8px 16px; white-space: nowrap; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
         .category-pill.active, .category-pill:hover { background: #e23744; color: #fff; border-color: #e23744; box-shadow: 0 4px 12px rgba(226, 55, 68, 0.2); }
         .filter-btn { border-radius: 100px; font-size: 12px; font-weight: 700; padding: 10px 18px; transition: all 0.2s; border: 1px solid #e8e8e8; background: #fff; color: #1c1c1c; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); cursor: pointer; }
         .filter-btn.active { background: #fff3f3; color: #e23744; border-color: #f2cfd2; box-shadow: 0 2px 8px rgba(226, 55, 68, 0.05); }
+        
+        /* Layout elements */
         .cart-panel { background: #fff; border: 1px solid #f2f2f2; border-radius: 20px; box-shadow: 0 8px 24px rgba(28,28,28,0.04); }
         .price-tag { color: #1c1c1c; font-weight: 700; }
         .section-divider { border: none; border-top: 1px solid #f3f4f6; margin: 0; }
         .wa-btn { background: #e23744; color: #fff; border-radius: 12px; font-size: 13px; font-weight: 800; padding: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; letter-spacing: 0.02em; box-shadow: 0 4px 12px rgba(226, 55, 68, 0.2); cursor: pointer; }
         .wa-btn:hover { background: #c8202d; box-shadow: 0 6px 16px rgba(226, 55, 68, 0.3); }
         .btn-disabled { background: #f3f3f3; color: #9c9c9c; cursor: not-allowed; border: 1px solid #e8e8e8; }
+        
+        /* Custom UI Feedback */
         .toast-el { position: fixed; top: 24px; left: 50%; transform: translate(-50%, -20px); background: #1c1c1c; color: #fff; font-size: 12px; font-weight: 700; padding: 12px 24px; border-radius: 100px; opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9999; pointer-events: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-left: 4px solid #e23744; white-space: nowrap; }
         input, textarea, select { font-family: 'Quicksand', sans-serif !important; font-weight: 600; }
+        
+        /* Momo variants / options styling */
         .momo-select { font-size: 11px; font-weight: 700; background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; padding: 6px 10px; color: #1c1c1c; outline: none; cursor: pointer; transition: all 0.15s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
         .momo-select:focus { border-color: #e23744; box-shadow: 0 0 0 2px rgba(226, 55, 68, 0.1); }
-    </style>
+
+        /* Splash Screen Core Styling */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            background-color: #e23744; /* Zomato Red */
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s cubic-bezier(0.77, 0, 0.175, 1), visibility 0.8s;
+        }
+        
+        /* Character Stagger Animation */
+        .wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .title, .title *, .ch {
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 700 !important;
+        }
+
+        .title {
+            font-size: clamp(3.6rem, 10vw, 6.4rem);
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin: 0;
+            position: relative;
+            display: inline-block;
+            color: #ffffff;
+            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        #splash-sub, #splash-sub * {
+            font-family: 'Brandon Grotesque', 'Brandon', 'Josefin Sans', sans-serif !important;
+        }
+
+        .ch {
+            position: relative;
+            display: inline-block;
+            padding-inline: 0.02em;
+            opacity: 0;
+            transform: translateY(30px) scale(0.6) rotate(10deg);
+            animation: letter-entrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes letter-entrance {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+        }
+
+        /* Spark canvas placement matching container */
+        .spark {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .spark-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Scroll Reveal Lazy Load Animation */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(24px) scale(0.98);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+        .reveal-element.revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Shimmering Skeleton Loader */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .shimmer-bg {
+            background: linear-gradient(90deg, #f7f7f7 25%, #eeeeee 50%, #f7f7f7 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
+        }
+
+        /* Lazy Loaded Food Images */
+        .lazy-food-img {
+            opacity: 0;
+            filter: blur(6px);
+            transform: scale(0.96);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                        filter 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, filter, transform;
+        }
+        .lazy-food-img.loaded {
+            opacity: 1;
+            filter: blur(0);
+            transform: scale(1);
+        }
     </style>
 </head>
 <body class="text-gray-900 min-h-screen pb-24">
 
-    <!-- Header -->
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="wrap">
+            <div class="relative py-12 px-6">
+                <!-- Golden particle sparkles container -->
+                <div class="spark">
+                    <canvas id="spark-canvas" class="spark-canvas"></canvas>
+                </div>
+                <!-- Interactive split text markup created on loop dynamically -->
+                <h1 class="title" id="word" aria-live="polite">
+                    <!-- Loaded dynamically via script for beautiful, robust character isolation -->
+                </h1>
+            </div>
+            <!-- Subtitle -->
+            <p id="splash-sub" class="text-red-100 text-xs sm:text-sm font-extrabold uppercase tracking-[0.25em] transition-all duration-1000 transform translate-y-6 opacity-0">
+                Authentic Recipe Station
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content Header -->
     <header class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -65,7 +226,7 @@
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="shareMenu()" class="hidden sm:flex items-center gap-1.5 text-xs font-600 text-gray-600 border border-gray-200 bg-white hover:bg-gray-50 px-3 py-2 rounded-xl transition shadow-sm">
+                <button onclick="shareMenu()" class="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-gray-600 border border-gray-200 bg-white hover:bg-gray-50 px-3 py-2 rounded-xl transition shadow-sm">
                     <svg class="h-3.5 w-3.5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                     Share
                 </button>
@@ -100,9 +261,9 @@
                     <li><button onclick="scrollToCategory('fried-veg')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🥦 Veg Fried Delights</button></li>
                     <li><button onclick="scrollToCategory('fried-nonveg')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🍗 Chicken & Seafood</button></li>
                     <li><button onclick="scrollToCategory('sandwiches')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🥪 Grilled Sandwiches</button></li>
-                    <li><button onclick="scrollToCategory('grill')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🔥 Grilled Section</button></li>
                     <li><button onclick="scrollToCategory('momos')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🥟 Signature Momos</button></li>
-                    <li><button onclick="scrollToCategory('patra')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🍃 Patra Poda</button></li>
+                    <li><button onclick="scrollToCategory('grill')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🔥 Grilled Section</button></li>
+                    <li><button onclick="scrollToCategory('patra')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🍃 Traditional Patra Poda</button></li>
                 </ul>
             </nav>
         </aside>
@@ -120,16 +281,19 @@
                     <button onclick="setDietFilter('drinks')" id="mobile-diet-drinks" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0">🍹 Drinks</button>
                 </div>
             </div>
+            
             <!-- Mobile Category Bar -->
             <div class="lg:hidden sticky top-[68px] bg-white/95 backdrop-blur py-2.5 -mx-4 px-4 z-30 border-b border-gray-100 overflow-x-auto no-scrollbar flex gap-2">
                 <button onclick="scrollToCategory('drinks')" class="category-pill">🍹 Drinks</button>
                 <button onclick="scrollToCategory('fried-veg')" class="category-pill">🥦 Veg Fry</button>
                 <button onclick="scrollToCategory('fried-nonveg')" class="category-pill">🍗 Non-Veg</button>
                 <button onclick="scrollToCategory('sandwiches')" class="category-pill">🥪 Sandwiches</button>
-                <button onclick="scrollToCategory('grill')" class="category-pill">🔥 Grilled Section</button>
                 <button onclick="scrollToCategory('momos')" class="category-pill">🥟 Momos</button>
+                <button onclick="scrollToCategory('grill')" class="category-pill">🔥 Grilled Section</button>
                 <button onclick="scrollToCategory('patra')" class="category-pill">🍃 Patra</button>
             </div>
+            
+            <!-- Dynamic Products Container -->
             <div id="products-feed" class="space-y-8"></div>
         </main>
 
@@ -185,7 +349,9 @@
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
+            
             <div id="mobile-cart-items" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
+            
             <div class="p-5 border-t border-gray-100 space-y-3">
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5">Your Name</label>
@@ -193,251 +359,569 @@
                 </div>
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5">Special Notes</label>
-                    <textarea id="cart-notes-mobile" rows="2" oninput="syncFields('notes', this.value)" placeholder="Spice level, preferences..." class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all resize-none shadow-sm"></textarea>
+                    <textarea id="cart-notes-mobile" rows="2" oninput="syncFields('notes', this.value)" placeholder="e.g. extra spicy, less oil..." class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all resize-none shadow-sm"></textarea>
                 </div>
-                <div class="flex justify-between items-center py-1">
-                    <span class="text-sm font-semibold text-gray-500">Total</span>
-                    <span id="mobile-total-price" class="text-xl font-extrabold price-tag text-[#1c1c1c]">₹0</span>
+                <div id="mobile-total-row" class="hidden justify-between items-center py-2">
+                    <span class="text-xs font-semibold text-gray-500">Total Price</span>
+                    <span id="mobile-total-price" class="text-lg font-extrabold price-tag text-[#1c1c1c]">₹0</span>
                 </div>
-                <button onclick="sendOrderToWhatsApp()" class="wa-btn w-full gap-2">
-                    <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.588 1.977 14.113.953 11.5.953c-5.439 0-9.859 4.374-9.863 9.8.001 1.838.503 3.633 1.451 5.234l-.989 3.614 3.71-.973zm11.21-6.195c-.3-.15-1.771-.875-2.046-.975-.276-.1-.477-.15-.677.15-.2.3-.777.975-.951 1.174-.176.2-.351.224-.651.074-2.072-1.037-3.4-1.851-4.757-4.18-.356-.61-.07-.94.23-1.24.27-.27.6-.7.9-1.05.3-.35.4-.6.6-.9.2-.3.1-.55-.05-.7-.15-.3-.677-1.628-.926-2.228-.243-.585-.488-.507-.677-.517-.174-.008-.375-.01-.576-.01-.2 0-.527.075-.803.375-.276.3-1.053 1.025-1.053 2.5 0 1.475 1.078 2.899 1.229 3.1 1.152 1.529 2.588 2.378 4.025 2.899.42.152.812.16 1.116.115.34-.051 1.053-.43 1.203-.846.15-.417.15-.775.105-.85-.045-.075-.176-.125-.476-.275z"/></svg>
-                    Order via WhatsApp
-                </button>
+                <button onclick="sendOrderToWhatsApp()" id="mobile-checkout-btn" disabled class="w-full btn-disabled font-bold py-3.5 rounded-xl text-xs transition">Add items to continue</button>
             </div>
         </div>
     </div>
 
-    <!-- Toast -->
+    <!-- Alert / Toast Component -->
     <div id="toast" class="toast-el"></div>
 
     <script>
+        // Store configuration and authentic recipe menu items (Psychologically sorted)
         const MENU_DATA = [
-            { id: "DM-01", name: "Mint Mojito", category: "drinks", type: "veg", emoji: "🌿", desc: "Refreshing mint sprigs and sharp lime oil with fizz", price: 100 },
-            { id: "DM-02", name: "Strawberry Mojito", category: "drinks", type: "veg", emoji: "🍓", desc: "Juicy strawberry pulp mashed with mint leaves and club soda", price: 110 },
-            { id: "DM-03", name: "Green Apple Mojito", category: "drinks", type: "veg", emoji: "🍏", desc: "Crisp green apple tonic with real citrus lime background", price: 110 },
-            { id: "DM-04", name: "Passion Fruit Mojito", category: "drinks", type: "veg", emoji: "🥭", desc: "Exotic passion fruit reduction layered over sweet ice base", price: 120 },
-            { id: "DM-05", name: "Blue Mojito", category: "drinks", type: "veg", emoji: "🌀", desc: "Electric blue curacao orange extract with sharp lime spray", price: 110 },
-            { id: "DM-06", name: "Pineapple Mojito", category: "drinks", type: "veg", emoji: "🍍", desc: "Diced pineapple chunks mashed directly into mint sugar base", price: 110 },
-            { id: "DM-07", name: "Mango Lemon", category: "drinks", type: "veg", emoji: "🥭🍋", desc: "Sweet pulpy mango cream contrasted with wild sour lemon", price: 120 },
-            { id: "DM-08", name: "Watermelon Mojito", category: "drinks", type: "veg", emoji: "🍉", desc: "Vibrant freshly extracted watermelon juice with aromatic mint", price: 100 },
-            { id: "DF-01", name: "Mocha Coffee Frappe", category: "drinks", type: "veg", emoji: "☕", desc: "Double shot dark roast espresso whipped with dark cocoa and milk", price: 130 },
-            { id: "DF-02", name: "Hazelnut Frappe", category: "drinks", type: "veg", emoji: "🌰", desc: "Nutty roasted hazelnut whip combined with chilled cream milk", price: 130 },
-            { id: "DF-03", name: "Caramel Frappe", category: "drinks", type: "veg", emoji: "🍯", desc: "Creamy butter caramel drizzle mixed into blended sweet coffee", price: 130 },
-            { id: "DF-04", name: "Mango Frappe", category: "drinks", type: "veg", emoji: "🥭🥤", desc: "Thick velvet mango ice cream base blended with light cardamom", price: 120 },
-            { id: "DF-05", name: "Chocolate Frappe", category: "drinks", type: "veg", emoji: "🍫", desc: "Melted dark chocolate fudge compound whipped with sweet milk", price: 120 },
-            { id: "DF-06", name: "Butterscotch Frappe", category: "drinks", type: "veg", emoji: "🍨", desc: "Crunchy butterscotch crystals whipped in custom vanilla cream", price: 120 },
-            { id: "DF-07", name: "Rose Frappe", category: "drinks", type: "veg", emoji: "🌹", desc: "Aromatic gulkand rose petal essence blended sweet and cold", price: 110 },
-            { id: "FV-01", name: "Onion Flower Pakoda", category: "fried-veg", type: "veg", emoji: "🧅", desc: "Whole sweet onion carved like a blossom, seasoned and fried", price: 85 },
-            { id: "FV-02", name: "Baby Corn Fry", category: "fried-veg", type: "veg", emoji: "🌽", desc: "Sticks of tender baby corn dusted with red chili garlic seasoning", price: 100 },
-            { id: "FV-03", name: "Cheese Balls", category: "fried-veg", type: "veg", emoji: "🧀", desc: "Liquid golden cheese core breaded and crisped to a bubble", price: 120 },
-            { id: "FV-04", name: "Corn Balls", category: "fried-veg", type: "veg", emoji: "🟡", desc: "Mashed sweet corn kernels loaded with fresh coriander, crisp-fried", price: 100 },
-            { id: "FV-05", name: "Paneer Pakoda", category: "fried-veg", type: "veg", emoji: "🧀🔥", desc: "Heavy slices of soft cottage cheese dipped in green-herb flour", price: 130 },
-            { id: "FV-06", name: "American Corn", category: "fried-veg", type: "veg", emoji: "🇺🇸", desc: "Crispy fried sweet corn tossed with freshly cracked black pepper", price: 110 },
-            { id: "FC-01", name: "Chicken Pakoda", category: "fried-nonveg", type: "nonveg", emoji: "🍗", desc: "Bone-free local street styled crispy fried chicken chunks", price: 140 },
-            { id: "FC-02", name: "Chicken Lollipop", category: "fried-nonveg", type: "nonveg", emoji: "🍭", desc: "Juicy wings reshaped, dipped in high-garlic szechuan batter (5 Pcs)", price: 180 },
-            { id: "FC-03", name: "Chicken Popcorn", category: "fried-nonveg", type: "nonveg", emoji: "🍿", desc: "Mini crisp bites of seasoned breast meat prepared golden", price: 120 },
-            { id: "FC-04", name: "Chicken Wings", category: "fried-nonveg", type: "nonveg", emoji: "💸", desc: "Pepper seared local chicken wings fried till extra crunchy", price: 160 },
-            { id: "FC-05", name: "Chicken Nuggets", category: "fried-nonveg", type: "nonveg", emoji: "🧆", desc: "Minced white chicken fillets seasoned, structured, and gold fried", price: 130 },
-            { id: "FC-06", name: "Chicken Cutlet", category: "fried-nonveg", type: "nonveg", emoji: "🍘", desc: "Aromatic minced patties with ginger-onion mash, pan-cooked", price: 100 },
-            { id: "FC-07", name: "Chicken Legs", category: "fried-nonveg", type: "nonveg", emoji: "🍗🍗", desc: "Whole double drumsticks tenderized and double-crust fried", price: 180 },
-            { id: "FS-01", name: "Fish Fry", category: "fried-nonveg", type: "nonveg", emoji: "🐟", desc: "River-fresh fish fillet cutlet crusted in dry breadcrumbs", price: 155 },
-            { id: "FS-02", name: "Prawn Pakoda", category: "fried-nonveg", type: "nonveg", emoji: "🦐", desc: "Sweet prawns dipped in highly seasoned gram flour mix", price: 180 },
-            { id: "FS-03", name: "Prawn Cutlet", category: "fried-nonveg", type: "nonveg", emoji: "🦐🧆", desc: "Spiced shrimp mince pressed flat and breadcrumb toasted", price: 160 },
-            { id: "FS-04", name: "Fish Finger", category: "fried-nonveg", type: "nonveg", emoji: "🥢", desc: "Crisp seasoned fish sticks with mustard-lemon background note", price: 150 },
-            { id: "FS-05", name: "Egg Chop", category: "fried-nonveg", type: "egg", emoji: "🥚", desc: "Boiled egg halves layered in highly spiced potato batter, crisped", price: 50 },
-            { id: "SW-01", name: "Veg Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🥦", desc: "Thin cucumber, green pepper, sweet tomato on buttered white slices", price: 80 },
-            { id: "SW-02", name: "Veg Mayo Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🥛", desc: "Grated garden veggies bound inside thick eggless mayo paste", price: 90 },
-            { id: "SW-03", name: "Grilled Veg Mayo Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🔥", desc: "Toasted pressed white bread with thick hot mayo-veg compound", price: 100 },
-            { id: "SW-04", name: "Paneer Cheese Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🧀", desc: "Fresh cottage cheese crumb layered with melted cheddar grids", price: 120 },
-            { id: "SW-05", name: "Corn Cheese Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🌽", desc: "Sweet golden corn layered with strings of thick mozzarella", price: 110 },
-            { id: "SW-06", name: "Schezwan Veg Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🌶️", desc: "Shredded cabbage and carrots in hot spicy chili-garlic paste", price: 100 },
-            { id: "SW-07", name: "Chocolate Sandwich", category: "sandwiches", type: "veg", emoji: "🥪🍫", desc: "Rich sweet chocolate fudge spread pressed warm and toasted", price: 100 },
-            { id: "SW-08", name: "Chicken Mayo Sandwich", category: "sandwiches", type: "nonveg", emoji: "🥪🍗", desc: "Shredded chicken pieces folded into fresh garlic mayo paste", price: 120 },
-            { id: "SW-09", name: "Chicken Cheese Sandwich", category: "sandwiches", type: "nonveg", emoji: "🥪🧀🍗", desc: "Hot pulled chicken seasoned with black pepper and molten cheese", price: 140 },
-            { id: "SW-10", name: "Schezwan Chicken Sandwich", category: "sandwiches", type: "nonveg", emoji: "🥪🌶️🍗", desc: "Fiery pulled chicken tossed in sharp ginger-garlic schezwan paste", price: 130 },
-            { id: "SW-11", name: "Egg Sandwich", category: "sandwiches", type: "egg", emoji: "🥪🥚", desc: "Fluffy pepper scramble folded between butter-cooked toast", price: 90 },
-            { id: "GM-01", name: "Grilled Chicken Wings", category: "grill", type: "nonveg", emoji: "🔥🍗", desc: "Skewered chicken wings seared smoky on iron hotplate", price: 170 },
-            { id: "GM-02", name: "Grilled Fish Fillet", category: "grill", type: "nonveg", emoji: "🔥🐟", desc: "Soft white fish slice roasted in black pepper, garlic and butter", price: 190 },
-            { id: "GM-03", name: "Grilled Pomfret", category: "grill", type: "nonveg", emoji: "🔥🐠", desc: "Whole premium Pomfret smeared with ginger paste and flame-grilled", price: 280 },
-            { id: "GM-04", name: "Boneless Fish Grill", category: "grill", type: "nonveg", emoji: "🐟🥩", desc: "Cubes of hand-cut boneless fish seared to a smoky finish", price: 210 },
-            { id: "GM-05", name: "Grilled Prawns", category: "grill", type: "nonveg", emoji: "🔥🦐", desc: "Giant prawns seared over charcoal with dry red chili rub", price: 220 },
-            { id: "GM-06", name: "Paneer Grill", category: "grill", type: "veg", emoji: "🔥🧀", desc: "Thick slabs of rich paneer grilled with onions and sweet peppers", price: 160 },
-            { id: "MO-01", name: "Classic Veg Momo", category: "momos", type: "veg", emoji: "🥟", desc: "Finely shredded clean cabbage-onion dumplings in soft skin", price: 80, isMomo: true },
-            { id: "MO-02", name: "Classic Chicken Momo", category: "momos", type: "nonveg", emoji: "🥟🍗", desc: "Fresh hand-minced chicken breast with herbs inside clean pleats", price: 100, isMomo: true },
-            { id: "MO-03", name: "Green Momo", category: "momos", type: "veg", emoji: "🥟🟢", desc: "Spinach-dyed dough holding clean fresh aromatic veggies", price: 90, isMomo: true },
-            { id: "MO-04", name: "Velvet Paneer Momo", category: "momos", type: "veg", emoji: "🥟🧀", desc: "Rich grated paneer seasoned lightly with green cardamoms", price: 110, isMomo: true },
-            { id: "MO-05", name: "Cheese Corn Momo", category: "momos", type: "veg", emoji: "🥟🌽", desc: "Sweet corn combined with thick stringy molten cheese base", price: 125, isMomo: true },
-            { id: "MO-06", name: "Golden Chicken Momo", category: "momos", type: "nonveg", emoji: "🥟✨", desc: "Turmeric tinted skin with high-spiced minced chicken juice", price: 120, isMomo: true },
-            { id: "MO-07", name: "Chicken Cheese Momo", category: "momos", type: "nonveg", emoji: "🥟🧀🍗", desc: "Hand minced hot chicken mixed inside liquid rich cheddar", price: 130, isMomo: true },
-            { id: "MO-08", name: "Chocolate Momo", category: "momos", type: "veg", emoji: "🥟🍫", desc: "Gooey sweet warm cocoa lava wrapped in thin cooked sheets", price: 120, isMomo: true },
-            { id: "PP-01", name: "Chicken Patra Poda", category: "patra", type: "nonveg", emoji: "🍃🍗", desc: "Banana leaf wrapped marinated chicken slow baked over charcoal", price: 180 },
-            { id: "PP-02", name: "Fish Patra Poda", category: "patra", type: "nonveg", emoji: "🍃🐟", desc: "River-fresh fish smeared with raw mustard paste, baked in banana leaf", price: 170 },
-            { id: "PP-03", name: "Pomfret Patra Poda", category: "patra", type: "nonveg", emoji: "🍃🐠", desc: "Entire local Pomfret packed with mustard chili sauce and leaf baked", price: 290 },
-            { id: "PP-04", name: "Prawn Patra Poda", category: "patra", type: "nonveg", emoji: "🍃🦐", desc: "Juicy prawns layered with mustard garlic paste, wrapped and roasted", price: 200 },
-            { id: "PP-05", name: "Paneer Patra Poda", category: "patra", type: "veg", emoji: "🍃🧀", desc: "Heavy paneer blocks slow-cooked inside banana leaf wrapper", price: 150 }
+            // Category: drinks (impulse starters)
+            { id: "dr-hazelnut", name: "Hazelnut Frappe", price: 130, category: "drinks", diet: "drinks", emoji: "🌰", desc: "Chilled rich espresso whipped with premium nutty roasted hazelnut cream.", variants: null },
+            { id: "dr-mocha", name: "Mocha Coffee Frappe", price: 130, category: "drinks", diet: "drinks", emoji: "☕", desc: "Double shot espresso blended velvet with dark cocoa fudge and sweet milk.", variants: null },
+            { id: "dr-caramel", name: "Caramel Frappe", price: 130, category: "drinks", diet: "drinks", emoji: "🍯", desc: "Decadent butter caramel drizzle mixed into blended rich roasted sweet coffee.", variants: null },
+            { id: "dr-passion", name: "Passion Fruit Mojito", price: 120, category: "drinks", diet: "drinks", emoji: "🥭", desc: "Exotic passion fruit reduction layered over sweet crushed mint fizz base.", variants: null },
+            { id: "dr-strawberry", name: "Strawberry Mojito", price: 110, category: "drinks", diet: "drinks", emoji: "🍓", desc: "Juicy strawberry pulp mashed with garden mint leaves and bubbly soda.", variants: null },
+            { id: "dr-blue", name: "Blue Mojito", price: 110, category: "drinks", diet: "drinks", emoji: "🌀", desc: "Electric blue curacao orange extract with a sharp refreshing lime mist.", variants: null },
+            { id: "dr-greenapple", name: "Green Apple Mojito", price: 110, category: "drinks", diet: "drinks", emoji: "🍏", desc: "Crisp green apple tonic with real citrus lime backdrop and mint.", variants: null },
+            { id: "dr-pineapple", name: "Pineapple Mojito", price: 110, category: "drinks", diet: "drinks", emoji: "🍍", desc: "Fresh pineapple chunks mashed directly with mint and sparkling soda.", variants: null },
+            { id: "dr-mango-lemon", name: "Mango Lemon", price: 120, category: "drinks", diet: "drinks", emoji: "🥭🍋", desc: "Rich sweet mango cream balanced beautifully with a wild sour lemon punch.", variants: null },
+            { id: "dr-watermelon", name: "Watermelon Mojito", price: 100, category: "drinks", diet: "drinks", emoji: "🍉", desc: "Freshly extracted watermelon nectar with crushed aromatic mint spray.", variants: null },
+            { id: "dr-mango-frappe", name: "Mango Frappe", price: 120, category: "drinks", diet: "drinks", emoji: "🥤", desc: "Thick velvet mango ice cream base blended smooth with chilled milk.", variants: null },
+            { id: "dr-chocolate", name: "Chocolate Frappe", price: 120, category: "drinks", diet: "drinks", emoji: "🍫", desc: "Melted dark chocolate fudge compound whipped with sweet vanilla milk.", variants: null },
+            { id: "dr-butterscotch", name: "Butterscotch Frappe", price: 120, category: "drinks", diet: "drinks", emoji: "🍨", desc: "Crunchy butterscotch crystals whipped in custom rich vanilla cream.", variants: null },
+            { id: "dr-rose", name: "Rose Frappe", price: 110, category: "drinks", diet: "drinks", emoji: "🌹", desc: "Aromatic gulkand rose petal extract blended sweet and freezing cold.", variants: null },
+            { id: "dr-mint", name: "Mint Mojito", price: 100, category: "drinks", diet: "drinks", emoji: "🌿", desc: "Refreshing mint sprigs and sharp lime oils seared with sparkling soda.", variants: null },
+
+            // Category: fried-veg (light appetizers)
+            { id: "fv-cheese", name: "Cheese Balls", price: 120, category: "fried-veg", diet: "veg", emoji: "🧀", desc: "Liquid golden cheddar and mozzarella core crisped to a bubble.", variants: null },
+            { id: "fv-onion", name: "Onion Flower Pakoda", price: 85, category: "fried-veg", diet: "veg", emoji: "🧅", desc: "Whole sweet onion carved like a blooming blossom, gold-fried.", variants: null },
+            { id: "fv-paneer", name: "Paneer Pakoda", price: 130, category: "fried-veg", diet: "veg", emoji: "🧀🔥", desc: "Heavy slices of soft cottage cheese dipped in herb-infused gram flour.", variants: null },
+            { id: "fv-babycorn", name: "Baby Corn Fry", price: 100, category: "fried-veg", diet: "veg", emoji: "🌽", desc: "Tender baby corn sticks dusted in sharp red chili garlic seasoning.", variants: null },
+            { id: "fv-cornballs", name: "Corn Balls", price: 100, category: "fried-veg", diet: "veg", emoji: "🟡", desc: "Mashed sweet corn kernels loaded with fresh coriander, crisp-fried.", variants: null },
+            { id: "fv-american", name: "American Corn", price: 110, category: "fried-veg", diet: "veg", emoji: "🇺🇸", desc: "Crispy fried sweet corn tossed with freshly cracked black pepper.", variants: null },
+
+            // Category: fried-nonveg (premium starters)
+            { id: "fn-lollipop", name: "Chicken Lollipop", price: 180, category: "fried-nonveg", diet: "nonveg", emoji: "🍭", desc: "Juicy chicken wings reshaped and dipped in fiery schezwan batter (5 Pcs).", variants: null },
+            { id: "fn-popcorn", name: "Chicken Popcorn", price: 120, category: "fried-nonveg", diet: "nonveg", emoji: "🍿", desc: "Mini crispy pops of seasoned chicken breast meat prepared golden-crisp.", variants: null },
+            { id: "fn-wings", name: "Chicken Wings", price: 160, category: "fried-nonveg", diet: "nonveg", emoji: "💸", desc: "Pepper seared local chicken wings fried till extra crunchy.", variants: null },
+            { id: "fn-legs", name: "Chicken Legs", price: 180, category: "fried-nonveg", diet: "nonveg", emoji: "🍗🍗", desc: "Double drumsticks slow-marinated and deep crust fried.", variants: null },
+            { id: "fn-nuggets", name: "Chicken Nuggets", price: 130, category: "fried-nonveg", diet: "nonveg", emoji: "🧆", desc: "Minced white chicken breast seasoned, structured, and gold fried.", variants: null },
+            { id: "fn-cutlet", name: "Chicken Cutlet", price: 100, category: "fried-nonveg", diet: "nonveg", emoji: "🍘", desc: "Spiced minced chicken patties pan-cooked with ginger-onion mash.", variants: null },
+            { id: "fn-pakoda", name: "Chicken Pakoda", price: 140, category: "fried-nonveg", diet: "nonveg", emoji: "🍗", desc: "Crispy local street-style fried chicken chunks with red chili.", variants: null },
+            { id: "fn-prawn-pakoda", name: "Prawn Pakoda", price: 180, category: "fried-nonveg", diet: "nonveg", emoji: "🦐", desc: "Sweet local prawns dipped in highly seasoned garlic batter, crisped.", variants: null },
+            { id: "fn-fish-finger", name: "Fish Finger", price: 150, category: "fried-nonveg", diet: "nonveg", emoji: "🥢", desc: "Crisp seasoned fish sticks with mustard-lemon background notes.", variants: null },
+            { id: "fn-prawn-cutlet", name: "Prawn Cutlet", price: 160, category: "fried-nonveg", diet: "nonveg", emoji: "🦐🧆", desc: "Spiced shrimp mince pressed flat and golden-breadcrumb toasted.", variants: null },
+            { id: "fn-fish-fry", name: "Fish Fry", price: 155, category: "fried-nonveg", diet: "nonveg", emoji: "🐟", desc: "River-fresh fish fillet cutlet crusted in dry breadcrumbs and herbs.", variants: null },
+            { id: "fn-egg-chop", name: "Egg Chop", price: 50, category: "fried-nonveg", diet: "egg", emoji: "🥚", desc: "Boiled egg halves layered in spiced potato batter, crisped.", variants: null },
+
+            // Category: sandwiches (comfort quick bites)
+            { id: "sw-chicken-cheese", name: "Chicken Cheese Sandwich", price: 140, category: "sandwiches", diet: "nonveg", emoji: "🥪🧀🍗", desc: "Hot pulled chicken seasoned with black pepper and molten mozzarella grids.", variants: null },
+            { id: "sw-paneer-cheese", name: "Paneer Cheese Sandwich", price: 120, category: "sandwiches", diet: "veg", emoji: "🥪🧀", desc: "Fresh cottage cheese crumb layered with melted cheddar grids.", variants: null },
+            { id: "sw-chicken-mayo", name: "Chicken Mayo Sandwich", price: 120, category: "sandwiches", diet: "nonveg", emoji: "🥪🍗", desc: "Shredded chicken pieces folded into fresh garlic mayo paste.", variants: null },
+            { id: "sw-veg-mayo-grill", name: "Grilled Veg Mayo Sandwich", price: 100, category: "sandwiches", diet: "veg", emoji: "🥪🔥", desc: "Toasted pressed white bread with thick hot mayo-veg compound.", variants: null },
+            { id: "sw-schezwan-chicken", name: "Schezwan Chicken Sandwich", price: 130, category: "sandwiches", diet: "nonveg", emoji: "🥪🌶️🍗", desc: "Fiery pulled chicken tossed in sharp ginger-garlic schezwan paste.", variants: null },
+            { id: "sw-schezwan-veg", name: "Schezwan Veg Sandwich", price: 100, category: "sandwiches", diet: "veg", emoji: "🥪🌶️", desc: "Shredded cabbage and carrots in hot spicy chili-garlic paste.", variants: null },
+            { id: "sw-corn-cheese", name: "Corn Cheese Sandwich", price: 110, category: "sandwiches", diet: "veg", emoji: "🥪🌽", desc: "Sweet golden corn layered with strings of thick mozzarella.", variants: null },
+            { id: "sw-chocolate", name: "Chocolate Sandwich", price: 100, category: "sandwiches", diet: "veg", emoji: "🥪🍫", desc: "Rich sweet chocolate fudge spread pressed warm and toasted.", variants: null },
+            { id: "sw-egg", name: "Egg Sandwich", price: 90, category: "sandwiches", diet: "egg", emoji: "🥪🥚", desc: "Fluffy pepper scramble folded between butter-cooked toast.", variants: null },
+            { id: "sw-veg-mayo", name: "Veg Mayo Sandwich", price: 90, category: "sandwiches", diet: "veg", emoji: "🥪🥛", desc: "Grated garden veggies bound inside thick eggless mayo paste.", variants: null },
+            { id: "sw-veg", name: "Veges Sandwiches", price: 80, category: "sandwiches", diet: "veg", emoji: "🥪🥦", desc: "Thin cucumber, green pepper, sweet tomato on buttered white slices.", variants: null },
+
+            // Category: momos (popular customizable crowd-pleasers)
+            { id: "mm-chicken-cheese", name: "Chicken Cheese Momo", price: 130, category: "momos", diet: "nonveg", emoji: "🥟🧀🍗", desc: "Hand minced hot chicken mixed inside liquid rich cheddar.", variants: ["Steamed", "Fried (+₹20)", "Garlic", "Schezwan", "Chili", "Korean"] },
+            { id: "mm-cheese-corn", name: "Cheese Corn Momo", price: 125, category: "momos", diet: "veg", emoji: "🥟🌽", desc: "Sweet corn combined with thick stringy molten cheese base.", variants: ["Steamed", "Fried (+₹20)", "Garlic", "Schezwan", "Chili", "Korean"] },
+            { id: "mm-classic-chicken", name: "Classic Chicken Momo", price: 100, category: "momos", diet: "nonveg", emoji: "🥟🍗", desc: "Fresh hand-minced chicken breast with herbs inside clean pleats.", variants: ["Steamed", "Fried (+₹20)", "Garlic", "Schezwan", "Chili", "Korean"] },
+            { id: "mm-velvet-paneer", name: "Velvet Paneer Momo", price: 110, category: "momos", diet: "veg", emoji: "🥟🧀", desc: "Rich grated paneer seasoned lightly with green cardamoms.", variants: ["Steamed", "Fried (+₹20)", "Garlic", "Schezwan", "Chili", "Korean"] },
+            { id: "mm-classic-veg", name: "Classic Veg Momo", price: 80, category: "momos", diet: "veg", emoji: "🥟", desc: "Finely shredded clean cabbage-onion dumplings in soft skin.", variants: ["Steamed", "Fried (+₹20)", "Garlic", "Schezwan", "Chili", "Korean"] },
+            { id: "mm-golden-chicken", name: "Golden Chicken Momo", price: 120, category: "momos", diet: "nonveg", emoji: "🥟✨", desc: "Turmeric tinted skin with high-spiced minced chicken juice.", variants: ["Steamed", "Fried (+₹20)", "Garlic", "Schezwan", "Chili", "Korean"] },
+            { id: "mm-green", name: "Green Momo", price: 90, category: "momos", diet: "veg", emoji: "🥟🟢", desc: "Spinach-dyed dough holding clean fresh aromatic veggies.", variants: ["Steamed", "Fried (+₹20)", "Garlic", "Schezwan", "Chili", "Korean"] },
+            { id: "mm-chocolate", name: "Chocolate Momo", price: 120, category: "momos", diet: "veg", emoji: "🥟🍫", desc: "Gooey sweet warm cocoa lava wrapped in thin cooked sheets.", variants: ["Steamed", "Fried (+₹20)", "Garlic", "Schezwan", "Chili", "Korean"] },
+
+            // Category: grill (premium flame seared)
+            { id: "gr-pomfret", name: "Grilled Pomfret", price: 280, category: "grill", diet: "nonveg", emoji: "🔥🐠", desc: "Whole premium Pomfret smeared with ginger paste and flame-grilled.", variants: null },
+            { id: "gr-chicken-wings", name: "Grilled Chicken Wings", price: 170, category: "grill", diet: "nonveg", emoji: "🔥🍗", desc: "Skewered chicken wings seared smoky on iron hotplate.", variants: null },
+            { id: "gr-fish-fillet", name: "Grilled Fish Fillet", price: 190, category: "grill", diet: "nonveg", emoji: "🔥🐟", desc: "Soft white fish slice roasted in black pepper, garlic and butter.", variants: null },
+            { id: "gr-prawns", name: "Grilled Prawns", price: 220, category: "grill", diet: "nonveg", emoji: "🔥🦐", desc: "Giant prawns seared over charcoal with dry red chili rub.", variants: null },
+            { id: "gr-boneless-fish", name: "Boneless Fish Grill", price: 210, category: "grill", diet: "nonveg", emoji: "🐟🥩", desc: "Cubes of hand-cut boneless fish seared to a smoky finish.", variants: null },
+            { id: "gr-paneer", name: "Paneer Grill", price: 160, category: "grill", diet: "veg", emoji: "🔥🧀", desc: "Thick slabs of rich paneer grilled with onions and sweet peppers.", variants: null },
+
+            // Category: patra (exclusive traditional slow cooked)
+            { id: "pt-pomfret", name: "Pomfret Patra Poda", price: 290, category: "patra", diet: "nonveg", emoji: "🍃🐠", desc: "Entire local Pomfret packed with mustard chili sauce and leaf baked.", variants: null },
+            { id: "pt-fish", name: "Maacha (Fish) Patra Poda", price: 170, category: "patra", diet: "nonveg", emoji: "🍃🐟", desc: "River-fresh fish smeared with raw yellow mustard paste, banana leaf baked.", variants: null },
+            { id: "pt-prawn", name: "Prawn Patra Poda", price: 200, category: "patra", diet: "nonveg", emoji: "🍃🦐", desc: "Juicy prawns layered with mustard garlic paste, wrapped and charred.", variants: null },
+            { id: "pt-chicken", name: "Chicken Patra Poda", price: 180, category: "patra", diet: "nonveg", emoji: "🍃🍗", desc: "Banana leaf wrapped marinated chicken slow baked over charcoal.", variants: null },
+            { id: "pt-paneer", name: "Paneer Patra Poda", price: 150, category: "patra", diet: "veg", emoji: "🍃🧀", desc: "Heavy paneer blocks slow-cooked inside banana leaf pockets.", variants: null }
         ];
 
-        const CATEGORY_KEYS = {
-            "drinks": "🍹 Mojitos & Frappes",
-            "fried-veg": "🥦 Veg Fried Delights",
-            "fried-nonveg": "🍗 Chicken & Seafood",
-            "sandwiches": "🥪 Grilled Sandwiches",
-            "grill": "🔥 Charcoal Grilled Mains",
-            "momos": "🥟 Signature Momos",
-            "patra": "🍃 Traditional Patra Poda"
-        };
+        // System State
+        let currentSearchQuery = "";
+        let currentDietFilter = "all";
+        let cart = [];
+        let orderName = "";
+        let orderNotes = "";
 
-        const WHATSAPP_NUMBER = "7008963923";
-        let cart = {};
-        let currentDiet = "all";
-        let searchQuery = "";
-        let customerMeta = { name: "", notes: "" };
+        // Splash screen animations and asset creation
+        window.addEventListener('DOMContentLoaded', () => {
+            initSplashScreen();
+            renderProducts();
+            updateCartUI();
+        });
 
-        window.addEventListener("DOMContentLoaded", () => { renderFeed(); refreshCartData(); });
-
-        function syncSearch(val) {
-            searchQuery = val;
-            document.getElementById("search-desktop").value = val;
-            document.getElementById("search-mobile").value = val;
-            renderFeed();
-        }
-
-        function syncFields(field, val) {
-            customerMeta[field] = val;
-            if (field === "name") {
-                document.getElementById("cart-name-desktop").value = val;
-                document.getElementById("cart-name-mobile").value = val;
-            } else {
-                document.getElementById("cart-notes-desktop").value = val;
-                document.getElementById("cart-notes-mobile").value = val;
+        function initSplashScreen() {
+            const wordContainer = document.getElementById('word');
+            const subText = document.getElementById('splash-sub');
+            const brandName = "ARS";
+            
+            // Force Poppins and Josefin/Brandon using inline !important styles in JS to override all mobile browser stylesheet cache priorities
+            if (subText) {
+                subText.style.setProperty('font-family', "'Josefin Sans', 'Brandon Grotesque', 'Brandon', sans-serif", 'important');
             }
-        }
-
-        function setDietFilter(diet) {
-            currentDiet = diet;
-            ["all","veg","nonveg","egg","drinks"].forEach(f => {
-                const mob = document.getElementById(`mobile-diet-${f}`);
-                const dsk = document.getElementById(`desktop-diet-${f}`);
-                const cls = f === diet ? "filter-btn active flex items-center justify-center gap-1 flex-shrink-0" : "filter-btn flex items-center justify-center gap-1 flex-shrink-0";
-                const dCls = f === diet ? "filter-btn active text-left flex items-center gap-2" : "filter-btn text-left flex items-center gap-2";
-                if (mob) mob.className = cls;
-                if (dsk) dsk.className = dCls;
+            if (wordContainer) {
+                wordContainer.style.setProperty('font-family', "'Poppins', sans-serif", 'important');
+                wordContainer.style.setProperty('font-weight', '700', 'important');
+            }
+            
+            // Create characters for typography entry animation
+            wordContainer.innerHTML = '';
+            brandName.split('').forEach((char, index) => {
+                const span = document.createElement('span');
+                span.className = 'ch';
+                span.innerText = char;
+                // Explicitly set high-priority inline font definitions for every single character
+                span.style.setProperty('font-family', "'Poppins', sans-serif", 'important');
+                span.style.setProperty('font-weight', '700', 'important');
+                // Stagger delay based on position
+                span.style.animationDelay = `${index * 120}ms`;
+                wordContainer.appendChild(span);
             });
-            renderFeed();
+
+            // Start particle background
+            const canvas = document.getElementById('spark-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let animationFrameId;
+            
+            // Adjust to device resolution
+            const scale = window.devicePixelRatio || 1;
+            canvas.width = 320 * scale;
+            canvas.height = 320 * scale;
+            ctx.scale(scale, scale);
+
+            // Simple high-performance particle engine
+            let particles = [];
+            const colors = ['#ffffff', '#ffeb3b', '#ffc107', '#ff9800', '#f44336'];
+
+            function createParticle() {
+                return {
+                    x: 160,
+                    y: 160,
+                    angle: Math.random() * Math.PI * 2,
+                    speed: 0.5 + Math.random() * 2,
+                    radius: 1 + Math.random() * 3,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    opacity: 1,
+                    decay: 0.01 + Math.random() * 0.02
+                };
+            }
+
+            // Populate initial particle bursts
+            for(let i = 0; i < 40; i++) {
+                particles.push(createParticle());
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, 320, 320);
+                
+                // Keep spawning slow ambient particles
+                if (particles.length < 50) {
+                    particles.push(createParticle());
+                }
+
+                particles.forEach((p, idx) => {
+                    p.x += Math.cos(p.angle) * p.speed;
+                    p.y += Math.sin(p.angle) * p.speed;
+                    p.opacity -= p.decay;
+
+                    if (p.opacity <= 0) {
+                        particles[idx] = createParticle(); // Recycle
+                    } else {
+                        ctx.save();
+                        ctx.globalAlpha = p.opacity;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color;
+                        ctx.shadowBlur = 4;
+                        ctx.shadowColor = p.color;
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                });
+
+                animationFrameId = requestAnimationFrame(animateParticles);
+            }
+
+            animateParticles();
+
+            // Reveal Subtitle
+            setTimeout(() => {
+                subText.classList.remove('opacity-0', 'translate-y-6');
+                subText.classList.add('opacity-100', 'translate-y-0');
+            }, 600);
+
+            // Smooth exit transitions after exactly 3.0 seconds
+            setTimeout(() => {
+                cancelAnimationFrame(animationFrameId);
+                const splash = document.getElementById('splash-screen');
+                if (splash) {
+                    splash.style.opacity = '0';
+                    splash.style.pointerEvents = 'none';
+                }
+                
+                // Celebrate reveal with a light confetti splash!
+                confetti({
+                    particleCount: 50,
+                    spread: 60,
+                    origin: { y: 0.8 },
+                    colors: ["#3581D8", "#63CAD8", "#D82E3F", "#FFE135", "#FFF44F", "#28CC2D"]
+                });
+
+                setTimeout(() => {
+                    if (splash) splash.style.display = 'none';
+                }, 800);
+            }, 3000);
         }
 
-        function scrollToCategory(catId) {
-            const el = document.getElementById(`section-cat-${catId}`);
-            if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        // Initialize Products onto the main view
+        // Clean helper to obtain highly specific curated Unsplash food images
+        function getFoodImage(item) {
+            const images = {
+                // Drinks category images
+                "drinks_mojito": "https://mocktail.net/wp-content/uploads/2021/10/Blue-Mocktail-Recipe_ig.jpg",
+                "drinks_frappe": "https://www.thehungrybites.com/wp-content/uploads/2023/06/coffee-ice-cream-frappe-frappuccino-feat.jpg",
+                "drinks_default": "https://www.thehungrybites.com/wp-content/uploads/2023/06/coffee-ice-cream-frappe-frappuccino-feat.jpg",
+                
+                // Fried Veg (Veg fry)
+                "friedVeg_default": "https://www.funfoodfrolic.com/wp-content/uploads/2020/05/Cheese-Balls-Thumbnail.jpg",
+                
+                // Fried Non-Veg
+                "friedNonveg_lollipop": "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?auto=format&fit=crop&w=300&q=80",
+                "friedNonveg_wings": "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=300&q=80",
+                "friedNonveg_nuggets": "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=300&q=80",
+                "friedNonveg_fish": "https://thumbs.dreamstime.com/b/fried-red-fish-steak-spices-close-up-shot-sea-food-concept-square-format-posting-social-media-soft-focus-fried-218409933.jpg",
+                
+                // Sandwiches
+                "sandwiches_default": "https://img.magnific.com/free-photo/toasted-sandwich-with-lettuce-cheese_1220-338.jpg?semt=ais_hybrid&w=740&q=80",
+                
+                // Momos
+                "momos_default": "https://wearegurgaon.com/wp-content/uploads/2022/04/the-momo-king-gurgaon.jpg",
+                
+                // Grill
+                "grill_default": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=300&q=80",
+                "grill_fish": "https://thumbs.dreamstime.com/b/fried-red-fish-steak-spices-close-up-shot-sea-food-concept-square-format-posting-social-media-soft-focus-fried-218409933.jpg",
+                
+                // Patra (Exclusive Banana Leaf wraps)
+                "patra_default": "https://pbs.twimg.com/media/D90KoRqUwAAShdD.jpg"
+            };
+            
+            const key = item.category;
+            const nameLower = item.name.toLowerCase();
+            
+            if (key === 'drinks') {
+                if (nameLower.includes('mojito') || nameLower.includes('lemon') || nameLower.includes('watermelon')) return images.drinks_mojito;
+                if (nameLower.includes('frappe') || nameLower.includes('coffee')) return images.drinks_frappe;
+                return images.drinks_default;
+            }
+            if (key === 'fried-veg') {
+                return images.friedVeg_default;
+            }
+            if (key === 'fried-nonveg') {
+                if (nameLower.includes('fish') || nameLower.includes('finger') || nameLower.includes('prawn')) return images.friedNonveg_fish;
+                if (nameLower.includes('lollipop') || nameLower.includes('legs')) return images.friedNonveg_lollipop;
+                if (nameLower.includes('wings')) return images.friedNonveg_wings;
+                return images.friedNonveg_nuggets;
+            }
+            if (key === 'sandwiches') {
+                return images.sandwiches_default;
+            }
+            if (key === 'momos') {
+                return images.momos_default;
+            }
+            if (key === 'grill') {
+                if (nameLower.includes('fish') || nameLower.includes('pomfret') || nameLower.includes('prawn')) return images.grill_fish;
+                return images.grill_default;
+            }
+            if (key === 'patra') {
+                return images.patra_default;
+            }
+            return "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=300&q=80";
         }
 
-        function renderFeed() {
+        // Initialize Products onto the main view
+        function renderProducts() {
             const feed = document.getElementById("products-feed");
+            if (!feed) return;
             feed.innerHTML = "";
-            Object.keys(CATEGORY_KEYS).forEach(catKey => {
-                let items = MENU_DATA.filter(i => i.category === catKey);
-                if (searchQuery.trim()) items = items.filter(i => i.name.toLowerCase().includes(searchQuery.toLowerCase()) || i.desc.toLowerCase().includes(searchQuery.toLowerCase()));
-                if (currentDiet === "veg") items = items.filter(i => i.type === "veg");
-                else if (currentDiet === "nonveg") items = items.filter(i => i.type === "nonveg" || i.type === "egg");
-                else if (currentDiet === "egg") items = items.filter(i => i.type === "egg");
-                else if (currentDiet === "drinks") items = items.filter(i => i.category === "drinks");
-                if (!items.length) return;
 
-                const sec = document.createElement("section");
-                sec.id = `section-cat-${catKey}`;
-                sec.className = "scroll-mt-32 lg:scroll-mt-24";
-                sec.innerHTML = `
-                    <div class="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
-                        <h2 class="text-sm sm:text-base font-extrabold text-[#282c3f]">${CATEGORY_KEYS[catKey]}</h2>
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">${items.length} items</span>
+            // Group by Categories
+            const categories = {
+                "drinks": { title: "🍹 Mojitos & Frappes", desc: "Cool signature refreshments brewed fresh" },
+                "fried-veg": { title: "🥦 Veg Fried Delights", desc: "Crispy fried snacks tossed in light spices" },
+                "fried-nonveg": { title: "🍗 Chicken & Seafood", desc: "Perfect golden meat cuts & ocean delights" },
+                "sandwiches": { title: "🥪 Grilled Sandwiches", desc: "Buttered toasties packed with flavor grids" },
+                "momos": { title: "🥟 Signature Momos", desc: "Fluffy steamed dumplings customizable in six delicious cooking styles" },
+                "grill": { title: "🔥 Grilled Section", desc: "Traditional open fire charcoal-grilled specialties" },
+                "patra": { title: "🍃 Traditional Patra Poda", desc: "Authentic coal-fired wrapped delicacies (Exclusive)" }
+            };
+
+            for (const [key, meta] of Object.entries(categories)) {
+                // Filter matching products
+                const items = MENU_DATA.filter(item => {
+                    const matchesCategory = item.category === key;
+                    const matchesDiet = currentDietFilter === "all" || 
+                                        (currentDietFilter === "veg" && item.diet === "veg") ||
+                                        (currentDietFilter === "nonveg" && item.diet === "nonveg") ||
+                                        (currentDietFilter === "egg" && item.diet === "egg") ||
+                                        (currentDietFilter === "drinks" && item.diet === "drinks");
+                    const matchesSearch = item.name.toLowerCase().includes(currentSearchQuery.toLowerCase()) || 
+                                          item.desc.toLowerCase().includes(currentSearchQuery.toLowerCase());
+                    return matchesCategory && matchesDiet && matchesSearch;
+                });
+
+                if (items.length === 0) continue;
+
+                // Section Wrapper
+                const section = document.createElement("section");
+                section.id = `cat-${key}`;
+                section.className = "space-y-4 scroll-mt-24";
+
+                // Section Headers (reveal-element)
+                section.innerHTML = `
+                    <div class="border-b border-gray-100 pb-3 reveal-element">
+                        <h2 class="text-base sm:text-lg font-black text-[#1c1c1c] flex items-center gap-2">${meta.title}</h2>
+                        <p class="text-[11px] text-gray-400 font-medium">${meta.desc}</p>
                     </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 `;
-                const grid = document.createElement("div");
-                grid.className = "grid grid-cols-1 md:grid-cols-2 gap-3.5";
-                items.forEach(item => grid.appendChild(createCardElement(item)));
-                sec.appendChild(grid);
-                feed.appendChild(sec);
-            });
 
-            if (!feed.children.length) {
-                feed.innerHTML = `<div class="text-center py-16 bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-                    <span class="text-3xl select-none">🔍</span>
-                    <h3 class="font-bold text-gray-700 mt-3 text-sm">No items found</h3>
-                    <p class="text-gray-400 text-xs mt-1">Try adjusting your filters</p>
-                    <button onclick="resetFilters()" class="mt-4 bg-[#e23744] hover:bg-[#c8202d] text-white font-bold px-5 py-2.5 rounded-xl text-xs transition shadow-md shadow-red-500/10">Reset Filters</button>
-                </div>`;
-            }
-        }
+                const grid = section.querySelector(".grid");
 
-        function resetFilters() { syncSearch(""); setDietFilter("all"); }
+                items.forEach((item, idx) => {
+                    // Check if item in cart to render corresponding state buttons
+                    const cartItem = cart.find(c => c.id === item.id);
+                    const isInCart = !!cartItem;
 
-        function createCardElement(item) {
-            const card = document.createElement("div");
-            card.className = "menu-card";
-            const qty = cart[item.id] ? cart[item.id].qty : 0;
-            const currentStyle = cart[item.id] ? cart[item.id].momoStyle : "Steamed";
+                    // Compute Diet badge and matching symbol indicator
+                    let badgeClass = "badge-veg";
+                    let symbolHTML = '<span class="symbol-circle"></span>';
+                    
+                    if (item.diet === "nonveg") {
+                        badgeClass = "badge-nonveg";
+                        symbolHTML = '<span class="symbol-triangle"></span>';
+                    } else if (item.diet === "egg") {
+                        badgeClass = "badge-egg";
+                        symbolHTML = '<span class="symbol-circle"></span>';
+                    } else if (item.diet === "drinks") {
+                        badgeClass = "badge-drinks";
+                        symbolHTML = '🍷';
+                    }
 
-            let symbolHTML = "";
-            let badgeClass = "badge-drinks";
-            let typeLabel = "Drinks";
-            if (item.type === "veg") { 
-                badgeClass = "badge-veg"; 
-                typeLabel = "Veg"; 
-                symbolHTML = `<span class="symbol-box text-[#24963f] mr-1.5"><span class="symbol-circle"></span></span>`;
-            } else if (item.type === "nonveg") { 
-                badgeClass = "badge-nonveg"; 
-                typeLabel = "Non-Veg"; 
-                symbolHTML = `<span class="symbol-box text-[#e23744] mr-1.5"><span class="symbol-triangle"></span></span>`;
-            } else if (item.type === "egg") { 
-                badgeClass = "badge-egg"; 
-                typeLabel = "Egg"; 
-                symbolHTML = `<span class="symbol-box text-[#ca8a04] mr-1.5"><span class="symbol-circle"></span></span>`;
-            } else {
-                symbolHTML = `<span class="symbol-box text-[#1e70e0] mr-1.5"><span class="symbol-circle"></span></span>`;
-            }
+                    // Render variants select dropdown if available (e.g. Momos)
+                    let variantSelector = "";
+                    if (item.variants) {
+                        const selectedVar = cartItem ? cartItem.selectedVariant : item.variants[0];
+                        variantSelector = `
+                            <div class="mt-2.5 flex items-center gap-1.5">
+                                <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wide">Option:</span>
+                                <select onchange="updateVariant('${item.id}', this.value)" class="momo-select">
+                                    ${item.variants.map(v => `<option value="${v}" ${v === selectedVar ? 'selected' : ''}>${v}</option>`).join('')}
+                                </select>
+                            </div>
+                        `;
+                    }
 
-            const momoHTML = item.isMomo ? `
-                <div class="mt-2.5 flex items-center gap-2">
-                    <span class="text-[10px] text-gray-400 font-600">Style:</span>
-                    <select class="momo-select" onchange="updateMomoStyle('${item.id}', this.value)">
-                        <option value="Steamed" ${currentStyle==="Steamed"?"selected":""}>💨 Steamed</option>
-                        <option value="Fried" ${currentStyle==="Fried"?"selected":""}>🍳 Fried</option>
-                        <option value="Garlic" ${currentStyle==="Garlic"?"selected":""}>🧄 Garlic</option>
-                        <option value="Schezwan" ${currentStyle==="Schezwan"?"selected":""}>🌶️ Schezwan</option>
-                        <option value="Chili" ${currentStyle==="Chili"?"selected":""}>🔥 Chili</option>
-                        <option value="Korean" ${currentStyle==="Korean"?"selected":""}>🇰🇷 Korean</option>
-                    </select>
-                </div>` : "";
+                    const card = document.createElement("div");
+                    card.className = "menu-card flex flex-row justify-between items-stretch gap-4 reveal-element";
+                    
+                    // Stagger animation delay between left and right grid columns for a premium waving reveal
+                    const staggerDelay = (idx % 2) * 80;
+                    card.style.transitionDelay = `${staggerDelay}ms`;
 
-            const actionHTML = qty === 0
-                ? `<button onclick="addToCart('${item.id}', event)" class="btn-add">ADD <span class="text-[10px] font-semibold text-[#e23744] ml-0.5">+</span></button>`
-                : `<div class="btn-qty"><button onclick="modifyQty('${item.id}', -1, event)">−</button><span>${qty}</span><button onclick="modifyQty('${item.id}', 1, event)">+</button></div>`;
-
-            card.innerHTML = `
-                <div class="flex gap-3.5 items-start">
-                    <span class="text-3xl flex-shrink-0 select-none">${item.emoji}</span>
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-start justify-between gap-2">
-                            <div class="min-w-0">
-                                <div class="flex items-center gap-1.5 flex-wrap">
-                                    ${symbolHTML}
-                                    <h4 class="text-xs sm:text-sm font-bold text-[#1c1c1c] leading-tight truncate">${item.name}</h4>
-                                    <span class="text-[8px] font-bold px-1.5 py-0.5 rounded-full ${badgeClass} uppercase tracking-wide">${typeLabel}</span>
+                    card.innerHTML = `
+                        <!-- Details Column (Left side) -->
+                        <div class="flex-1 flex flex-col justify-between min-w-0">
+                            <div>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="symbol-box ${badgeClass}">
+                                        ${symbolHTML}
+                                    </span>
+                                    <span class="text-[9px] text-gray-400 font-semibold uppercase tracking-wider">${item.diet}</span>
                                 </div>
-                                <p class="text-[10px] text-gray-400 mt-1.5 leading-relaxed line-clamp-2">${item.desc}</p>
-                                ${momoHTML}
+                                <h3 class="text-sm sm:text-base font-extrabold text-[#1c1c1c] mt-2">${item.emoji} ${item.name}</h3>
+                                <p class="text-[11px] text-gray-400 font-medium mt-1 leading-relaxed line-clamp-2 hover:line-clamp-none transition-all duration-300 cursor-pointer">${item.desc}</p>
+                                ${variantSelector}
+                            </div>
+                            <div class="mt-3 flex items-center gap-2">
+                                <span class="text-xs font-black text-gray-800 tracking-wide price-tag">₹${item.price}</span>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between mt-3">
-                            <span class="text-sm font-extrabold price-tag text-[#1c1c1c]">₹${item.price}</span>
-                            <div id="action-node-${item.id}">${actionHTML}</div>
+
+                        <!-- Image Column (Right side) -->
+                        <div class="relative flex-shrink-0 w-24 h-24 sm:w-28 sm:h-28 self-center">
+                            <div class="w-full h-full rounded-2xl overflow-hidden bg-gray-100 border border-gray-100 shadow-sm relative shimmer-bg">
+                                <img 
+                                    data-src="${getFoodImage(item)}"
+                                    alt="${item.name}"
+                                    onload="this.classList.add('loaded'); this.parentElement.classList.remove('shimmer-bg')"
+                                    class="lazy-food-img w-full h-full object-cover"
+                                />
+                            </div>
+                            <div class="absolute -bottom-2.5 left-1/2 -translate-x-1/2 z-10" id="action-wrapper-${item.id}">
+                                ${isInCart ? `
+                                    <div class="btn-qty shadow-md">
+                                        <button onclick="changeQty('${item.id}', -1, event)">−</button>
+                                        <span>${cartItem.qty}</span>
+                                        <button onclick="changeQty('${item.id}', 1, event)">+</button>
+                                    </div>
+                                ` : `
+                                    <button onclick="addToCart('${item.id}', event)" class="btn-add shadow-md">
+                                        ADD <span class="text-[10px] font-black">+</span>
+                                    </button>
+                                `}
+                            </div>
                         </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+                feed.appendChild(section);
+            }
+
+            // Show empty fallback if nothing is rendered
+            if (feed.children.length === 0) {
+                feed.innerHTML = `
+                    <div class="bg-white border border-gray-100 rounded-3xl p-12 text-center max-w-md mx-auto my-6 shadow-sm">
+                        <span class="text-3xl">🍲</span>
+                        <h3 class="font-extrabold text-sm text-[#1c1c1c] mt-3">No matching dishes</h3>
+                        <p class="text-xs text-gray-400 mt-1">Try relaxing your search criteria or selecting another category.</p>
+                        <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-[#e23744] text-white text-xs font-bold rounded-xl hover:bg-[#c8202d] transition">Show all items</button>
                     </div>
-                </div>
-            `;
-            return card;
+                `;
+            }
+
+            // Initialize lazy load scroll reveal animations
+            initScrollReveal();
         }
 
+        // Intersection Observer scroll entrance reveal animation
+        function initScrollReveal() {
+            if (!('IntersectionObserver' in window)) {
+                // Fallback for older browsers
+                document.querySelectorAll('.reveal-element').forEach(el => el.classList.add('revealed'));
+                document.querySelectorAll('.lazy-food-img').forEach(img => {
+                    img.src = img.getAttribute('data-src');
+                    img.classList.add('loaded');
+                    if (img.parentElement) img.parentElement.classList.remove('shimmer-bg');
+                });
+                return;
+            }
+
+            // Reveal cards and section headings
+            const cardObserver = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.04,
+                rootMargin: "0px 0px -10px 0px"
+            });
+
+            document.querySelectorAll('.reveal-element').forEach(el => cardObserver.observe(el));
+
+            // Lazy load high-res food images
+            const imageObserver = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        const src = img.getAttribute('data-src');
+                        if (src) {
+                            img.src = src;
+                            img.removeAttribute('data-src');
+                        }
+                        obs.unobserve(img);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: "0px 0px 400px 0px" // Load images 400px before they enter the screen for a flawless look
+            });
+
+            document.querySelectorAll('.lazy-food-img[data-src]').forEach(img => imageObserver.observe(img));
+        }
+
+        // Search Synchronization between desktop & mobile fields
+        function syncSearch(query) {
+            currentSearchQuery = query;
+            document.getElementById("search-desktop").value = query;
+            document.getElementById("search-mobile").value = query;
+            renderProducts();
+        }
+
+        // Categories scroll controller
+        function scrollToCategory(id) {
+            const target = document.getElementById(`cat-${id}`);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                // If the user attempts to scroll to a category that is filtered out, clear filters first
+                currentDietFilter = 'all';
+                syncDietUI();
+                renderProducts();
+                setTimeout(() => {
+                    const freshTarget = document.getElementById(`cat-${id}`);
+                    if (freshTarget) freshTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 150);
+            }
+        }
+
+        // Filter system handling Veg / Non-veg / Drinks
+        function setDietFilter(diet) {
+            currentDietFilter = diet;
+            syncDietUI();
+            renderProducts();
+        }
+
+        function syncDietUI() {
+            // Remove active classes on all filter elements
+            const filterIds = ['all', 'veg', 'nonveg', 'egg', 'drinks'];
+            filterIds.forEach(id => {
+                const deskBtn = document.getElementById(`desktop-diet-${id}`);
+                const mobBtn = document.getElementById(`mobile-diet-${id}`);
+                if (deskBtn) deskBtn.classList.remove('active');
+                if (mobBtn) mobBtn.classList.remove('active');
+            });
+
+            // Re-apply to currently selected
+            const activeDesk = document.getElementById(`desktop-diet-${currentDietFilter}`);
+            const activeMob = document.getElementById(`mobile-diet-${currentDietFilter}`);
+            if (activeDesk) activeDesk.classList.add('active');
+            if (activeMob) activeMob.classList.add('active');
+        }
+
+        function resetFilters() {
+            currentSearchQuery = "";
+            currentDietFilter = "all";
+            document.getElementById("search-desktop").value = "";
+            document.getElementById("search-mobile").value = "";
+            syncDietUI();
+            renderProducts();
+        }
+
+        // Dynamic visual effects
         function triggerCartConfetti(event) {
             if (typeof confetti !== "function") return;
             
@@ -459,183 +943,353 @@
                 spread: 120,
                 startVelocity: 30,
                 origin: { x, y },
-                colors: ["#e23744", "#1c1c1c", "#24963f", "#fbd4d6", "#ffffff", "#e2e2e2"]
+                colors: ["#3581D8", "#63CAD8", "#D82E3F", "#FFE135", "#FFF44F", "#28CC2D"]
             });
         }
 
+        // Cart Actions
         function addToCart(itemId, event) {
-            const item = MENU_DATA.find(i => i.id === itemId);
-            if (!item) return;
-            cart[itemId] = { item, qty: 1, momoStyle: item.isMomo ? "Steamed" : null };
-            
+            const baseItem = MENU_DATA.find(item => item.id === itemId);
+            if (!baseItem) return;
+
+            // Default variant choice if optional variants exist
+            const selectedVariant = baseItem.variants ? baseItem.variants[0] : null;
+
+            cart.push({
+                ...baseItem,
+                qty: 1,
+                selectedVariant: selectedVariant
+            });
+
+            // Play animations
             triggerCartConfetti(event);
-            
-            triggerToast(`${item.emoji} Added to order`);
-            refreshCartData();
-            syncCardVisualState(itemId);
+
+            showToast(`Added ${baseItem.name} to order 🔥 😍`);
+            updateCartUI();
+            updateActionWrapper(itemId);
         }
 
-        function modifyQty(itemId, delta, event) {
-            if (!cart[itemId]) return;
-            cart[itemId].qty += delta;
-            
+        function changeQty(itemId, delta, event) {
+            const index = cart.findIndex(c => c.id === itemId);
+            if (index === -1) return;
+
+            cart[index].qty += delta;
+
             if (delta > 0) {
                 triggerCartConfetti(event);
             }
             
-            if (cart[itemId].qty <= 0) {
-                triggerToast(`Removed ${cart[itemId].item.name}`);
-                delete cart[itemId];
+            if (cart[index].qty <= 0) {
+                const deletedName = cart[index].name;
+                cart.splice(index, 1);
+                showToast(`Removed ${deletedName}`);
             }
-            refreshCartData();
-            syncCardVisualState(itemId);
+
+            updateCartUI();
+            updateActionWrapper(itemId);
         }
 
-        function updateMomoStyle(itemId, style) {
-            const item = MENU_DATA.find(i => i.id === itemId);
-            if (!cart[itemId]) cart[itemId] = { item, qty: 1, momoStyle: style };
-            else cart[itemId].momoStyle = style;
-            refreshCartData();
-            syncCardVisualState(itemId);
-        }
-
-        function syncCardVisualState(itemId) {
+        // Action buttons DOM synchronizer to update specific item QTY controls instantly without total re-render
+        function updateActionWrapper(itemId) {
             const item = MENU_DATA.find(i => i.id === itemId);
             if (!item) return;
-            const node = document.getElementById(`action-node-${itemId}`);
-            if (!node) return;
-            const qty = cart[itemId] ? cart[itemId].qty : 0;
-            node.innerHTML = qty === 0
-                ? `<button onclick="addToCart('${itemId}', event)" class="btn-add">ADD <span class="text-[10px] font-semibold text-[#e23744] ml-0.5">+</span></button>`
-                : `<div class="btn-qty"><button onclick="modifyQty('${itemId}', -1, event)">−</button><span>${qty}</span><button onclick="modifyQty('${itemId}', 1, event)">+</button></div>`;
+            const cartItem = cart.find(c => c.id === itemId);
+            const isInCart = !!cartItem;
+            
+            // Sync action controllers in main feed (could be multiple if in duplicate viewport structures)
+            const containers = document.querySelectorAll(`[id="action-wrapper-${itemId}"]`);
+            containers.forEach(container => {
+                if (container) {
+                    if (isInCart) {
+                        container.innerHTML = `
+                            <div class="btn-qty shadow-md">
+                                <button onclick="changeQty('${item.id}', -1, event)">−</button>
+                                <span>${cartItem.qty}</span>
+                                <button onclick="changeQty('${item.id}', 1, event)">+</button>
+                            </div>
+                        `;
+                    } else {
+                        container.innerHTML = `
+                            <button onclick="addToCart('${item.id}', event)" class="btn-add shadow-md">
+                                ADD <span class="text-[10px] font-black">+</span>
+                            </button>
+                        `;
+                    }
+                }
+            });
         }
 
-        function refreshCartData() {
-            const keys = Object.keys(cart);
-            let totalQty = 0, totalBill = 0;
-            keys.forEach(k => { totalQty += cart[k].qty; totalBill += cart[k].qty * cart[k].item.price; });
-
-            const badgeMob = document.getElementById("cart-badge-mobile");
-            if (totalQty > 0) { badgeMob.textContent = totalQty; badgeMob.classList.remove("hidden"); }
-            else badgeMob.classList.add("hidden");
-
-            const footerBar = document.getElementById("mobile-floating-cart-bar");
-            if (totalQty > 0) { document.getElementById("mobile-floating-count").textContent = totalQty; footerBar.classList.remove("translate-y-full"); }
-            else footerBar.classList.add("translate-y-full");
-
-            renderDesktopCartPanel(totalBill);
-            renderMobileSheetItems(totalBill);
+        // Specific to products with variant selectors
+        function updateVariant(itemId, val) {
+            const index = cart.findIndex(c => c.id === itemId);
+            if (index !== -1) {
+                cart[index].selectedVariant = val;
+                updateCartUI();
+            } else {
+                // If not added to cart, auto-add with that variant
+                const baseItem = MENU_DATA.find(item => item.id === itemId);
+                if (baseItem) {
+                    cart.push({
+                        ...baseItem,
+                        qty: 1,
+                        selectedVariant: val
+                    });
+                    updateCartUI();
+                    updateActionWrapper(itemId);
+                }
+            }
         }
 
-        function renderDesktopCartPanel(totalBill) {
-            const wrapper = document.getElementById("desktop-cart-items");
-            const checkoutBtn = document.getElementById("desktop-checkout-btn");
-            const totalRow = document.getElementById("desktop-total-row");
-            const totalVal = document.getElementById("desktop-total-price");
-            const keys = Object.keys(cart);
+        // Shared field synchronization (Mobile <-> Desktop inputs)
+        function syncFields(field, value) {
+            if (field === 'name') {
+                orderName = value;
+                document.getElementById('cart-name-desktop').value = value;
+                document.getElementById('cart-name-mobile').value = value;
+            } else if (field === 'notes') {
+                orderNotes = value;
+                document.getElementById('cart-notes-desktop').value = value;
+                document.getElementById('cart-notes-mobile').value = value;
+            }
+            validateCheckoutButton();
+        }
 
-            if (!keys.length) {
-                wrapper.innerHTML = `<div class="text-center py-10 border border-dashed border-gray-200 rounded-xl"><span class="text-2xl select-none">🛒</span><p class="text-xs text-gray-400 font-semibold mt-2">No items yet</p></div>`;
-                checkoutBtn.disabled = true;
-                checkoutBtn.className = "w-full btn-disabled font-bold py-3.5 rounded-xl text-xs transition";
-                checkoutBtn.textContent = "Add items to continue";
-                totalRow.classList.replace("flex","hidden");
+        // Calculations for Checkout
+        function computeTotal() {
+            return cart.reduce((sum, item) => {
+                let finalPrice = item.price;
+                // Add price adjustments based on variants if applicable
+                if (item.selectedVariant) {
+                    if (item.selectedVariant.includes("+₹20")) finalPrice += 20;
+                    if (item.selectedVariant.includes("+₹40")) finalPrice += 40;
+                }
+                return sum + (finalPrice * item.qty);
+            }, 0);
+        }
+
+        // Synchronize and update cart interface elements
+        function updateCartUI() {
+            const total = computeTotal();
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+
+            // Update badges
+            const badgeMobile = document.getElementById("cart-badge-mobile");
+            if (badgeMobile) {
+                badgeMobile.innerText = count;
+                if (count > 0) {
+                    badgeMobile.classList.remove("hidden");
+                } else {
+                    badgeMobile.classList.add("hidden");
+                }
+            }
+
+            // Update Mobile Floating Cart
+            const floatingBar = document.getElementById("mobile-floating-cart-bar");
+            const floatingCount = document.getElementById("mobile-floating-count");
+            if (floatingCount) floatingCount.innerText = count;
+            if (floatingBar) {
+                if (count > 0) {
+                    floatingBar.classList.remove("translate-y-full");
+                } else {
+                    floatingBar.classList.add("translate-y-full");
+                }
+            }
+
+            // Render Desktop Cart Listing
+            const deskList = document.getElementById("desktop-cart-items");
+            if (deskList) renderCartListToContainer(deskList);
+
+            // Render Mobile Cart Listing
+            const mobList = document.getElementById("mobile-cart-items");
+            if (mobList) renderCartListToContainer(mobList);
+
+            // Set Totals
+            const deskTotalRow = document.getElementById("desktop-total-row");
+            const deskTotalPrice = document.getElementById("desktop-total-price");
+            const mobTotalRow = document.getElementById("mobile-total-row");
+            const mobTotalPrice = document.getElementById("mobile-total-price");
+
+            if (count > 0) {
+                if (deskTotalRow) {
+                    deskTotalRow.classList.remove("hidden");
+                    deskTotalRow.classList.add("flex");
+                }
+                if (deskTotalPrice) deskTotalPrice.innerText = `₹${total}`;
+
+                if (mobTotalRow) {
+                    mobTotalRow.classList.remove("hidden");
+                    mobTotalRow.classList.add("flex");
+                }
+                if (mobTotalPrice) mobTotalPrice.innerText = `₹${total}`;
+            } else {
+                if (deskTotalRow) {
+                    deskTotalRow.classList.add("hidden");
+                    deskTotalRow.classList.remove("flex");
+                }
+                if (mobTotalRow) {
+                    mobTotalRow.classList.add("hidden");
+                    mobTotalRow.classList.remove("flex");
+                }
+            }
+
+            validateCheckoutButton();
+        }
+
+        function renderCartListToContainer(container) {
+            container.innerHTML = "";
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-10 text-center">
+                        <span class="text-2xl mb-2">🛒</span>
+                        <p class="text-xs font-bold text-[#1c1c1c]">Empty Order Cart</p>
+                        <p class="text-[10px] text-gray-400 mt-0.5 max-w-[160px]">Select delicious authentic recipes to display them here</p>
+                    </div>
+                `;
                 return;
             }
 
-            totalVal.textContent = `₹${totalBill}`;
-            totalRow.classList.replace("hidden","flex");
-            checkoutBtn.disabled = false;
-            checkoutBtn.className = "wa-btn w-full gap-2 cursor-pointer";
-            checkoutBtn.textContent = "Order via WhatsApp";
+            cart.forEach(item => {
+                let computedSinglePrice = item.price;
+                if (item.selectedVariant) {
+                    if (item.selectedVariant.includes("+₹20")) computedSinglePrice += 20;
+                    if (item.selectedVariant.includes("+₹40")) computedSinglePrice += 40;
+                }
+                const totalItemPrice = computedSinglePrice * item.qty;
+                const variantBadge = item.selectedVariant ? `<span class="text-[9px] bg-amber-50 border border-amber-100 text-[#ca8a04] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">${item.selectedVariant}</span>` : "";
 
-            wrapper.innerHTML = keys.map(key => {
-                const { item, qty, momoStyle } = cart[key];
-                const cost = item.price * qty;
-                const style = momoStyle ? `<span class="text-[9px] bg-[#fffbf2] text-[#ca8a04] border border-[#fce8bd] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">${momoStyle}</span>` : "";
-                return `<div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100">
-                    <div class="flex justify-between items-start gap-2">
-                        <div class="min-w-0 flex-1">
-                            <p class="text-xs font-bold text-[#1c1c1c] truncate">${item.emoji} ${item.name}</p>
-                            ${style ? `<div class="mt-1">${style}</div>` : ""}
-                        </div>
-                        <span class="text-xs font-extrabold price-tag text-[#1c1c1c] flex-shrink-0">₹${cost}</span>
-                    </div>
-                    <div class="flex justify-between items-center mt-2.5">
-                        <span class="text-[10px] text-gray-400 font-semibold">₹${item.price} each</span>
-                        <div class="btn-qty text-[10px]">
-                            <button onclick="modifyQty('${item.id}', -1, event)">−</button>
-                            <span>${qty}</span>
-                            <button onclick="modifyQty('${item.id}', 1, event)">+</button>
-                        </div>
-                    </div>
-                </div>`;
-            }).join("");
-        }
-
-        function renderMobileSheetItems(totalBill) {
-            const wrapper = document.getElementById("mobile-cart-items");
-            const mobTotal = document.getElementById("mobile-total-price");
-            const keys = Object.keys(cart);
-
-            if (!keys.length) {
-                wrapper.innerHTML = `<div class="text-center py-10"><span class="text-3xl select-none">🛒</span><p class="text-xs text-gray-400 font-semibold mt-2">Your cart is empty</p></div>`;
-                mobTotal.textContent = "₹0";
-                return;
-            }
-
-            mobTotal.textContent = `₹${totalBill}`;
-            wrapper.innerHTML = keys.map(key => {
-                const { item, qty, momoStyle } = cart[key];
-                const cost = item.price * qty;
-                const style = momoStyle ? `<span class="text-[9px] bg-[#fffbf2] text-[#ca8a04] border border-[#fce8bd] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">${momoStyle}</span>` : "";
-                return `<div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex items-center justify-between gap-3">
+                const row = document.createElement("div");
+                row.className = "bg-gray-50 p-3.5 rounded-xl border border-gray-100 flex items-center justify-between gap-3";
+                row.innerHTML = `
                     <div class="min-w-0 flex-1">
                         <p class="text-xs font-bold text-[#1c1c1c] truncate">${item.emoji} ${item.name}</p>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="text-[10px] text-gray-400 font-semibold">₹${item.price}</span>
-                            ${style}
+                        <div class="flex items-center gap-2 mt-1 flex-wrap">
+                            <span class="text-[10px] text-gray-400 font-semibold">₹${computedSinglePrice} each</span>
+                            ${variantBadge}
                         </div>
                     </div>
                     <div class="flex items-center gap-3 flex-shrink-0">
                         <div class="btn-qty text-[10px]">
-                            <button onclick="modifyQty('${item.id}', -1, event)">−</button>
-                            <span>${qty}</span>
-                            <button onclick="modifyQty('${item.id}', 1, event)">+</button>
+                            <button onclick="changeQty('${item.id}', -1, event)">−</button>
+                            <span>${item.qty}</span>
+                            <button onclick="changeQty('${item.id}', 1, event)">+</button>
                         </div>
-                        <span class="text-xs font-extrabold price-tag text-[#1c1c1c]">₹${cost}</span>
+                        <span class="text-xs font-extrabold price-tag text-[#1c1c1c] w-12 text-right">₹${totalItemPrice}</span>
                     </div>
-                </div>`;
-            }).join("");
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function validateCheckoutButton() {
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            const nameOk = orderName.trim().length > 0;
+            const hasItems = count > 0;
+
+            const deskBtn = document.getElementById("desktop-checkout-btn");
+            const mobBtn = document.getElementById("mobile-checkout-btn");
+
+            if (hasItems) {
+                [deskBtn, mobBtn].forEach(btn => {
+                    if (btn) {
+                        btn.disabled = !nameOk;
+                        if (nameOk) {
+                            btn.className = "wa-btn w-full gap-2 cursor-pointer";
+                            btn.textContent = "Order via WhatsApp";
+                        } else {
+                            btn.className = "w-full btn-disabled font-bold py-3.5 rounded-xl text-xs transition";
+                            btn.textContent = "Enter your name to continue";
+                        }
+                    }
+                });
+            } else {
+                [deskBtn, mobBtn].forEach(btn => {
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.className = "w-full btn-disabled font-bold py-3.5 rounded-xl text-xs transition";
+                        btn.textContent = "Add items to continue";
+                    }
+                });
+            }
+        }
+
+        // WhatsApp checkout integration
+        function sendOrderToWhatsApp() {
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            if (count === 0) return;
+            const name = orderName.trim();
+            const notes = orderNotes.trim();
+            let totalBill = 0;
+            
+            let text = `*🍽️ Order — ARS Authentic Recipe Station*\n`;
+            text += `——————————————\n`;
+            if (name) text += `👤 *Name:* ${name}\n`;
+            text += `📅 *Date:* ${new Date().toLocaleDateString()}\n`;
+            text += `——————————————\n\n`;
+            
+            cart.forEach((item, i) => {
+                let computedSinglePrice = item.price;
+                if (item.selectedVariant) {
+                    if (item.selectedVariant.includes("+₹20")) computedSinglePrice += 20;
+                    if (item.selectedVariant.includes("+₹40")) computedSinglePrice += 40;
+                }
+                const cost = computedSinglePrice * item.qty;
+                totalBill += cost;
+                const variantNote = item.selectedVariant ? ` (${item.selectedVariant})` : "";
+                text += `${i+1}. ${item.emoji} *${item.name}*${variantNote}\n`;
+                text += `   ${item.qty} × ₹${computedSinglePrice} = *₹${cost}*\n\n`;
+            });
+            
+            text += `——————————————\n`;
+            if (notes) text += `📝 *Notes:* ${notes}\n`;
+            text += `💰 *Total: ₹${totalBill}*\n`;
+            text += `——————————————\n`;
+            text += `Please confirm and let me know the estimated time!`;
+            
+            const WHATSAPP_NUMBER = "7008963923";
+            window.open(`https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, "_blank");
+        }
+
+        // Shared general methods
+        function showToast(text) {
+            const t = document.getElementById("toast");
+            if (!t) return;
+            t.textContent = text;
+            t.style.opacity = "1";
+            t.style.transform = "translate(-50%, 0)";
+            setTimeout(() => { 
+                t.style.opacity = "0"; 
+                t.style.transform = "translate(-50%, -20px)"; 
+            }, 1800);
         }
 
         function toggleMobileCartModal() {
             const modal = document.getElementById("mobile-cart-modal");
+            if (!modal) return;
             const drawer = modal.querySelector(".transform");
             if (modal.classList.contains("pointer-events-none")) {
                 modal.classList.remove("pointer-events-none","opacity-0");
                 modal.classList.add("opacity-100");
-                drawer.classList.remove("translate-y-full");
-                drawer.classList.add("translate-y-0");
+                if (drawer) {
+                    drawer.classList.remove("translate-y-full");
+                    drawer.classList.add("translate-y-0");
+                }
             } else {
                 modal.classList.add("pointer-events-none","opacity-0");
                 modal.classList.remove("opacity-100");
-                drawer.classList.add("translate-y-full");
-                drawer.classList.remove("translate-y-0");
+                if (drawer) {
+                    drawer.classList.add("translate-y-full");
+                    drawer.classList.remove("translate-y-0");
+                }
             }
-        }
-
-        function triggerToast(text) {
-            const t = document.getElementById("toast");
-            t.textContent = text;
-            t.style.opacity = "1";
-            t.style.transform = "translate(-50%, 0)";
-            setTimeout(() => { t.style.opacity = "0"; t.style.transform = "translate(-50%, -20px)"; }, 1800);
         }
 
         function shareMenu() {
             if (navigator.share) {
-                navigator.share({ title: "ARS Authentic Recipe Station", text: "Check out our delicious recipes!", url: window.location.href });
+                navigator.share({ 
+                    title: "ARS Authentic Recipe Station", 
+                    text: "Check out our delicious recipes!", 
+                    url: window.location.href 
+                });
             } else {
                 const h = document.createElement("input");
                 document.body.appendChild(h);
@@ -643,35 +1297,8 @@
                 h.select();
                 document.execCommand("copy");
                 document.body.removeChild(h);
-                triggerToast("Link copied!");
+                showToast("Link copied!");
             }
-        }
-
-        function sendOrderToWhatsApp() {
-            const keys = Object.keys(cart);
-            if (!keys.length) return;
-            const name = customerMeta.name.trim();
-            const notes = customerMeta.notes.trim();
-            let totalBill = 0;
-            let text = `*🍽️ Order — ARS Authentic Recipe Station*\n`;
-            text += `——————————————\n`;
-            if (name) text += `👤 *Name:* ${name}\n`;
-            text += `📅 *Date:* ${new Date().toLocaleDateString()}\n`;
-            text += `——————————————\n\n`;
-            keys.forEach((key, i) => {
-                const { item, qty, momoStyle } = cart[key];
-                const cost = item.price * qty;
-                totalBill += cost;
-                const styleNote = momoStyle ? ` (${momoStyle})` : "";
-                text += `${i+1}. ${item.emoji} *${item.name}*${styleNote}\n`;
-                text += `   ${qty} × ₹${item.price} = *₹${cost}*\n\n`;
-            });
-            text += `——————————————\n`;
-            if (notes) text += `📝 *Notes:* ${notes}\n`;
-            text += `💰 *Total: ₹${totalBill}*\n`;
-            text += `——————————————\n`;
-            text += `Please confirm and let me know the estimated time!`;
-            window.open(`https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, "_blank");
         }
     </script>
 </body>
