@@ -202,26 +202,6 @@
             will-change: transform, opacity;
         }
 
-        /* Glowing Liquid Metallic Shimmer */
-        .glowing-shimmer {
-            position: relative;
-            background: linear-gradient(90deg, #000, #fff, #000);
-            background-repeat: no-repeat;
-            background-size: 80%;
-            animation: animate 3s linear infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: rgba(255, 255, 255, 0);
-            display: inline-block;
-        }
-
-        @keyframes animate {
-            0% {
-                background-position: -500%;
-            }
-            100% {
-                background-position: 500%;
-            }
-        }
     </style>
 </head>
 <body class="text-gray-900 min-h-screen pb-24">
@@ -262,7 +242,7 @@
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="shareMenu()" class="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-gray-600 border border-gray-200 bg-white hover:bg-gray-50 px-3 py-2 rounded-xl transition shadow-sm">
+                <button onclick="shareMenu()" class="flex items-center gap-1.5 text-xs font-semibold text-gray-600 border border-gray-200 bg-white hover:bg-gray-50 px-3 py-2 rounded-xl transition shadow-sm">
                     <svg class="h-3.5 w-3.5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                     Share
                 </button>
@@ -344,7 +324,7 @@
             <div id="desktop-progress-section" class="mt-1 hidden bg-[#fffcfc] border border-[#ffebeb] rounded-xl p-3.5 shadow-sm">
                 <div class="flex justify-between items-center text-[10px] font-bold">
                     <span class="text-gray-500 uppercase tracking-wider">Free Mojito Progress 😍</span>
-                    <span class="bg-[#1c1c1c] uppercase tracking-wider font-extrabold inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-neutral-800 shadow-[0_2px_4px_rgba(0,0,0,0.1)]" style="perspective: 300px;"><span id="desktop-progress-earned" class="inline-block glowing-shimmer">Mojito Awaits</span>✌️</span>
+                    <span class="text-[#ca8a04] uppercase tracking-wider font-extrabold inline-flex items-center gap-1.5" style="perspective: 300px;"><span id="desktop-progress-earned" class="inline-block">Mojito Awaits</span>✨</span>
                 </div>
                 <div class="w-full h-2 bg-gray-100 rounded-full relative mt-2.5 mb-3.5 shadow-inner border border-gray-50 overflow-visible">
                     <div id="desktop-progress-fill" class="h-full bg-gradient-to-r from-[#e23744] via-[#ffc107] to-[#28CC2D] rounded-full shadow-[0_0_8px_rgba(40,204,45,0.35)] transition-all duration-500 w-0"></div>
@@ -352,6 +332,9 @@
                 </div>
                 <p id="desktop-progress-desc" class="text-[9px] text-gray-400 font-bold leading-normal"></p>
             </div>
+            
+            <!-- Desktop Reward Choices Selection Container -->
+            <div id="desktop-reward-choices-container" class="mt-1 hidden bg-[#fff9f9] border border-[#ffeded] rounded-xl p-3.5 shadow-sm border-dashed"></div>
             
             <hr class="section-divider">
             <div id="desktop-cart-items" class="space-y-3 flex-1 overflow-y-auto min-h-[120px]"></div>
@@ -380,7 +363,7 @@
         <div id="mobile-progress-section" class="w-full hidden bg-[#fffcfc] border border-[#ffebeb] rounded-xl p-3.5 shadow-sm">
             <div class="flex justify-between items-center text-[10px] font-bold">
                 <span class="text-gray-500 uppercase tracking-wider">Free Mojito Progress 😍</span>
-                <span class="bg-[#1c1c1c] uppercase tracking-wider font-extrabold inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-neutral-800 shadow-[0_2px_4px_rgba(0,0,0,0.1)]" style="perspective: 300px;"><span id="mobile-progress-earned" class="inline-block glowing-shimmer">Mojito Awaits</span>✌️</span>
+                <span class="text-[#ca8a04] uppercase tracking-wider font-extrabold inline-flex items-center gap-1.5" style="perspective: 300px;"><span id="mobile-progress-earned" class="inline-block">Mojito Awaits</span>✨</span>
             </div>
             <div class="w-full h-2 bg-gray-100 rounded-full relative mt-2 mb-3 shadow-inner border border-gray-50 overflow-visible">
                 <div id="mobile-progress-fill" class="h-full bg-gradient-to-r from-[#e23744] via-[#ffc107] to-[#28CC2D] rounded-full shadow-[0_0_8px_rgba(40,204,45,0.35)] transition-all duration-500 w-0"></div>
@@ -416,6 +399,9 @@
                 </button>
             </div>
             
+            <!-- Mobile Reward Choices Selection Container -->
+            <div id="mobile-reward-choices-container" class="mx-5 mt-2 hidden bg-[#fff9f9] border border-[#ffeded] rounded-xl p-2 shadow-sm border-dashed"></div>
+            
             <div id="mobile-cart-items" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
             
             <div class="p-5 border-t border-gray-100 space-y-3">
@@ -432,6 +418,39 @@
                     <span id="mobile-total-price" class="text-lg font-extrabold price-tag text-[#1c1c1c]">₹0</span>
                 </div>
                 <button onclick="sendOrderToWhatsApp()" id="mobile-checkout-btn" disabled class="w-full btn-disabled font-bold py-3.5 rounded-xl text-xs transition">Add items to continue</button>
+            </div>
+        </div>
+    <!-- Custom Share Sheet Modal -->
+    <div id="share-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-end justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white w-full rounded-t-3xl shadow-2xl p-5 flex flex-col gap-4 max-h-[50vh] transform translate-y-full transition-transform duration-300 max-w-md mx-auto">
+            <div class="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-2 flex-shrink-0"></div>
+            <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                <span class="text-xs font-black text-gray-700 uppercase tracking-wider flex items-center gap-1">📣 Share ARS Menu</span>
+                <button onclick="closeShareModal()" class="text-gray-400 p-1.5 bg-gray-50 border border-gray-200 rounded-xl">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="grid grid-cols-4 gap-3 py-4">
+                <!-- WhatsApp Share -->
+                <a id="share-wa" href="#" target="_blank" onclick="closeShareModal()" class="flex flex-col items-center gap-2 text-center group">
+                    <div class="w-12 h-12 rounded-full bg-[#25D366]/10 flex items-center justify-center text-[#25D366] text-xl transition transform group-hover:scale-105 active:scale-95 shadow-sm">💬</div>
+                    <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">WhatsApp</span>
+                </a>
+                <!-- Facebook Share -->
+                <a id="share-fb" href="#" target="_blank" onclick="closeShareModal()" class="flex flex-col items-center gap-2 text-center group">
+                    <div class="w-12 h-12 rounded-full bg-[#1877F2]/10 flex items-center justify-center text-[#1877F2] text-xl transition transform group-hover:scale-105 active:scale-95 shadow-sm">📘</div>
+                    <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Facebook</span>
+                </a>
+                <!-- X / Twitter Share -->
+                <a id="share-tw" href="#" target="_blank" onclick="closeShareModal()" class="flex flex-col items-center gap-2 text-center group">
+                    <div class="w-12 h-12 rounded-full bg-black/10 flex items-center justify-center text-black text-xl transition transform group-hover:scale-105 active:scale-95 shadow-sm">🐦</div>
+                    <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Twitter / X</span>
+                </a>
+                <!-- Copy Link -->
+                <button onclick="copyShareLink()" class="flex flex-col items-center gap-2 text-center group">
+                    <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 text-xl transition transform group-hover:scale-105 active:scale-95 shadow-sm">📋</div>
+                    <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Copy Link</span>
+                </button>
             </div>
         </div>
     </div>
@@ -527,6 +546,7 @@
         let orderName = "";
         let orderNotes = "";
         let lastEarnedCount = 0;
+        let selectedRewards = [];
 
         // Splash screen animations and asset creation
         window.addEventListener('DOMContentLoaded', () => {
@@ -1257,9 +1277,112 @@
                     }, 350); // Light delay for visual sync with sliding transitions
                 }
                 lastEarnedCount = earned;
+
+                // Sync selectedRewards length and generate selectors dynamically
+                let sizeChanged = false;
+                if (selectedRewards.length < earned) {
+                    sizeChanged = true;
+                    while (selectedRewards.length < earned) {
+                        selectedRewards.push("🌿 Mint Mojito");
+                    }
+                } else if (selectedRewards.length > earned) {
+                    sizeChanged = true;
+                    selectedRewards = selectedRewards.slice(0, earned);
+                }
+
+                const rewardContainerDesk = document.getElementById("desktop-reward-choices-container");
+                const rewardContainerMob = document.getElementById("mobile-reward-choices-container");
+
+                if (earned > 0) {
+                    if (rewardContainerDesk) rewardContainerDesk.classList.remove("hidden");
+                    if (rewardContainerMob) rewardContainerMob.classList.remove("hidden");
+
+                    const needsRender = sizeChanged || 
+                                        (rewardContainerDesk && !rewardContainerDesk.querySelector('select')) ||
+                                        (rewardContainerMob && !rewardContainerMob.querySelector('select'));
+                    
+                    if (needsRender) {
+                        const options = [
+                            { value: "🌿 Mint Mojito", label: "🌿 Mint Mojito" },
+                            { value: "🍓 Strawberry Mojito", label: "🍓 Strawberry Mojito" },
+                            { value: "🍏 Green Apple Mojito", label: "🍏 Green Apple Mojito" },
+                            { value: "🥭 Passion Fruit Mojito", label: "🥭 Passion Fruit Mojito" },
+                            { value: "🌀 Blue Mojito", label: "🌀 Blue Mojito" },
+                            { value: "🍍 Pineapple Mojito", label: "🍍 Pineapple Mojito" },
+                            { value: "🥭🍋 Mango Lemon", label: "🥭🍋 Mango Lemon" },
+                            { value: "🍉 Watermelon Mojito", label: "🍉 Watermelon Mojito" }
+                        ];
+
+                        let selectorsHTMLDesk = `
+                            <p class="text-[10px] font-black text-gray-700 uppercase tracking-wider mb-2 flex items-center gap-1">🎉 Pick Your Reward Flavor</p>
+                            <div class="space-y-2">
+                        `;
+
+                        for (let i = 0; i < earned; i++) {
+                            const selectedValue = selectedRewards[i];
+                            selectorsHTMLDesk += `
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Free Mojito #${i + 1} Flavor Choice</label>
+                                    <select onchange="updateRewardFlavor(${i}, this.value)" class="reward-select-index-${i} w-full bg-white border border-gray-200 rounded-xl px-2.5 py-2 text-xs font-bold text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all shadow-sm">
+                                        ${options.map(opt => `
+                                            <option value="${opt.value}" ${opt.value === selectedValue ? "selected" : ""}>${opt.label}</option>
+                                        `).join("")}
+                                    </select>
+                                </div>
+                            `;
+                        }
+                        selectorsHTMLDesk += `</div>`;
+
+                        let selectorsHTMLMob = `
+                            <p class="text-[10px] font-black text-gray-700 uppercase tracking-wider mb-1.5 flex items-center gap-1">🎉 Pick Your Reward Flavor${earned > 1 ? 's' : ''}</p>
+                            <div class="${earned > 1 ? 'grid grid-cols-2 gap-2' : 'w-full'}">
+                        `;
+
+                        for (let i = 0; i < earned; i++) {
+                            const selectedValue = selectedRewards[i];
+                            selectorsHTMLMob += `
+                                <div class="flex flex-col gap-0.5">
+                                    <label class="text-[8px] font-bold text-gray-400 uppercase tracking-wider">Free Mojito #${i + 1}</label>
+                                    <select onchange="updateRewardFlavor(${i}, this.value)" class="reward-select-index-${i} w-full bg-white border border-gray-200 rounded-lg px-2 py-1.5 text-[10px] font-bold text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all shadow-sm">
+                                        ${options.map(opt => `
+                                            <option value="${opt.value}" ${opt.value === selectedValue ? "selected" : ""}>${opt.label}</option>
+                                        `).join("")}
+                                    </select>
+                                </div>
+                            `;
+                        }
+                        selectorsHTMLMob += `</div>`;
+
+                        if (rewardContainerDesk) rewardContainerDesk.innerHTML = selectorsHTMLDesk;
+                        if (rewardContainerMob) rewardContainerMob.innerHTML = selectorsHTMLMob;
+                    }
+                } else {
+                    if (rewardContainerDesk) {
+                        rewardContainerDesk.innerHTML = "";
+                        rewardContainerDesk.classList.add("hidden");
+                    }
+                    if (rewardContainerMob) {
+                        rewardContainerMob.innerHTML = "";
+                        rewardContainerMob.classList.add("hidden");
+                    }
+                    selectedRewards = [];
+                }
             } else {
                 if (progressSectionDesk) progressSectionDesk.classList.add("hidden");
                 if (progressSectionMob) progressSectionMob.classList.add("hidden");
+                
+                const rewardContainerDesk = document.getElementById("desktop-reward-choices-container");
+                const rewardContainerMob = document.getElementById("mobile-reward-choices-container");
+                if (rewardContainerDesk) {
+                    rewardContainerDesk.innerHTML = "";
+                    rewardContainerDesk.classList.add("hidden");
+                }
+                if (rewardContainerMob) {
+                    rewardContainerMob.innerHTML = "";
+                    rewardContainerMob.classList.add("hidden");
+                }
+                selectedRewards = [];
+                
                 lastEarnedCount = 0;
             }
 
@@ -1301,6 +1424,17 @@
             }
 
             validateCheckoutButton();
+        }
+
+        // Synchronize flavor selection changes between desktop and mobile reward selectors
+        function updateRewardFlavor(index, value) {
+            if (index >= 0 && index < selectedRewards.length) {
+                selectedRewards[index] = value;
+            }
+            const selectors = document.querySelectorAll(`.reward-select-index-${index}`);
+            selectors.forEach(sel => {
+                sel.value = value;
+            });
         }
 
         function renderCartListToContainer(container) {
@@ -1408,9 +1542,12 @@
             });
             
             text += `——————————————\n`;
-            const earnedMocktails = Math.floor(totalBill / 500);
-            if (earnedMocktails > 0) {
-                text += `🎁 *Loyalty Reward:* Unlocked *${earnedMocktails} Free Mocktail${earnedMocktails > 1 ? 's' : ''}* of choice! 🍹\n`;
+            const earnedMojitos = Math.floor(totalBill / 500);
+            if (earnedMojitos > 0) {
+                text += `🎁 *Loyalty Reward Choices:* Unlocked *${earnedMojitos} Free Mojito${earnedMojitos > 1 ? 's' : ''}*!\n`;
+                selectedRewards.forEach((flavor, index) => {
+                    text += `   • Choice #${index + 1}: *${flavor}* (Free) 🍹\n`;
+                });
                 text += `——————————————\n`;
             }
             if (notes) text += `📝 *Notes:* ${notes}\n`;
@@ -1457,21 +1594,70 @@
         }
 
         function shareMenu() {
-            if (navigator.share) {
+            const shareTitle = "ARS Authentic Recipe Station";
+            const shareText = "Check out the delicious authentic recipes at ARS!";
+            const shareUrl = window.location.href;
+            
+            // Try native mobile sharing sheet first (requires HTTPS secure context)
+            if (navigator.share && window.isSecureContext) {
                 navigator.share({ 
-                    title: "ARS Authentic Recipe Station", 
-                    text: "Check out our delicious recipes!", 
-                    url: window.location.href 
+                    title: shareTitle, 
+                    text: shareText, 
+                    url: shareUrl 
+                }).catch(err => {
+                    // Fallback to custom modal if Native Share was cancelled/aborted
+                    openCustomShareModal(shareTitle, shareText, shareUrl);
                 });
             } else {
-                const h = document.createElement("input");
-                document.body.appendChild(h);
-                h.value = window.location.href;
-                h.select();
-                document.execCommand("copy");
-                document.body.removeChild(h);
-                showToast("Link copied!");
+                // Fallback to our stunning custom ARS Share sheet popup modal!
+                openCustomShareModal(shareTitle, shareText, shareUrl);
             }
+        }
+
+        function openCustomShareModal(title, text, url) {
+            const modal = document.getElementById("share-modal");
+            const drawer = modal ? modal.querySelector("div") : null;
+            if (!modal) return;
+            
+            // Set quick-click sharing link configurations
+            const waBtn = document.getElementById("share-wa");
+            const fbBtn = document.getElementById("share-fb");
+            const twBtn = document.getElementById("share-tw");
+            
+            if (waBtn) waBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + " " + url)}`;
+            if (fbBtn) fbBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            if (twBtn) twBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+            
+            modal.classList.remove("pointer-events-none", "opacity-0");
+            modal.classList.add("opacity-100");
+            if (drawer) {
+                drawer.classList.remove("translate-y-full");
+                drawer.classList.add("translate-y-0");
+            }
+        }
+
+        function closeShareModal() {
+            const modal = document.getElementById("share-modal");
+            const drawer = modal ? modal.querySelector("div") : null;
+            if (!modal) return;
+            
+            modal.classList.add("pointer-events-none", "opacity-0");
+            modal.classList.remove("opacity-100");
+            if (drawer) {
+                drawer.classList.add("translate-y-full");
+                drawer.classList.remove("translate-y-0");
+            }
+        }
+
+        function copyShareLink() {
+            const h = document.createElement("input");
+            document.body.appendChild(h);
+            h.value = window.location.href;
+            h.select();
+            document.execCommand("copy");
+            document.body.removeChild(h);
+            closeShareModal();
+            showToast("Link copied!");
         }
     </script>
 </body>
