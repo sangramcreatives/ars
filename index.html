@@ -488,26 +488,7 @@
     <!-- Alert / Toast Component -->
     <div id="toast" class="toast-el"></div>
 
-    <!-- Add to Home Screen Mobile Prompt Banner -->
-    <div id="a2hs-banner" class="fixed bottom-24 inset-x-4 bg-white border border-gray-100 p-4 rounded-2xl shadow-2xl z-50 transform translate-y-full transition-transform duration-500 lg:hidden flex flex-col gap-2.5">
-        <div class="flex items-center gap-3">
-            <!-- App Logo Icon -->
-            <div class="w-10 h-10 bg-[#e23744] text-white rounded-xl flex items-center justify-center flex-shrink-0 shadow-md shadow-red-500/10">
-                <span class="text-xs font-black tracking-wider uppercase">ARS</span>
-            </div>
-            <div class="flex-1 min-w-0">
-                <h4 class="text-xs font-black text-gray-900">Add ARS to Home Screen</h4>
-                <p class="text-[9px] text-gray-400 font-bold mt-0.5 leading-normal">Access authentic recipes instantly from your phone!</p>
-            </div>
-            <button onclick="dismissA2HS()" class="text-gray-400 p-1.5 hover:bg-gray-50 rounded-lg">
-                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-        </div>
-        
-        <!-- Dynamic Step Instructions based on OS -->
-        <div id="a2hs-instructions" class="text-[10px] text-gray-600 font-bold bg-[#fffcfc] border border-[#ffebeb] rounded-xl p-3 flex flex-col gap-1.5">
-        </div>
-    </div>
+
 
     <script>
         // Store configuration and authentic recipe menu items (Psychologically sorted)
@@ -604,7 +585,6 @@
             initSplashScreen();
             renderProducts();
             updateCartUI();
-            initA2HSPrompt();
             initSearchPlaceholderFlip();
         });
 
@@ -1741,105 +1721,7 @@
             showToast("Link copied!");
         }
 
-        // Add to Home Screen (A2HS) Prompt Logic
-        let deferredPrompt;
 
-        function initA2HSPrompt() {
-            // Check if dismissed before
-            if (localStorage.getItem("ars_install_dismissed") === "true") return;
-            
-            // Only show on mobile devices (width < 1024px)
-            if (window.innerWidth >= 1024) return;
-            
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            const instructionsEl = document.getElementById("a2hs-instructions");
-            const banner = document.getElementById("a2hs-banner");
-            
-            if (!instructionsEl || !banner) return;
-            
-            if (isIOS) {
-                instructionsEl.innerHTML = `
-                    <div class="flex items-start gap-2 text-left">
-                        <span class="text-xs flex-shrink-0">📱</span>
-                        <div>
-                            <p class="leading-normal">1. Tap the browser Share button <strong class="inline-flex items-center text-xs px-1.5 py-0.5 bg-gray-100 border border-gray-200 rounded text-gray-600 font-black">📤</strong> in Safari.</p>
-                            <p class="leading-normal mt-1.5">2. Scroll down and select <strong class="text-[#e23744] font-black">Add to Home Screen</strong>.</p>
-                        </div>
-                    </div>
-                `;
-            } else {
-                instructionsEl.innerHTML = `
-                    <div class="flex items-start gap-2 text-left">
-                        <span class="text-xs flex-shrink-0">🤖</span>
-                        <div>
-                            <p class="leading-normal">1. Tap the browser menu icon <strong class="font-black text-gray-700">⋮</strong> or Share button.</p>
-                            <p class="leading-normal mt-1.5">2. Tap <strong class="text-[#e23744] font-black">Add to Home Screen</strong> or <strong class="text-[#e23744] font-black">Install</strong>.</p>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            // Slide up after a brief, non-intrusive delay of 3 seconds
-            setTimeout(() => {
-                banner.classList.remove("translate-y-full");
-                banner.classList.add("translate-y-0");
-            }, 3000);
-        }
-
-        function dismissA2HS() {
-            const banner = document.getElementById("a2hs-banner");
-            if (banner) {
-                banner.classList.add("translate-y-full");
-                banner.classList.remove("translate-y-0");
-            }
-            // Save dismissal to localStorage so we don't spam the user
-            localStorage.setItem("ars_install_dismissed", "true");
-        }
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent Chrome 67 and earlier from automatically showing the prompt
-            e.preventDefault();
-            // Stash the event so it can be triggered later.
-            deferredPrompt = e;
-            
-            // Update mobile banner instructions to offer a direct Install button!
-            const instructionsEl = document.getElementById("a2hs-instructions");
-            if (instructionsEl) {
-                instructionsEl.innerHTML = `
-                    <div class="flex flex-col gap-2 w-full text-left">
-                        <p class="leading-normal text-gray-600">Install ARS directly on your phone to browse authentic recipes instantly!</p>
-                        <button onclick="triggerNativeInstall()" class="w-full bg-[#e23744] hover:bg-[#c8202d] text-white text-xs font-black py-2.5 rounded-xl transition shadow-md shadow-red-500/10 uppercase tracking-wider">Install App</button>
-                    </div>
-                `;
-            }
-            
-            // Only show banner on mobile viewports
-            if (window.innerWidth < 1024 && localStorage.getItem("ars_install_dismissed") !== "true") {
-                const banner = document.getElementById("a2hs-banner");
-                if (banner) {
-                    setTimeout(() => {
-                        banner.classList.remove("translate-y-full");
-                        banner.classList.add("translate-y-0");
-                    }, 3000);
-                }
-            }
-        });
-
-        function triggerNativeInstall() {
-            if (!deferredPrompt) return;
-            // Show the prompt
-            deferredPrompt.prompt();
-            // Wait for the user to respond to the prompt
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
-                } else {
-                    console.log('User dismissed the install prompt');
-                }
-                deferredPrompt = null;
-                dismissA2HS();
-            });
-        }
 
         // Animate search placeholders with tempting food names (excluding drinks)
         function initSearchPlaceholderFlip() {
