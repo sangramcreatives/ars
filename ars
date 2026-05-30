@@ -398,10 +398,15 @@
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
-            
-            <!-- Mobile Reward Choices Selection Container -->
-            <div id="mobile-reward-choices-container" class="mx-5 mt-2 hidden bg-[#fff9f9] border border-[#ffeded] rounded-xl p-2 shadow-sm border-dashed"></div>
-            
+            <!-- Mobile Reward Choices Selection Container (Collapsible Dropdown Panel) -->
+            <div id="mobile-reward-choices-container" class="mx-5 mt-2 hidden bg-[#fff9f9] border border-[#ffeded] rounded-xl p-2.5 shadow-sm border-dashed">
+                <div onclick="toggleMobileRewardChoices()" class="flex justify-between items-center cursor-pointer select-none">
+                    <span id="mobile-reward-title" class="text-[10px] font-black text-gray-700 uppercase tracking-wider flex items-center gap-1">🎉 Pick Your Reward Flavor</span>
+                    <span id="mobile-reward-arrow" class="text-[10px] text-gray-500 font-bold transition-transform duration-200" style="transform: rotate(0deg);">▼</span>
+                </div>
+                <div id="mobile-reward-selectors-body" class="hidden mt-2.5 border-t border-[#ffeded]/60 pt-2.5"></div>
+            </div>
+
             <div id="mobile-cart-items" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
             
             <div class="p-5 border-t border-gray-100 space-y-3">
@@ -1290,16 +1295,21 @@
                     selectedRewards = selectedRewards.slice(0, earned);
                 }
 
-                const rewardContainerDesk = document.getElementById("desktop-reward-choices-container");
+                               const rewardContainerDesk = document.getElementById("desktop-reward-choices-container");
                 const rewardContainerMob = document.getElementById("mobile-reward-choices-container");
+                const rewardTitleMob = document.getElementById("mobile-reward-title");
+                const rewardSelectorsBodyMob = document.getElementById("mobile-reward-selectors-body");
 
                 if (earned > 0) {
                     if (rewardContainerDesk) rewardContainerDesk.classList.remove("hidden");
                     if (rewardContainerMob) rewardContainerMob.classList.remove("hidden");
+                    if (rewardTitleMob) {
+                        rewardTitleMob.innerHTML = `🎉 Pick Your Reward Flavor${earned > 1 ? 's' : ''} (${earned} Unlocked)`;
+                    }
 
                     const needsRender = sizeChanged || 
                                         (rewardContainerDesk && !rewardContainerDesk.querySelector('select')) ||
-                                        (rewardContainerMob && !rewardContainerMob.querySelector('select'));
+                                        (rewardSelectorsBodyMob && !rewardSelectorsBodyMob.querySelector('select'));
                     
                     if (needsRender) {
                         const options = [
@@ -1334,7 +1344,6 @@
                         selectorsHTMLDesk += `</div>`;
 
                         let selectorsHTMLMob = `
-                            <p class="text-[10px] font-black text-gray-700 uppercase tracking-wider mb-1.5 flex items-center gap-1">🎉 Pick Your Reward Flavor${earned > 1 ? 's' : ''}</p>
                             <div class="${earned > 1 ? 'grid grid-cols-2 gap-2' : 'w-full'}">
                         `;
 
@@ -1354,7 +1363,7 @@
                         selectorsHTMLMob += `</div>`;
 
                         if (rewardContainerDesk) rewardContainerDesk.innerHTML = selectorsHTMLDesk;
-                        if (rewardContainerMob) rewardContainerMob.innerHTML = selectorsHTMLMob;
+                        if (rewardSelectorsBodyMob) rewardSelectorsBodyMob.innerHTML = selectorsHTMLMob;
                     }
                 } else {
                     if (rewardContainerDesk) {
@@ -1362,8 +1371,8 @@
                         rewardContainerDesk.classList.add("hidden");
                     }
                     if (rewardContainerMob) {
-                        rewardContainerMob.innerHTML = "";
                         rewardContainerMob.classList.add("hidden");
+                        if (rewardSelectorsBodyMob) rewardSelectorsBodyMob.innerHTML = "";
                     }
                     selectedRewards = [];
                 }
@@ -1378,8 +1387,9 @@
                     rewardContainerDesk.classList.add("hidden");
                 }
                 if (rewardContainerMob) {
-                    rewardContainerMob.innerHTML = "";
                     rewardContainerMob.classList.add("hidden");
+                    const rewardSelectorsBodyMob = document.getElementById("mobile-reward-selectors-body");
+                    if (rewardSelectorsBodyMob) rewardSelectorsBodyMob.innerHTML = "";
                 }
                 selectedRewards = [];
                 
@@ -1572,6 +1582,19 @@
             }, 1800);
         }
 
+        function toggleMobileRewardChoices() {
+            const body = document.getElementById("mobile-reward-selectors-body");
+            const arrow = document.getElementById("mobile-reward-arrow");
+            if (!body || !arrow) return;
+            if (body.classList.contains("hidden")) {
+                body.classList.remove("hidden");
+                arrow.style.transform = "rotate(180deg)";
+            } else {
+                body.classList.add("hidden");
+                arrow.style.transform = "rotate(0deg)";
+            }
+        }
+
         function toggleMobileCartModal() {
             const modal = document.getElementById("mobile-cart-modal");
             if (!modal) return;
@@ -1583,6 +1606,11 @@
                     drawer.classList.remove("translate-y-full");
                     drawer.classList.add("translate-y-0");
                 }
+                // Collapse rewards panel by default when cart is opened
+                const mobRewardBody = document.getElementById("mobile-reward-selectors-body");
+                const mobRewardArrow = document.getElementById("mobile-reward-arrow");
+                if (mobRewardBody) mobRewardBody.classList.add("hidden");
+                if (mobRewardArrow) mobRewardArrow.style.transform = "rotate(0deg)";
             } else {
                 modal.classList.add("pointer-events-none","opacity-0");
                 modal.classList.remove("opacity-100");
