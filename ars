@@ -342,7 +342,7 @@
             <div class="space-y-3">
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5">Your Name</label>
-                    <input type="text" id="cart-name-desktop" oninput="syncFields('name', this.value)" placeholder="Enter your name" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all shadow-sm">
+                    <input type="text" id="cart-name-desktop" name="name" autocomplete="name" oninput="syncFields('name', this.value)" placeholder="Enter your name" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all shadow-sm">
                 </div>
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5">Special Notes</label>
@@ -404,7 +404,11 @@
                     <span id="mobile-reward-title" class="text-[10px] font-black text-gray-700 uppercase tracking-wider flex items-center gap-1">🎉 Pick Your Reward Flavor</span>
                     <span id="mobile-reward-arrow" class="text-[10px] text-gray-500 font-bold transition-transform duration-200" style="transform: rotate(0deg);">▼</span>
                 </div>
-                <div id="mobile-reward-selectors-body" class="hidden mt-2.5 border-t border-[#ffeded]/60 pt-2.5"></div>
+                <div id="mobile-reward-selectors-body-wrapper" class="grid transition-all duration-300 ease-in-out grid-rows-[0fr]">
+                    <div class="overflow-hidden">
+                        <div id="mobile-reward-selectors-body" class="mt-2.5 border-t border-[#ffeded]/60 pt-2.5"></div>
+                    </div>
+                </div>
             </div>
 
             <div id="mobile-cart-items" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
@@ -412,7 +416,7 @@
             <div class="p-5 border-t border-gray-100 space-y-3">
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5">Your Name</label>
-                    <input type="text" id="cart-name-mobile" oninput="syncFields('name', this.value)" placeholder="Enter your name" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all shadow-sm">
+                    <input type="text" id="cart-name-mobile" name="name" autocomplete="name" oninput="syncFields('name', this.value)" placeholder="Enter your name" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-[#1c1c1c] outline-none focus:border-[#e23744] focus:ring-1 focus:ring-[#e23744] transition-all shadow-sm">
                 </div>
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5">Special Notes</label>
@@ -1583,14 +1587,16 @@
         }
 
         function toggleMobileRewardChoices() {
-            const body = document.getElementById("mobile-reward-selectors-body");
+            const wrapper = document.getElementById("mobile-reward-selectors-body-wrapper");
             const arrow = document.getElementById("mobile-reward-arrow");
-            if (!body || !arrow) return;
-            if (body.classList.contains("hidden")) {
-                body.classList.remove("hidden");
+            if (!wrapper || !arrow) return;
+            if (wrapper.classList.contains("grid-rows-[0fr]")) {
+                wrapper.classList.remove("grid-rows-[0fr]");
+                wrapper.classList.add("grid-rows-[1fr]");
                 arrow.style.transform = "rotate(180deg)";
             } else {
-                body.classList.add("hidden");
+                wrapper.classList.remove("grid-rows-[1fr]");
+                wrapper.classList.add("grid-rows-[0fr]");
                 arrow.style.transform = "rotate(0deg)";
             }
         }
@@ -1607,9 +1613,12 @@
                     drawer.classList.add("translate-y-0");
                 }
                 // Collapse rewards panel by default when cart is opened
-                const mobRewardBody = document.getElementById("mobile-reward-selectors-body");
+                const mobRewardWrapper = document.getElementById("mobile-reward-selectors-body-wrapper");
                 const mobRewardArrow = document.getElementById("mobile-reward-arrow");
-                if (mobRewardBody) mobRewardBody.classList.add("hidden");
+                if (mobRewardWrapper) {
+                    mobRewardWrapper.classList.remove("grid-rows-[1fr]");
+                    mobRewardWrapper.classList.add("grid-rows-[0fr]");
+                }
                 if (mobRewardArrow) mobRewardArrow.style.transform = "rotate(0deg)";
             } else {
                 modal.classList.add("pointer-events-none","opacity-0");
