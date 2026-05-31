@@ -1878,8 +1878,8 @@
                 const cols = Math.ceil(width / spacing) + 1;
                 const rows = Math.ceil(height / spacing) + 1;
                 
-                // Randomly trigger new sparkles
-                if (Math.random() < 0.08) {
+                // Randomly trigger new sparkles (increased probability for faster occurrence)
+                if (Math.random() < 0.28) {
                     const randCol = Math.floor(Math.random() * cols);
                     const randRow = Math.floor(Math.random() * rows);
                     const key = `${randCol},${randRow}`;
@@ -1888,7 +1888,7 @@
                         sparkles[key] = {
                             opacity: 0.22,
                             target: 0.6 + Math.random() * 0.35, // Target bright opacity (up to 0.95!)
-                            speed: 0.008 + Math.random() * 0.015,
+                            speed: 0.035 + Math.random() * 0.045, // Much faster fade speed
                             state: 'up'
                         };
                     }
