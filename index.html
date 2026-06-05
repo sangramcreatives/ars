@@ -372,6 +372,9 @@
                     <div class="mocktail-incentive-badge w-7 h-7 rounded-full bg-white border border-gray-100 shadow-md flex items-center justify-center absolute -top-2.5 -right-2 transition-transform duration-300 hover:scale-110 text-sm">🍹</div>
                 </div>
                 <p id="desktop-progress-desc" class="text-[9px] text-gray-400 font-bold leading-normal"></p>
+                <div id="desktop-progress-savings-banner" class="hidden mt-2.5 bg-[#24963f] text-white text-[11px] font-bold py-2 px-3 rounded-xl text-center shadow-sm">
+                    WooHoo 🎉 You Just Saved <span id="desktop-progress-savings-amount" class="font-extrabold">₹0</span> on Your Order .🔥.
+                </div>
             </div>
             
             <!-- Desktop Reward Choices Selection Container -->
@@ -415,6 +418,9 @@
                 <div class="mocktail-incentive-badge w-7 h-7 rounded-full bg-white border border-gray-100 shadow-md flex items-center justify-center absolute -top-2.5 -right-2 transition-transform duration-300 hover:scale-110 text-sm">🍹</div>
             </div>
             <p id="mobile-progress-desc" class="text-[9px] text-gray-400 font-bold leading-normal"></p>
+            <div id="mobile-progress-savings-banner" class="hidden mt-2 bg-[#24963f] text-white text-[11px] font-bold py-2 px-3 rounded-xl text-center shadow-sm">
+                WooHoo 🎉 You Just Saved <span id="mobile-progress-savings-amount" class="font-extrabold">₹0</span> on Your Order .🔥.
+            </div>
         </div>
 
         <!-- Floating Bar Actions -->
@@ -1372,6 +1378,28 @@
                     }
                 }
 
+                const savingsBannerDeskProg = document.getElementById("desktop-progress-savings-banner");
+                const savingsAmountDeskProg = document.getElementById("desktop-progress-savings-amount");
+                if (savingsBannerDeskProg && savingsAmountDeskProg) {
+                    if (savings > 0) {
+                        savingsAmountDeskProg.innerText = `₹${savings}`;
+                        savingsBannerDeskProg.classList.remove("hidden");
+                    } else {
+                        savingsBannerDeskProg.classList.add("hidden");
+                    }
+                }
+
+                const savingsBannerMobProg = document.getElementById("mobile-progress-savings-banner");
+                const savingsAmountMobProg = document.getElementById("mobile-progress-savings-amount");
+                if (savingsBannerMobProg && savingsAmountMobProg) {
+                    if (savings > 0) {
+                        savingsAmountMobProg.innerText = `₹${savings}`;
+                        savingsBannerMobProg.classList.remove("hidden");
+                    } else {
+                        savingsBannerMobProg.classList.add("hidden");
+                    }
+                }
+
                 const savingsBannerModalMob = document.getElementById("mobile-modal-savings-banner");
                 const savingsAmountModalMob = document.getElementById("mobile-modal-savings-amount");
                 if (savingsBannerModalMob && savingsAmountModalMob) {
@@ -1538,8 +1566,12 @@
                 if (progressSectionMob) progressSectionMob.classList.add("hidden");
 
                 const savingsBannerDesk = document.getElementById("desktop-savings-banner");
+                const savingsBannerDeskProg = document.getElementById("desktop-progress-savings-banner");
+                const savingsBannerMobProg = document.getElementById("mobile-progress-savings-banner");
                 const savingsBannerModalMob = document.getElementById("mobile-modal-savings-banner");
                 if (savingsBannerDesk) savingsBannerDesk.classList.add("hidden");
+                if (savingsBannerDeskProg) savingsBannerDeskProg.classList.add("hidden");
+                if (savingsBannerMobProg) savingsBannerMobProg.classList.add("hidden");
                 if (savingsBannerModalMob) savingsBannerModalMob.classList.add("hidden");
                 
                 const rewardContainerDesk = document.getElementById("desktop-reward-choices-container");
