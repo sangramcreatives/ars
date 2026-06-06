@@ -281,6 +281,17 @@
             }
         }
 
+        .glitter-star {
+            animation: glitterStar 1.5s infinite ease-in-out;
+            color: #ffeb3b;
+            display: inline-block;
+        }
+
+        @keyframes glitterStar {
+            0%, 100% { transform: scale(0.8) rotate(0deg); opacity: 0.5; }
+            50% { transform: scale(1.25) rotate(180deg); opacity: 1; filter: drop-shadow(0 0 3px #ffeb3b); }
+        }
+
         .popup-content {
             padding: 30px;
             text-align: center;
@@ -686,8 +697,11 @@
                 <button onclick="setDietFilter('all')" id="desktop-diet-all" class="filter-btn active text-left flex items-center gap-2">✨ All Items</button>
                 <button onclick="setDietFilter('veg')" id="desktop-diet-veg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#24963f]"><span class="symbol-circle"></span></span> Veg Only</button>
                 <button onclick="setDietFilter('nonveg')" id="desktop-diet-nonveg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#e23744]"><span class="symbol-triangle"></span></span> Non-Veg</button>
+                <button onclick="setDietFilter('drinks')" id="desktop-diet-drinks" class="filter-btn text-left flex items-center gap-2 relative">
+                    🍹 Drinks Only
+                    <span class="absolute -top-1 -right-1 text-[10px] glitter-star">✨</span>
+                </button>
                 <button onclick="setDietFilter('egg')" id="desktop-diet-egg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#ca8a04]"><span class="symbol-circle"></span></span> Egg Only</button>
-                <button onclick="setDietFilter('drinks')" id="desktop-diet-drinks" class="filter-btn text-left flex items-center gap-2">🍹 Drinks Only</button>
             </div>
             <nav class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-3">Categories</label>
@@ -701,11 +715,14 @@
                     <li><button onclick="scrollToCategory('burgers')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🍔 Premium Burgers</button></li>
                     <li><button onclick="scrollToCategory('sandwiches')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🥪 Grilled Sandwiches</button></li>
                     <li><button onclick="scrollToCategory('bites')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🌽 Crispy Bites & Fries</button></li>
-                    <li><button onclick="scrollToCategory('omelettes')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🍳 Masala Omelettes</button></li>
-                    <li><button onclick="scrollToCategory('drinks-classics')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🥤 The Classics</button></li>
+                    <li><button onclick="scrollToCategory('drinks-classics')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition relative">
+                        🥤 The Classics
+                        <span class="absolute top-1 right-2 text-[9px] glitter-star">✨</span>
+                    </button></li>
                     <li><button onclick="scrollToCategory('drinks-combos')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🎨 Dual Combos</button></li>
                     <li><button onclick="scrollToCategory('drinks-signatures')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">👑 ARS Signatures</button></li>
                     <li><button onclick="scrollToCategory('drinks-tiranga')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🇮🇳 Tiranga Specials</button></li>
+                    <li><button onclick="scrollToCategory('omelettes')" class="w-full text-left py-2.5 px-2.5 rounded-lg hover:bg-[#fff0f0] hover:text-[#e23744] transition">🍳 Masala Omelettes</button></li>
                 </ul>
             </nav>
         </aside>
@@ -729,8 +746,11 @@
                     <button onclick="setDietFilter('all')" id="mobile-diet-all" class="filter-btn active flex items-center justify-center gap-1 flex-shrink-0">✨ All</button>
                     <button onclick="setDietFilter('veg')" id="mobile-diet-veg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#24963f]"><span class="symbol-circle"></span></span> Veg</button>
                     <button onclick="setDietFilter('nonveg')" id="mobile-diet-nonveg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#e23744]"><span class="symbol-triangle"></span></span> Non-Veg</button>
+                    <button onclick="setDietFilter('drinks')" id="mobile-diet-drinks" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0 relative">
+                        🍹 Drinks
+                        <span class="absolute -top-1.5 -right-1 text-[8px] glitter-star">✨</span>
+                    </button>
                     <button onclick="setDietFilter('egg')" id="mobile-diet-egg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#ca8a04]"><span class="symbol-circle"></span></span> Egg</button>
-                    <button onclick="setDietFilter('drinks')" id="mobile-diet-drinks" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0">🍹 Drinks</button>
                 </div>
             </div>
             
@@ -745,11 +765,14 @@
                 <button onclick="scrollToCategory('burgers')" class="category-pill">🍔 Burgers</button>
                 <button onclick="scrollToCategory('sandwiches')" class="category-pill">🥪 Sandwiches</button>
                 <button onclick="scrollToCategory('bites')" class="category-pill">🌽 Bites & Fries</button>
-                <button onclick="scrollToCategory('omelettes')" class="category-pill">🍳 Omelettes</button>
-                <button onclick="scrollToCategory('drinks-classics')" class="category-pill">🥤 Classics</button>
+                <button onclick="scrollToCategory('drinks-classics')" class="category-pill relative">
+                    🥤 Classics
+                    <span class="absolute -top-1 -right-0.5 text-[8px] glitter-star">✨</span>
+                </button>
                 <button onclick="scrollToCategory('drinks-combos')" class="category-pill">🎨 Combos</button>
                 <button onclick="scrollToCategory('drinks-signatures')" class="category-pill">👑 Signatures</button>
                 <button onclick="scrollToCategory('drinks-tiranga')" class="category-pill">🇮🇳 Tiranga</button>
+                <button onclick="scrollToCategory('omelettes')" class="category-pill">🍳 Omelettes</button>
             </div>
             
             <!-- Dynamic Products Container -->
@@ -886,6 +909,7 @@
                 <button onclick="sendOrderToWhatsApp()" id="mobile-checkout-btn" disabled class="w-full btn-disabled font-bold py-3.5 rounded-xl text-xs transition">Add items to continue</button>
             </div>
         </div>
+    </div>
     <!-- Custom Share Sheet Modal -->
     <div id="share-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-end justify-center opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-white w-full rounded-t-3xl shadow-2xl p-5 flex flex-col gap-4 max-h-[50vh] transform translate-y-full transition-transform duration-300 max-w-md mx-auto">
@@ -1275,11 +1299,11 @@
                 "burgers": { title: "🍔 Premium Loaded Burgers", desc: "Toasted buns, crisp lettuce, house mayo, and a crunchy patty" },
                 "sandwiches": { title: "🥪 Grilled Sandwiches", desc: "Crisp, butter-toasted sandwich quarters" },
                 "bites": { title: "🌽 Quick Crispy Bites & Dragon Fries", desc: "Quick, crunchy, and absolutely delicious" },
-                "omelettes": { title: "🍳 Street-Style Masala Omelettes", desc: "Fluffy street-style masala omelettes cooked to perfection" },
                 "drinks-classics": { title: "🥤 THE CLASSICS", desc: "Classic refreshing drinks and milk shakes" },
                 "drinks-combos": { title: "🎨 DUAL COMBOS", desc: "Exciting dual flavor combinations" },
                 "drinks-signatures": { title: "👑 ARS SIGNATURES", desc: "Signature premium blends" },
-                "drinks-tiranga": { title: "🇮🇳 TIRANGA SPECIALS", desc: "Tribute tri-colour specialty mocktails & frappes" }
+                "drinks-tiranga": { title: "🇮🇳 TIRANGA SPECIALS", desc: "Tribute tri-colour specialty mocktails & frappes" },
+                "omelettes": { title: "🍳 Street-Style Masala Omelettes", desc: "Fluffy street-style masala omelettes cooked to perfection" }
             };
 
             for (const [key, meta] of Object.entries(categories)) {
