@@ -7,8 +7,7 @@
     <link rel="icon" type="image/png" href="https://static.vecteezy.com/system/resources/previews/047/308/027/non_2x/french-fries-3d-icon-clear-background-free-png.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800;900&family=Josefin+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800;900&family=Josefin+Sans:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -207,9 +206,383 @@
             will-change: transform, opacity;
         }
 
+        /* Offer Popup Modal Styles */
+        .offer-popup,
+        .offer-popup * {
+            font-family: 'Quicksand', sans-serif !important;
+        }
+
+        .offer-popup-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            z-index: 10050;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: opacity 0.3s ease;
+        }
+
+        .offer-popup {
+            width: 420px;
+            background: #fff;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow:
+                0 20px 50px rgba(0,0,0,.08),
+                0 5px 15px rgba(0,0,0,.04);
+            position: relative;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+        }
+
+        .image-box {
+            width: 100%;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .stars-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .star {
+            position: absolute;
+            opacity: 0;
+            animation: blinkStar 2s infinite ease-in-out;
+            color: #ffeb3b;
+            line-height: 1;
+            user-select: none;
+        }
+
+        @keyframes blinkStar {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.6) rotate(0deg);
+            }
+            50% {
+                opacity: 0.95;
+                transform: scale(1.2) rotate(180deg);
+                filter: drop-shadow(0 0 6px #ffeb3b);
+            }
+        }
+
+        .popup-content {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .popup-content h2 {
+            font-size: 24px;
+            font-weight: 900;
+            line-height: 1.2;
+            color: #1C1C1C;
+            margin-bottom: 12px;
+            font-family: 'Montserrat', sans-serif !important;
+        }
+
+        .popup-content p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #696969;
+            margin-bottom: 30px;
+        }
+
+        /* BUTTON */
+        .btn-wrapper {
+            --width: 220px;
+            --height: 60px;
+            --padding: 8px;
+            --border-radius: 24px;
+            --dot-size: 8px;
+            --btn-color: #e4e4e4;
+            --hue: 142deg;
+            --animation-duration: 1.2s;
+
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--width);
+            height: var(--height);
+            border-radius: var(--border-radius);
+            border: none;
+            background-color: #00000008;
+
+            box-shadow:
+                1px 1px 2px 0 #fffd,
+                2px 2px 2px #0001 inset,
+                2px 2px 4px #0001 inset,
+                2px 2px 8px #0001 inset;
+
+            transition: box-shadow 50ms linear;
+            perspective: 150px;
+            perspective-origin: center;
+            user-select: none;
+            z-index: 1;
+            margin: 0 auto 30px auto; /* Center in popup + spacing for disclaimer */
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25em;
+            text-align: center;
+            padding: 0;
+
+            width: calc(100% - 2 * var(--padding));
+            height: calc(100% - 2 * var(--padding));
+            border-radius: calc(var(--border-radius) - var(--padding));
+            border: none;
+            cursor: pointer;
+
+            background: linear-gradient(#fff2, #0001), var(--btn-color);
+
+            box-shadow:
+                1px 1px 2px -1px #fff inset,
+                0 2px 1px #00000010,
+                0 4px 2px #00000010,
+                0 8px 4px #00000010,
+                0 16px 8px #00000010,
+                0 32px 16px #00000010;
+
+            transition:
+                transform 0.25s cubic-bezier(0.25, 1.5, 0.5, 2.2),
+                box-shadow 0.25s cubic-bezier(0.25, 1.5, 0.5, 1),
+                filter 0.3s cubic-bezier(0.25, 1.5, 0.5, 1);
+            will-change: transform, filter;
+            z-index: 2;
+        }
+
+        .btn-txt {
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 800;
+            color: #5550;
+            background-image: linear-gradient(#000a, #555);
+            -webkit-background-clip: text;
+            background-clip: text;
+            filter: drop-shadow(0 1px 0px #fff) drop-shadow(0 -1px 0px #0005);
+        }
+
+        .disclaimer-txt {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -24px;
+            font-size: 12px;
+            color: #0009;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .dot {
+            position: absolute;
+            top: calc(50% - var(--dot-size) / 2);
+            right: calc(var(--height) / 2 - var(--padding) / 2);
+            width: var(--dot-size);
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            background-color: hsla(var(--hue), 0%, 50%, 0.1);
+            border: 1px solid hsla(var(--hue), 0%, 60%, 0.6);
+            box-sizing: border-box;
+
+            box-shadow:
+                1px 1px 2px -1px #fffe inset,
+                0 2px 1px #00000010,
+                0 4px 2px #00000010,
+                0 8px 4px #00000010;
+
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .dot::before {
+            content: "";
+            position: absolute;
+            top: calc(var(--padding) / -2);
+            left: calc(var(--padding) / -2);
+            width: calc(100% + var(--padding));
+            height: calc(100% + var(--padding));
+            border-radius: inherit;
+            background-color: #0006;
+            -webkit-mask-image: radial-gradient(circle at 50% 60%, transparent 50%, black);
+            mask-image: radial-gradient(circle at 50% 60%, transparent 50%, black);
+        }
+
+        .dot::after {
+            content: "";
+            position: absolute;
+            top: calc(var(--padding) / -2);
+            left: calc(var(--padding) / -2);
+            width: calc(100% + var(--padding));
+            height: calc(100% + var(--padding));
+            border-radius: inherit;
+            background-color: #0000;
+
+            box-shadow:
+                0 0 10px 2px hsla(var(--hue), 80%, 50%, 0.3),
+                0 0 20px 10px hsla(var(--hue), 80%, 50%, 0.5),
+                0 0 50px 20px hsla(var(--hue), 80%, 50%, 0.5),
+                0 0 16px 1px hsla(var(--hue), 100%, 60%, 0.9) inset;
+
+            opacity: 0;
+        }
+
+        .pulse {
+            transition: transform 200ms ease-in;
+        }
+
+        .pulse.dot {
+            animation: bg-anim var(--animation-duration) ease-in-out infinite;
+        }
+
+        .pulse::after {
+            animation: opacity-anim var(--animation-duration) ease-in-out infinite;
+        }
+
+        @keyframes bg-anim {
+            0%, 100% {
+                background-color: hsla(var(--hue), 50%, 50%, 0);
+            }
+            50% {
+                background-color: hsla(var(--hue), 100%, 50%, 1);
+            }
+        }
+
+        @keyframes opacity-anim {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .btn:hover,
+        .btn:focus-visible {
+            filter: drop-shadow(var(--padding) 0 var(--padding) hsla(var(--hue), 70%, 60%, 0.6));
+            transform: translate3d(0, -2px, 2px);
+        }
+
+        .btn:hover .btn-txt,
+        .btn:focus-visible .btn-txt {
+            background-color: hsla(var(--hue), 50%, 50%, 1);
+            background-image: none;
+        }
+
+        .btn:hover .pulse.dot,
+        .btn:focus-visible .pulse.dot {
+            animation: none;
+            background-color: hsla(var(--hue), 100%, 50%, 1);
+        }
+
+        .btn:hover .pulse::after,
+        .btn:focus-visible .pulse::after {
+            animation: none;
+            opacity: 1;
+        }
+
+        .btn:focus-visible {
+            outline: 2px dashed hsla(var(--hue), 70%, 40%, 1);
+            outline-offset: var(--padding);
+        }
+
+        .btn:active {
+            filter: drop-shadow(var(--padding) 0 var(--padding) hsla(var(--hue), 100%, 50%, 1));
+            transform: translate3d(0, 0, -4px);
+        }
+
+        .btn:active .btn-txt {
+            background-color: hsla(var(--hue), 50%, 50%, 1);
+        }
+
+        .btn:active ~ .dot {
+            animation-play-state: paused;
+            background-color: hsla(var(--hue), 100%, 50%, 1);
+        }
+
+        .btn-wrapper:has(.btn:active) {
+            box-shadow:
+                1px 1px 2px 0 #fff,
+                2px 2px 2px #0001 inset,
+                2px 2px 4px #0001 inset,
+                2px 2px 8px #0001 inset,
+                0 0 32px 2px hsla(var(--hue), 50%, 50%, 0.5) inset;
+        }
+
+        @media(max-width:480px){
+            .offer-popup {
+                width: 100%;
+            }
+            .popup-content h2 {
+                font-size: 20px;
+            }
+        }
+
     </style>
 </head>
 <body class="text-gray-900 min-h-screen pb-24">
+
+    <!-- Offer Popup Modal overlay -->
+    <div id="offer-popup-modal" onclick="closeOfferPopup()" class="offer-popup-overlay opacity-0 pointer-events-none">
+        <div class="offer-popup" onclick="event.stopPropagation()">
+            <!-- Close Button in Top Corner -->
+            <button onclick="closeOfferPopup()" class="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center border border-white/20 transition-all duration-200 shadow-lg cursor-pointer focus:outline-none" aria-label="Close offer">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="image-box">
+                <img src="https://mocktail.net/wp-content/uploads/2021/10/Blue-Mocktail-Recipe_ig.jpg" alt="Mocktail">
+                <div class="stars-overlay">
+                    <div class="star" style="top: 15%; left: 20%; animation-delay: 0.1s; animation-duration: 1.5s; font-size: 12px;">✨</div>
+                    <div class="star" style="top: 25%; left: 75%; animation-delay: 0.5s; animation-duration: 2.2s; font-size: 16px;">✨</div>
+                    <div class="star" style="top: 45%; left: 15%; animation-delay: 0.9s; animation-duration: 1.8s; font-size: 14px;">⭐</div>
+                    <div class="star" style="top: 60%; left: 80%; animation-delay: 0.3s; animation-duration: 2s; font-size: 12px;">✨</div>
+                    <div class="star" style="top: 35%; left: 45%; animation-delay: 1.2s; animation-duration: 2.5s; font-size: 15px;">⭐</div>
+                    <div class="star" style="top: 75%; left: 30%; animation-delay: 0.7s; animation-duration: 1.7s; font-size: 13px;">✨</div>
+                    <div class="star" style="top: 80%; left: 70%; animation-delay: 1.5s; animation-duration: 2.1s; font-size: 11px;">✨</div>
+                    <div class="star" style="top: 50%; left: 60%; animation-delay: 0.2s; animation-duration: 1.9s; font-size: 14px;">⭐</div>
+                </div>
+            </div>
+            <div class="popup-content">
+                <h2>
+                    FREE Mocktail<br>
+                    on Every ₹299 Bill<br>
+                    &amp; we're not kidding!
+                </h2>
+                <p>
+                    Because great food deserves a refreshing companion. 😉
+                </p>
+                <div id="happy-hour-countdown" class="my-4 text-xs font-bold text-gray-700 bg-gray-50 border border-gray-100 rounded-xl py-2 px-3 inline-block shadow-sm">
+                    ⚡ Happy Hour is live till 11:00 PM! <span class="font-extrabold text-[#e23744]">00:00:00</span> left
+                </div>
+                <div class="btn-wrapper">
+                    <button onclick="closeOfferPopup()" class="btn">
+                        <span class="btn-txt">Start Ordering</span>
+                        <div class="dot pulse"></div>
+                    </button>
+                    <span id="popup-disclaimer" class="disclaimer-txt"></span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Sparkling Black Dot Grid Background (Fixed Layer) -->
     <canvas id="sparkle-bg" class="fixed inset-0 -z-50 pointer-events-none"></canvas>
@@ -675,6 +1048,10 @@
             renderProducts();
             updateCartUI();
             initSearchPlaceholderFlip();
+            
+            // Start happy hour countdown timer
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
         });
 
         function initSplashScreen() {
@@ -797,6 +1174,7 @@
 
                 setTimeout(() => {
                     if (splash) splash.style.display = 'none';
+                    showOfferPopup();
                 }, 800);
             }, 3000);
         }
@@ -1388,7 +1766,7 @@
                 }
                 
                 // Infinite milestones (no cap!)
-                const earned = Math.floor(total / 300);
+                const earned = Math.floor(total / 299);
                 
                 // Convert earned count to words (e.g. One, Two, Three)
                 const word = numberToWord(earned);
@@ -1419,9 +1797,9 @@
                 }
                 
                 // Calculate progress % and next milestone
-                const nextVal = (earned + 1) * 300;
+                const nextVal = (earned + 1) * 299;
                 const diff = nextVal - total;
-                const percent = ((total - (earned * 300)) / 300) * 100;
+                const percent = ((total - (earned * 299)) / 299) * 100;
                 const descText = `Add <span class="text-[#e23744] font-extrabold">₹${diff}</span> more to unlock a <span class="text-[#28CC2D] font-extrabold">Free Mojito of your choice from reward list! 🍹</span>`;
                 
                 // Update fills
@@ -1715,7 +2093,7 @@
             });
             
             text += `——————————————\n`;
-            const earnedDrinks = Math.floor(totalBill / 300);
+            const earnedDrinks = Math.floor(totalBill / 299);
             if (earnedDrinks > 0) {
                 text += `🎁 *Loyalty Reward Choices:* Unlocked *${earnedDrinks} Free Mojito${earnedDrinks > 1 ? 's' : ''}*!\n`;
                 selectedRewards.forEach((flavor, index) => {
@@ -2042,6 +2420,64 @@
             }
             
             draw();
+        }
+
+        function showOfferPopup() {
+            const popupModal = document.getElementById("offer-popup-modal");
+            if (popupModal) {
+                // Set dynamic disclaimer day based on current calendar date
+                const disclaimerEl = document.getElementById("popup-disclaimer");
+                if (disclaimerEl) {
+                    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                    const currentDay = days[new Date().getDay()];
+                    disclaimerEl.textContent = `*For limited time, this ${currentDay} only`;
+                }
+
+                popupModal.classList.remove("opacity-0", "pointer-events-none");
+                popupModal.classList.add("opacity-100");
+                const drawer = popupModal.querySelector(".offer-popup");
+                if (drawer) {
+                    drawer.classList.remove("scale-95", "opacity-0");
+                    drawer.classList.add("scale-100", "opacity-100");
+                }
+            }
+        }
+
+        function closeOfferPopup() {
+            const popupModal = document.getElementById("offer-popup-modal");
+            if (popupModal) {
+                popupModal.classList.add("opacity-0", "pointer-events-none");
+                popupModal.classList.remove("opacity-100");
+                const drawer = popupModal.querySelector(".offer-popup");
+                if (drawer) {
+                    drawer.classList.add("scale-95", "opacity-0");
+                    drawer.classList.remove("scale-100", "opacity-100");
+                }
+            }
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const target = new Date();
+            target.setHours(23, 0, 0, 0); // 11:00 PM
+
+            // If it's already past 11 PM today, target 11 PM tomorrow
+            if (now > target) {
+                target.setDate(target.getDate() + 1);
+            }
+
+            const diff = target - now; // milliseconds
+
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            const pad = (num) => String(num).padStart(2, '0');
+            
+            const countdownEl = document.getElementById("happy-hour-countdown");
+            if (countdownEl) {
+                countdownEl.innerHTML = `⚡ Happy Hour is live till 11:00 PM! <span class="font-extrabold text-[#e23744]">${pad(hours)}:${pad(minutes)}:${pad(seconds)}</span> left`;
+            }
         }
     </script>
 </body>
