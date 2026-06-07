@@ -717,9 +717,8 @@
                 <button onclick="setDietFilter('all')" id="desktop-diet-all" class="filter-btn active text-left flex items-center gap-2">✨ All Items</button>
                 <button onclick="setDietFilter('veg')" id="desktop-diet-veg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#24963f]"><span class="symbol-circle"></span></span> Veg Only</button>
                 <button onclick="setDietFilter('nonveg')" id="desktop-diet-nonveg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#dc2626]"><span class="symbol-triangle"></span></span> Non-Veg</button>
-                <button onclick="setDietFilter('drinks')" id="desktop-diet-drinks" class="filter-btn text-left flex items-center gap-2 relative">
-                    🍹 Drinks Only
-                    <span class="absolute -top-1 -right-1 text-[10px] glitter-star">✨</span>
+                <button onclick="setDietFilter('drinks')" id="desktop-diet-drinks" class="filter-btn text-left flex items-center gap-2">
+                    <span>🍹 Drinks Only<span class="glitter-star text-[10px] inline-block align-top ml-0.5">✨</span></span>
                 </button>
                 <button onclick="setDietFilter('egg')" id="desktop-diet-egg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#e23744]"><span class="symbol-circle"></span></span> Egg Only</button>
             </div>
@@ -766,9 +765,8 @@
                     <button onclick="setDietFilter('all')" id="mobile-diet-all" class="filter-btn active flex items-center justify-center gap-1 flex-shrink-0">✨ All</button>
                     <button onclick="setDietFilter('veg')" id="mobile-diet-veg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#24963f]"><span class="symbol-circle"></span></span> Veg</button>
                     <button onclick="setDietFilter('nonveg')" id="mobile-diet-nonveg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#dc2626]"><span class="symbol-triangle"></span></span> Non-Veg</button>
-                    <button onclick="setDietFilter('drinks')" id="mobile-diet-drinks" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0 relative">
-                        🍹 Drinks
-                        <span class="absolute -top-1.5 -right-1 text-[8px] glitter-star">✨</span>
+                    <button onclick="setDietFilter('drinks')" id="mobile-diet-drinks" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0">
+                        <span>🍹 Drinks<span class="glitter-star text-[8px] inline-block align-top ml-0.5">✨</span></span>
                     </button>
                     <button onclick="setDietFilter('egg')" id="mobile-diet-egg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#e23744]"><span class="symbol-circle"></span></span> Egg</button>
                 </div>
@@ -1370,6 +1368,8 @@
             }
             return "https://i.imgur.com/tc9N1Nq.png";
         }
+
+
 
         // Helper to determine portion/serving size for menu items
         function getItemQuantity(item) {
