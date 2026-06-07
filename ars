@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#e23744">
     <title>ARS Authentic Recipe Station</title>
     <link rel="icon" type="image/png" href="https://static.vecteezy.com/system/resources/previews/047/308/027/non_2x/french-fries-3d-icon-clear-background-free-png.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,6 +28,10 @@
             background: #faf8f5;
             color: #1c1c1c; 
             font-weight: 600; 
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         h1, h2, h3, h4, .brand-font { font-weight: 800 !important; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -69,7 +74,14 @@
         
         /* Custom UI Feedback */
         .toast-el { position: fixed; top: 24px; left: 50%; transform: translate(-50%, -20px); background: #1c1c1c; color: #fff; font-size: 12px; font-weight: 700; padding: 12px 24px; border-radius: 100px; opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9999; pointer-events: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-left: 4px solid #e23744; white-space: nowrap; }
-        input, textarea, select { font-family: 'Quicksand', sans-serif !important; font-weight: 600; }
+        input, textarea, select { 
+            font-family: 'Quicksand', sans-serif !important; 
+            font-weight: 600; 
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
         
         /* Momo variants / options styling */
         .momo-select { font-size: 11px; font-weight: 700; background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; padding: 6px 10px; color: #1c1c1c; outline: none; cursor: pointer; transition: all 0.15s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
@@ -705,9 +717,8 @@
                 <button onclick="setDietFilter('all')" id="desktop-diet-all" class="filter-btn active text-left flex items-center gap-2">✨ All Items</button>
                 <button onclick="setDietFilter('veg')" id="desktop-diet-veg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#24963f]"><span class="symbol-circle"></span></span> Veg Only</button>
                 <button onclick="setDietFilter('nonveg')" id="desktop-diet-nonveg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#dc2626]"><span class="symbol-triangle"></span></span> Non-Veg</button>
-                <button onclick="setDietFilter('drinks')" id="desktop-diet-drinks" class="filter-btn text-left flex items-center gap-2 relative">
-                    🍹 Drinks Only
-                    <span class="absolute -top-1 -right-1 text-[10px] glitter-star">✨</span>
+                <button onclick="setDietFilter('drinks')" id="desktop-diet-drinks" class="filter-btn text-left flex items-center gap-2">
+                    <span>🍹 Drinks Only<span class="glitter-star text-[10px] inline-block align-top ml-0.5">✨</span></span>
                 </button>
                 <button onclick="setDietFilter('egg')" id="desktop-diet-egg" class="filter-btn text-left flex items-center gap-2"><span class="symbol-box text-[#e23744]"><span class="symbol-circle"></span></span> Egg Only</button>
             </div>
@@ -754,9 +765,8 @@
                     <button onclick="setDietFilter('all')" id="mobile-diet-all" class="filter-btn active flex items-center justify-center gap-1 flex-shrink-0">✨ All</button>
                     <button onclick="setDietFilter('veg')" id="mobile-diet-veg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#24963f]"><span class="symbol-circle"></span></span> Veg</button>
                     <button onclick="setDietFilter('nonveg')" id="mobile-diet-nonveg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#dc2626]"><span class="symbol-triangle"></span></span> Non-Veg</button>
-                    <button onclick="setDietFilter('drinks')" id="mobile-diet-drinks" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0 relative">
-                        🍹 Drinks
-                        <span class="absolute -top-1.5 -right-1 text-[8px] glitter-star">✨</span>
+                    <button onclick="setDietFilter('drinks')" id="mobile-diet-drinks" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0">
+                        <span>🍹 Drinks<span class="glitter-star text-[8px] inline-block align-top ml-0.5">✨</span></span>
                     </button>
                     <button onclick="setDietFilter('egg')" id="mobile-diet-egg" class="filter-btn flex items-center justify-center gap-1 flex-shrink-0"><span class="symbol-box text-[#e23744]"><span class="symbol-circle"></span></span> Egg</button>
                 </div>
@@ -962,10 +972,10 @@
                 <img id="preview-modal-img" src="" alt="Preview" class="w-full h-full object-cover rounded-3xl shadow-lg">
                 
                 <!-- Bottom Center Container for Separate Name and Action Boxes (Half on, half out) -->
-                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex items-center gap-3 z-20 w-[92%] max-w-[400px]">
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex items-center justify-center gap-3 z-20 w-[92%] max-w-[400px]">
                     <!-- Item Name Box (Separate Box) -->
-                    <div class="bg-white px-4 py-2.5 rounded-2xl shadow-xl border border-gray-100 flex items-center justify-center min-w-0 flex-1">
-                        <span id="preview-modal-title" class="text-xs sm:text-sm font-extrabold text-gray-800 truncate text-center">Product Name</span>
+                    <div class="bg-[#24963f] px-4 py-[6px] rounded-lg shadow-xl border border-[#24963f] flex items-center justify-center min-w-0">
+                        <span id="preview-modal-title" class="text-xs font-extrabold text-white truncate text-center">Product Name</span>
                     </div>
                     <!-- ADD/QTY Button Wrapper (Separate Box) -->
                     <div id="preview-modal-action-wrapper" class="flex-shrink-0"></div>
@@ -1142,6 +1152,21 @@
             // Start happy hour countdown timer
             updateCountdown();
             setInterval(updateCountdown, 1000);
+
+            // Right-click and Copy protection
+            const currentYear = new Date().getFullYear();
+            const handleCopyAttempt = (e) => {
+                e.preventDefault();
+                showToast(`⚠️ Copyrighted by ARS ${currentYear}`);
+            };
+            document.addEventListener('contextmenu', handleCopyAttempt);
+            document.addEventListener('copy', handleCopyAttempt);
+            document.addEventListener('cut', handleCopyAttempt);
+            document.addEventListener('dragstart', (e) => {
+                if (e.target.nodeName === 'IMG') {
+                    e.preventDefault();
+                }
+            });
         });
 
         function initSplashScreen() {
@@ -1343,6 +1368,8 @@
             }
             return "https://i.imgur.com/tc9N1Nq.png";
         }
+
+
 
         // Helper to determine portion/serving size for menu items
         function getItemQuantity(item) {
