@@ -571,7 +571,7 @@
                 </svg>
             </button>
             <div class="image-box">
-                <img src="https://i.postimg.cc/ZKfvDqr1/Blue-Mocktail-Recipe-ig-jpg-202606070418.jpg" alt="Mocktail">
+                <img src="https://i.postimg.cc/SxczYcsM/popup-image.png" alt="Mocktail">
                 <div class="stars-overlay">
                     <div class="star" style="top: 15%; left: 20%; animation-delay: 0.1s; animation-duration: 1.5s; font-size: 12px;">✨</div>
                     <div class="star" style="top: 25%; left: 75%; animation-delay: 0.5s; animation-duration: 2.2s; font-size: 16px;">✨</div>
@@ -953,6 +953,34 @@
         </div>
     </div>
 
+    <!-- Image Preview Modal -->
+    <div id="image-preview-modal" onclick="closeImagePreview()" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <!-- Main Card Container -->
+        <div class="relative max-w-[90vw] sm:max-w-md w-full rounded-3xl shadow-2xl transform scale-95 opacity-0 transition-all duration-300 bg-transparent" onclick="event.stopPropagation()">
+            <!-- Image Wrapper -->
+            <div class="relative w-full aspect-square rounded-3xl overflow-visible bg-gray-100">
+                <img id="preview-modal-img" src="" alt="Preview" class="w-full h-full object-cover rounded-3xl shadow-lg">
+                
+                <!-- Bottom Center Container for Separate Name and Action Boxes (Half on, half out) -->
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex items-center gap-3 z-20 w-[92%] max-w-[400px]">
+                    <!-- Item Name Box (Separate Box) -->
+                    <div class="bg-white px-4 py-2.5 rounded-2xl shadow-xl border border-gray-100 flex items-center justify-center min-w-0 flex-1">
+                        <span id="preview-modal-title" class="text-xs sm:text-sm font-extrabold text-gray-800 truncate text-center">Product Name</span>
+                    </div>
+                    <!-- ADD/QTY Button Wrapper (Separate Box) -->
+                    <div id="preview-modal-action-wrapper" class="flex-shrink-0"></div>
+                </div>
+
+                <!-- Close Button at Top Right Corner (Half on, half out) -->
+                <button onclick="closeImagePreview()" class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 z-30 w-9 h-9 rounded-full bg-[#1c1c1c] hover:bg-black text-white flex items-center justify-center border-2 border-white/80 transition-all duration-200 shadow-xl cursor-pointer focus:outline-none" aria-label="Close preview">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Alert / Toast Component -->
     <div id="toast" class="toast-el"></div>
 
@@ -1101,6 +1129,7 @@
         let orderNotes = "";
         let lastEarnedCount = 0;
         let selectedRewards = [];
+        let currentPreviewItemId = null;
 
         // Splash screen animations and asset creation
         window.addEventListener('DOMContentLoaded', () => {
@@ -1427,7 +1456,7 @@
                     if (item.variants) {
                         const selectedVar = cartItem ? cartItem.selectedVariant : item.variants[0];
                         variantSelector = `
-                            <div class="mt-2.5 flex items-center gap-1.5">
+                            <div class="mt-2.5 flex items-center gap-1.5" onclick="event.stopPropagation()">
                                 <span class="text-[9px] font-bold text-gray-400 uppercase tracking-wide">Option:</span>
                                 <select onchange="updateVariant('${item.id}', this.value)" class="momo-select">
                                     ${item.variants.map(v => `<option value="${v}" ${v === selectedVar ? 'selected' : ''}>${v}</option>`).join('')}
@@ -1437,7 +1466,8 @@
                     }
 
                     const card = document.createElement("div");
-                    card.className = "menu-card flex flex-row justify-between items-stretch gap-4 reveal-element";
+                    card.className = "menu-card flex flex-row justify-between items-stretch gap-4 reveal-element cursor-pointer";
+                    card.setAttribute("onclick", `openImagePreview('${getFoodImage(item)}', '${item.name.replace(/'/g, "\\'")}', '${item.id}')`);
                     
                     // Stagger animation delay between left and right grid columns for a premium waving reveal
                     const staggerDelay = (idx % 2) * 80;
@@ -1453,8 +1483,8 @@
                                     </span>
                                     <span class="text-[9px] text-gray-400 font-semibold uppercase tracking-wider">${item.diet}</span>
                                 </div>
-                                <h3 class="text-sm sm:text-base font-extrabold text-[#1c1c1c] mt-2">${item.emoji} ${item.name}</h3>
-                                <p class="text-[11px] text-gray-400 font-medium mt-1 leading-relaxed line-clamp-2 hover:line-clamp-none transition-all duration-300 cursor-pointer">${item.desc}</p>
+                                <h3 class="text-sm sm:text-base font-extrabold text-[#1c1c1c] mt-2 hover:text-[#e23744] transition-colors">${item.emoji} ${item.name}</h3>
+                                <p class="text-[11px] text-gray-400 font-medium mt-1 leading-relaxed line-clamp-2 hover:line-clamp-none transition-all duration-300">${item.desc}</p>
                                 ${variantSelector}
                             </div>
                             <div class="mt-3 flex items-center gap-2.5 flex-wrap">
@@ -1476,7 +1506,7 @@
                                     class="lazy-food-img w-full h-full object-cover"
                                 />
                             </div>
-                            <div class="absolute -bottom-2.5 left-1/2 -translate-x-1/2 z-10" id="action-wrapper-${item.id}">
+                            <div class="absolute -bottom-2.5 left-1/2 -translate-x-1/2 z-10" id="action-wrapper-${item.id}" onclick="event.stopPropagation()">
                                 ${isInCart ? `
                                     <div class="btn-qty shadow-md">
                                         <button onclick="changeQty('${item.id}', -1, event)">−</button>
@@ -1738,6 +1768,10 @@
                     }
                 }
             });
+
+            if (currentPreviewItemId === itemId) {
+                updatePreviewActionWrapper();
+            }
         }
 
         // Specific to products with variant selectors
@@ -2550,6 +2584,72 @@
             const popupModal = document.getElementById("offer-popup-modal");
             if (popupModal) {
                 popupModal.classList.remove("active");
+            }
+        }
+
+        function openImagePreview(imgSrc, title, itemId) {
+            const modal = document.getElementById("image-preview-modal");
+            const img = document.getElementById("preview-modal-img");
+            const titleEl = document.getElementById("preview-modal-title");
+            const container = modal ? modal.querySelector("div") : null;
+            
+            if (!modal || !img || !titleEl || !container) return;
+            
+            currentPreviewItemId = itemId;
+            img.src = imgSrc;
+            titleEl.innerText = title;
+            
+            updatePreviewActionWrapper();
+            
+            modal.classList.remove("pointer-events-none", "opacity-0");
+            modal.classList.add("opacity-100");
+            container.classList.remove("scale-95", "opacity-0");
+            container.classList.add("scale-100", "opacity-100");
+        }
+
+        function closeImagePreview() {
+            const modal = document.getElementById("image-preview-modal");
+            const container = modal ? modal.querySelector("div") : null;
+            
+            if (!modal || !container) return;
+            
+            currentPreviewItemId = null;
+            
+            modal.classList.add("pointer-events-none", "opacity-0");
+            modal.classList.remove("opacity-100");
+            container.classList.add("scale-95", "opacity-0");
+            container.classList.remove("scale-100", "opacity-100");
+        }
+
+        function updatePreviewActionWrapper() {
+            const wrapper = document.getElementById("preview-modal-action-wrapper");
+            if (!wrapper) return;
+
+            if (!currentPreviewItemId) {
+                wrapper.innerHTML = "";
+                return;
+            }
+
+            const item = MENU_DATA.find(i => i.id === currentPreviewItemId);
+            if (!item) return;
+
+            const cartItem = cart.find(c => c.id === currentPreviewItemId);
+            const isInCart = !!cartItem;
+
+            if (isInCart) {
+                wrapper.innerHTML = `
+                    <div class="btn-qty shadow-xl">
+                        <button onclick="changeQty('${item.id}', -1, event)">−</button>
+                        <span>${cartItem.qty}</span>
+                        <button onclick="changeQty('${item.id}', 1, event)">+</button>
+                    </div>
+                `;
+            } else {
+                wrapper.innerHTML = `
+                    <button onclick="addToCart('${item.id}', event)" class="btn-add shadow-xl">
+                        ADD <span class="text-[10px] font-black">+</span>
+                    </button>
+                `;
             }
         }
 
