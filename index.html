@@ -215,14 +215,21 @@
         .offer-popup-overlay {
             position: fixed;
             inset: 0;
-            background-color: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(4px);
+            background-color: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(8px);
             z-index: 10050;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            transition: opacity 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .offer-popup-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .offer-popup {
@@ -231,12 +238,17 @@
             border-radius: 28px;
             overflow: hidden;
             box-shadow:
-                0 20px 50px rgba(0,0,0,.08),
-                0 5px 15px rgba(0,0,0,.04);
+                0 30px 60px rgba(0, 0, 0, 0.15),
+                0 8px 25px rgba(0, 0, 0, 0.05);
             position: relative;
-            transform: scale(0.95);
+            transform: translateY(40px) scale(0.92);
             opacity: 0;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .offer-popup-overlay.active .offer-popup {
+            transform: translateY(0) scale(1);
+            opacity: 1;
         }
 
         .image-box {
@@ -310,42 +322,16 @@
             font-size: 14px;
             line-height: 1.7;
             color: #696969;
-            margin-bottom: 30px;
+            margin-bottom: 8px;
         }
 
-        /* BUTTON */
         .btn-wrapper {
-            --width: 220px;
-            --height: 60px;
-            --padding: 8px;
-            --border-radius: 24px;
-            --dot-size: 8px;
-            --btn-color: #e4e4e4;
-            --hue: 142deg;
-            --animation-duration: 1.2s;
-
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: var(--width);
-            height: var(--height);
-            border-radius: var(--border-radius);
-            border: none;
-            background-color: #00000008;
-
-            box-shadow:
-                1px 1px 2px 0 #fffd,
-                2px 2px 2px #0001 inset,
-                2px 2px 4px #0001 inset,
-                2px 2px 8px #0001 inset;
-
-            transition: box-shadow 50ms linear;
-            perspective: 150px;
-            perspective-origin: center;
-            user-select: none;
-            z-index: 1;
             margin: 0 auto 30px auto; /* Center in popup + spacing for disclaimer */
+            z-index: 1;
         }
 
         .btn {
@@ -551,7 +537,7 @@
             }
             .popup-content p {
                 font-size: 12px;
-                margin-bottom: 15px;
+                margin-bottom: 6px;
                 line-height: 1.5;
             }
             #happy-hour-countdown {
@@ -560,10 +546,6 @@
                 padding: 4px 8px;
             }
             .btn-wrapper {
-                --width: 180px;
-                --height: 44px;
-                --border-radius: 16px;
-                --padding: 6px;
                 margin-bottom: 20px !important;
             }
             .btn-txt {
@@ -580,7 +562,7 @@
 <body class="text-gray-900 min-h-screen pb-24">
 
     <!-- Offer Popup Modal overlay -->
-    <div id="offer-popup-modal" onclick="closeOfferPopup()" class="offer-popup-overlay opacity-0 pointer-events-none">
+    <div id="offer-popup-modal" onclick="closeOfferPopup()" class="offer-popup-overlay">
         <div class="offer-popup" onclick="event.stopPropagation()">
             <!-- Close Button in Top Corner -->
             <button onclick="closeOfferPopup()" class="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center border border-white/20 transition-all duration-200 shadow-lg cursor-pointer focus:outline-none" aria-label="Close offer">
@@ -589,7 +571,7 @@
                 </svg>
             </button>
             <div class="image-box">
-                <img src="https://mocktail.net/wp-content/uploads/2021/10/Blue-Mocktail-Recipe_ig.jpg" alt="Mocktail">
+                <img src="https://i.postimg.cc/ZKfvDqr1/Blue-Mocktail-Recipe-ig-jpg-202606070418.jpg" alt="Mocktail">
                 <div class="stars-overlay">
                     <div class="star" style="top: 15%; left: 20%; animation-delay: 0.1s; animation-duration: 1.5s; font-size: 12px;">✨</div>
                     <div class="star" style="top: 25%; left: 75%; animation-delay: 0.5s; animation-duration: 2.2s; font-size: 16px;">✨</div>
@@ -610,15 +592,41 @@
                 <p>
                     Because great food deserves a refreshing companion. 😉
                 </p>
-                <div id="happy-hour-countdown" class="my-4 text-xs font-bold text-gray-700 bg-gray-50 border border-gray-100 rounded-xl py-2 px-3 inline-block shadow-sm">
-                    ⚡ Happy Hour is live till 11:00 PM! <span class="font-extrabold text-[#e23744]">00:00:00</span> left
+                <div id="happy-hour-countdown" class="mt-1 mb-5 text-xs font-bold text-gray-700 bg-gray-50 border border-gray-100 rounded-xl py-2 px-3 inline-block shadow-sm">
+                    ⚡ Happy Hour is live till 11:00 PM this Sunday<br>Hurry Up! <span class="font-extrabold text-[#e23744]">00:00:00</span> left
                 </div>
                 <div class="btn-wrapper">
-                    <button onclick="closeOfferPopup()" class="btn">
-                        <span class="btn-txt">Start Ordering</span>
-                        <div class="dot pulse"></div>
-                    </button>
-                    <span id="popup-disclaimer" class="disclaimer-txt"></span>
+                    <div class="relative group">
+                        <button onclick="closeOfferPopup()"
+                          class="relative inline-block p-px font-semibold leading-6 text-white bg-gray-800 shadow-2xl cursor-pointer rounded-xl shadow-zinc-900 transition-transform duration-300 ease-in-out hover:scale-105 active:scale-95"
+                        >
+                          <span
+                            class="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 p-[2px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                          ></span>
+
+                          <span class="relative z-10 block px-6 py-3 rounded-xl bg-gray-950">
+                            <div class="relative z-10 flex items-center space-x-2">
+                              <span class="transition-all duration-500 group-hover:translate-x-1"
+                                >Start Ordering 💖</span
+                              >
+                              <svg
+                                class="w-6 h-6 transition-transform duration-500 group-hover:translate-x-1"
+                                data-slot="icon"
+                                aria-hidden="true"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  clip-rule="evenodd"
+                                  d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                                  fill-rule="evenodd"
+                                ></path>
+                              </svg>
+                            </div>
+                          </span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1242,10 +1250,66 @@
         }
  
         // Initialize Products onto the main view
+        // Map of drink item IDs to their local high-res image filenames
+        const DRINK_IMAGES = {
+            "dr-blue-curacao": "https://i.postimg.cc/L6yg0std/Glass-of-blue-Curacao-soda-202606070418.jpg",
+            "dr-green-mint": "https://i.postimg.cc/ncd9wL4f/Green-mint-soda-with-garnish-202606070418.jpg",
+            "dr-blueberry": "https://i.postimg.cc/XYmG4D11/Highball-glass-with-blueberry-soda-202606070418.jpg",
+            "dr-guava": "https://i.postimg.cc/jSmwtk3g/Highball-glass-guava-soda-202606070418.jpg",
+            "dr-strawberry-crush": "https://i.postimg.cc/9Qrw3jbq/Highball-glass-with-strawberry-soda-202606070418.jpg",
+            "dr-orange": "https://i.postimg.cc/RZNJrzdd/Orange-soda-in-highball-glass-202606070418.jpg",
+            "dr-kala-khatta": "https://i.postimg.cc/P5PvGkyf/Highball-glass-with-Kala-Khatta-202606070418.jpg",
+            "dr-hazelnut-milk": "https://i.postimg.cc/t4wZpmv2/Glass-of-hazelnut-milk-straw-202606070418.jpg",
+            "dr-plain-coffee": "https://i.postimg.cc/P59pTFVm/Cold-coffee-in-highball-glass-202606070418.jpg",
+            "dr-vanilla": "https://i.postimg.cc/BnXPWGpm/Vanilla-frappe-in-glass-202606070418.jpg",
+            "dr-chocolate": "https://i.postimg.cc/HkV8GCzZ/Chocolate-frappe-in-glass-202606070418.jpg",
+            "dr-hot-chocolate": "https://i.postimg.cc/fRptDgq8/Glass-of-hot-chocolate-with-202606070418.jpg",
+            "dc-blue-blueberry": "https://i.postimg.cc/sgqQs0H5/Blue-Citrus-Blueberry-soda-glass-202606070418.jpg",
+            "dc-misty-blue": "https://i.postimg.cc/zXdHPfCf/Highball-glass-with-blue-green-202606070418.jpg",
+            "dc-ocean-berry": "https://i.postimg.cc/13fVxZBX/Highball-glass-with-Ocean-Berry-202606070418.jpg",
+            "dc-blue-sunset": "https://i.postimg.cc/7YBJQL38/Highball-glass-Blue-Ocean-Sunset-202606070418.jpg",
+            "dc-electric-khatta": "https://i.postimg.cc/vZcxRdhm/Highball-glass-with-Kala-Khatta-202606070418_2.jpg",
+            "dc-tricolour": "https://i.postimg.cc/4xmHCTP6/Highball-glass-with-Tricolour-Sp-202606070418.jpg",
+            "dc-berry-orange": "https://i.postimg.cc/qMm6Z7sv/Highball-glass-with-Berry-Orange-202606070418.jpg",
+            "dc-tropical-citrus": "https://i.postimg.cc/JzGHwWx3/Highball-glass-with-Tropical-Cit-202606070418.jpg",
+            "dc-pink-guava": "https://i.postimg.cc/RZNJrzdq/Highball-glass-with-Pink-Guava-202606070418.jpg",
+            "dc-khatta-berry": "https://i.postimg.cc/X72BDvfN/Highball-glass-with-berry-fizz-202606070418.jpg",
+            "dc-wild-berry-mint": "https://i.postimg.cc/9QKRCNgN/Highball-glass-with-berry-frappe-202606070418.jpg",
+            "dc-desi-tang": "https://i.postimg.cc/y8tgsrr4/Highball-glass-with-soda-202606070418-4.jpg",
+            "dc-hazelnut-coffee": "https://i.postimg.cc/02tKHNYv/Highball-glass-hazelnut-cold-coffee-202606070418.jpg",
+            "dc-mocha": "https://i.postimg.cc/cL2g05km/Glass-of-Cafe-Mocha-202606070418.jpg",
+            "dc-vanilla-hazelnut": "https://i.postimg.cc/XYpBM0L8/Highball-glass-with-Vanilla-Haze-202606070418.jpg",
+            "dc-double-choco": "https://i.postimg.cc/GhMTSpF4/Highball-glass-with-chocolate-va-202606070418.jpg",
+            "dc-frosted-mint": "https://i.postimg.cc/P59pTFVM/Frosted-Mint-Frappe-in-glass-202606070418.jpg",
+            "dc-strawberries-cream": "https://i.postimg.cc/mgJzB6p3/Frappe-in-glass-with-fruit-202606070418.jpg",
+            "dc-blueberry-vanilla": "https://i.postimg.cc/qMm6Z7sR/Highball-glass-with-blueberry-va-202606070418.jpg",
+            "dc-choco-hazelnut": "https://i.postimg.cc/Wb9qf4GP/Highball-glass-Choco-Hazelnut-De-202606070418.jpg",
+            "as-bbsr-fiesta": "https://i.postimg.cc/6py4sNcn/Highball-glass-with-three-tone-g-202606070418.jpg",
+            "as-sunrise-sparkler": "https://i.postimg.cc/BnkL4wwW/Highball-glass-with-tropical-soda-202606070418.jpg",
+            "as-sunset-bramble": "https://i.postimg.cc/RZy64bpk/Highball-glass-with-orange-purpl-202606070418.jpg",
+            "as-neon-tide": "https://i.postimg.cc/T3p58X0w/Highball-glass-with-Neon-Tide-202606070418.jpg",
+            "as-hazelnut-mocha": "https://i.postimg.cc/RZy64bbx/Iced-Hazelnut-Mocha-in-glass-202606070418.jpg",
+            "as-ultimate-frappe": "https://i.postimg.cc/CxXBS6rs/Frappe-in-highball-glass-202606070418.jpg",
+            "as-mint-choco": "https://i.postimg.cc/rFhRYp1R/Highball-glass-with-frappe-202606070418.jpg",
+            "as-ocean-berry": "https://i.postimg.cc/y8k3qzj1/Highball-glass-with-frappe-202606070418-2.jpg",
+            "as-capital-twilight": "https://i.postimg.cc/526QcMg6/Highball-glass-with-soda-202606070418.jpg",
+            "as-choco-nut": "https://i.postimg.cc/Dw84VK6B/Strawberry-Choco-Nut-Mocha-glass-202606070418.jpg",
+            "as-tricolour-cream": "https://i.postimg.cc/W1hqRP8d/Highball-glass-with-soda-202606070418-2.jpg",
+            "as-citrus-sunset": "https://i.postimg.cc/RZy64bp2/Highball-glass-with-Citrus-Mint-202606070418.jpg",
+            "as-double-berry": "https://i.postimg.cc/CxznyV7B/Highball-glass-with-soda-202606070418-3.jpg",
+            "as-desi-spice": "https://i.postimg.cc/GhMTSpFB/Highball-glass-with-Desi-Spice-202606070418.jpg",
+            "tr-true-tiranga": "https://i.postimg.cc/BnXPWGpc/Highball-glass-with-tropical-drink-202606070418.jpg",
+            "tr-dessert-frappe": "https://i.postimg.cc/RZNJrzdc/Highball-glass-with-Tiranga-Dess-202606070418.jpg"
+        };
+
         // Clean helper to obtain highly specific curated Unsplash food images
         function getFoodImage(item) {
             const key = item.category;
             if (key.startsWith('drinks')) {
+                const url = DRINK_IMAGES[item.id];
+                if (url) {
+                    return url;
+                }
                 return "https://i.imgur.com/90Hygq1.png";
             }
             return "https://i.imgur.com/tc9N1Nq.png";
@@ -2478,34 +2542,14 @@
         function showOfferPopup() {
             const popupModal = document.getElementById("offer-popup-modal");
             if (popupModal) {
-                // Set dynamic disclaimer day based on current calendar date
-                const disclaimerEl = document.getElementById("popup-disclaimer");
-                if (disclaimerEl) {
-                    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                    const currentDay = days[new Date().getDay()];
-                    disclaimerEl.textContent = `*For limited time, this ${currentDay} only`;
-                }
-
-                popupModal.classList.remove("opacity-0", "pointer-events-none");
-                popupModal.classList.add("opacity-100");
-                const drawer = popupModal.querySelector(".offer-popup");
-                if (drawer) {
-                    drawer.classList.remove("scale-95", "opacity-0");
-                    drawer.classList.add("scale-100", "opacity-100");
-                }
+                popupModal.classList.add("active");
             }
         }
 
         function closeOfferPopup() {
             const popupModal = document.getElementById("offer-popup-modal");
             if (popupModal) {
-                popupModal.classList.add("opacity-0", "pointer-events-none");
-                popupModal.classList.remove("opacity-100");
-                const drawer = popupModal.querySelector(".offer-popup");
-                if (drawer) {
-                    drawer.classList.add("scale-95", "opacity-0");
-                    drawer.classList.remove("scale-100", "opacity-100");
-                }
+                popupModal.classList.remove("active");
             }
         }
 
@@ -2526,10 +2570,12 @@
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
             const pad = (num) => String(num).padStart(2, '0');
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const currentDay = days[now.getDay()];
             
             const countdownEl = document.getElementById("happy-hour-countdown");
             if (countdownEl) {
-                countdownEl.innerHTML = `⚡ Happy Hour is live till 11:00 PM! <span class="font-extrabold text-[#e23744]">${pad(hours)}:${pad(minutes)}:${pad(seconds)}</span> left`;
+                countdownEl.innerHTML = `⚡ Happy Hour is live till 11:00 PM this ${currentDay}<br>Hurry Up! <span class="font-extrabold text-[#e23744]">${pad(hours)}:${pad(minutes)}:${pad(seconds)}</span> left`;
             }
         }
     </script>
